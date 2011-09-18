@@ -20,8 +20,9 @@ echo "Changing shell permission to 744"
 find $DIRECTORY -type f -name "*.sh" -exec chmod 744 {} \;
 
 echo "Changing permissions of local_settings.py and local_site.py to 640"
-chmod 640 $DIRECTORY/src/$NAME/local_settings.py
-chmod 640 $DIRECTORY/src/$NAME/local_settings.pyc
-chmod 640 $DIRECTORY/src/$NAME/local_site.py
-chmod 640 $DIRECTORY/src/$NAME/local_site.pyc
+cd $DIRECTORY/src/$NAME
+[ -f local_settings.py ] && chmod 640 local_settings.py
+[ -f local_settings.pyc ] && chmod 640 local_settings.pyc
+[ -f local_sites.py ] && chmod 640 local_sites.py
+[ -f local_sites.pyc ] && chmod 640 local_sites.pyc
 echo "Done. You have to confirm that you can access to the website correctly."
