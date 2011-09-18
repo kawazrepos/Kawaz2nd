@@ -1,6 +1,9 @@
 # vim: set fileencoding=utf8:
 """
-short module explanation
+This is a local_setting module
+
+Use this module for store security data (like password or consumer key)
+or environment dependent data (like database setting)
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
@@ -44,6 +47,8 @@ DATABASES = {
         'PORT': '',
     }
 }
+
+CACHE_BACKEND = 'memcached://127.0.0.1:11211/'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
