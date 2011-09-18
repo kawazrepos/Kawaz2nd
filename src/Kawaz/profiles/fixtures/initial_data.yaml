@@ -1,7 +1,7 @@
 - model: auth.user
   pk: 1
   fields:
-    username: admin
+    username: system
     password: sha1$3257b$f28813baca2391ec1e03ebec46988912c18257dd
     email: webmaster@kawaz.org
     is_active: true
