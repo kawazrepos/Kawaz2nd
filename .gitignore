@@ -2,6 +2,9 @@
 .tmp*
 *~
 
+# virtualenv
+/env
+
 # Subversion
 .svn
 .svnignore

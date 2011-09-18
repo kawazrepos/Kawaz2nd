@@ -65,9 +65,8 @@ setup(
         'pysolr',
         'whoosh==1.1.1',
         'south',
-        # PIL is required for Resize image or whatever.
-        # See http://d.hatena.ne.jp/methane/20110424/1303655766 if you are using Ubuntu
         'PIL',  
+        'MySQL-python',
         'django>=1.2.3',
         'django-compress',
         'django-reversetag',
@@ -77,10 +76,8 @@ setup(
         'python-memcached',
     ],
     dependency_links=[
-        # Using falked version. I already sent pull request so it may will be
-        # rewrite like below
-        #'django-markupfield',
+        # Use falked version of django-markupfield till my pull request is
+        # accepted.
         'https://github.com/lambdalisue/django-markupfield/tarball/master#egg=django_markupfield',
-        'ftp://ftp.tummy.com/pub/python-memcached/python-memcached-latest.tar.gz#egg=python-memcached',
     ],
 )
