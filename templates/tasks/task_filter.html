@@ -1,0 +1,76 @@
+{% extends "tasks/base.html" %}
+{% load tasks %}
+{% load pagination_tags %}
+
+{% block title %}
+{% if project %}
+{{ project.title }}のタスク一覧
+{% else %}
+タスク一覧
+{% endif %}
+{% endblock %}
+
+{% block head %}
+{{ block.super }}
+{% compressed_css 'tasks-task-list' %}
+{% endblock %}
+
+{% block summary %}
+<div class="tasks-info">
+{% if project %}
+{% get_unaccepted_task_count request for project as unaccepted_task_count %}
+{% get_progress_task_count request for project as progress_task_count %}
+{% else %}
+{% get_unaccepted_task_count request for user as unaccepted_task_count %}
+{% get_progress_task_count request for user as progress_task_count %}
+{% endif %}
+<table>
+	<tr>
+		<th>認証待ちタスク数</th>
+		<td>{{ unaccepted_task_count }}件</td>
+	</tr>
+	<tr>
+		<th>進行中タスク</th>
+		<td>{{ progress_task_count }}件</td>
+	</tr>
+</table>
+</div>
+{{ block.super }}
+{% endblock %}
+
+{% block action %}
+{{ block.super }}
+<h3>フィルタ</h3>
+<div class="filterset">
+{{ filter.form }}
+</div>
+{% endblock %}
+
+{% block content %}
+<h2>
+	{% if project %}
+	{{ project.title }}のタスク一覧
+	{% else %}
+	タスク一覧
+	{% endif %}
+</h2>
+<p>
+	{% if project %}
+	{{ project.title }}に属するタスク一覧です
+	{% else %}
+	あなたが発行・担当しているタスク一覧です
+	{% endif %}
+</p>
+
+<ul class="tasks ilist">
+	{% autopaginate object_list %}
+	{% for task in object_list %}
+		<li class="task tasks-task-status-{{ task.status }}" title="{{ task.get_status_display.help_text }}">
+			{% include "tasks/components/list-item.html" %}
+		</li>
+	{% empty %}
+		<li class="task empty">条件に一致するタスクが存在しません</li>
+	{% endfor %}
+</ul>
+{% paginate %}
+{% endblock %}

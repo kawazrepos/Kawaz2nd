@@ -1,0 +1,21 @@
+{% extends "registration/base.html" %}
+
+{% block title %}新規会員登録{% if accout %}完了{% else %}失敗{% endif %}{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li>新規会員登録{% if accout %}完了{% else %}失敗{% endif %}</li>
+{% endblock %}
+
+{% block content %}
+<div id="registration-activation">
+	{% if account %}
+	<h2>新規会員登録完了</h2>
+	<p>会員登録が完了しました！まずは<a href="{% url auth_login %}">ログイン</a>しましょう！</p>
+	{% else %}
+	<h2>会員登録失敗</h2>
+	<p>何かしらのエラーによって会員登録に失敗しました。すでに会員登録が終了していませんか？</p>
+	<p>会員登録が完了していないのにこのエラーが続く場合は管理者に連絡をとってみてください。</p>
+	{% endif %}
+</div>
+{% endblock %}

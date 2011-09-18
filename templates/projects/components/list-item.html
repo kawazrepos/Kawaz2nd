@@ -1,0 +1,50 @@
+{% load history %}
+{% load typeimg %}
+{% load tagging %}
+{% load tasks %}
+{% load bugwaz %}
+<h3 class="project-title">
+	<a href="{{ project.get_absolute_url }}">
+		{{ project.title }}
+	</a>
+</h3>
+<div class="project-info">
+	<div class="project-icon">
+		<a href="{{ project.get_absolute_url }}" class="fenced large filled">
+			<span></span>{{ project.get_icon_large_display }}
+		</a>
+	</div>
+	<table class="project-detail">
+		<tr>
+			<th>管理</th>
+			<td>
+				<a href="{{ project.author.get_absolute_url }}" class="fenced small filled">
+					<span></span>{{ project.author.get_profile.get_icon_small_display }}
+				</a> {{ project.author.get_profile.get_nickname_display }}さん
+			</td>
+		</tr>
+		<tr>
+			<th>状態</th>
+			<td>{{ project.get_status_display }}</td>
+		</tr>
+		<tr>
+			<th>種類</th>
+			<td>{{ project.category|default:"未設定" }}</td>
+		</tr>
+		<tr>
+			<th>人数</th>
+			<td>{{ project.members.count }}人</td>
+		</tr>
+	</table>
+</div>
+<div class="project-links">
+	<ul class="ilist">
+		<li class="wikis-entry-list"><a href="{% url wikis-entry-detail project.slug %}">このプロジェクトのウィキトップ</a></li>
+		{% get_active_task_count request for project as active_task_count %}
+		<li class="tasks-task-list"><a href="{% url tasks-task-list project.slug %}">このプロジェクトのタスク一覧{% if active_task_count %}({{ active_task_count }}){% endif %}</a></li>
+		<li class="commons-material-list"><a href="{% reverse 'commons-material-list' project=project.slug %}">このプロジェクトの素材一覧</a></li>
+		{% get_active_report_count for project.bugwaz as active_report_count %}
+		<li class="bugwaz-report-list"><a href="{{ project.bugwaz.get_absolute_url }}">このプロジェクトのBugwaz{% if active_report_count %}({{ active_report_count }}){% endif %}</a></li>
+	</ul>
+</div>
+{% render_tagging_tags for project of 10 %}

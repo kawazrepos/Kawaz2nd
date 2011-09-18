@@ -1,0 +1,29 @@
+{% extends "utilities/base.html" %}
+
+{% block title %}CSVから自動登録{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{% url registration_csv_registration %}">CSVから自動登録</a></li>
+{% endblock %}
+
+{% block content %}
+<h2>CSVから自動登録</h2>
+<p>下記フォーマットに従ったCSVファイルからユーザーを自動的に登録します</p>
+
+<h3>フォーマット</h3>
+<p>行頭文字が#の行はコメントとして扱われます。アカウント名, メールアドレスというCSVファイルを指定してください。
+以下サンプルです</p>
+<p><strong>日本語を含むファイルは指定できません</strong></p>
+<pre>
+	# Username, Email
+	geekdrums, geekdrums@kawaz.org
+	alisue, alisue@kawaz.org
+	giginet, giginet@kawaz.org
+</pre>
+
+<form action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+	{{ form.as_p }}
+	<p><input type="submit" value="実行" /></p>
+</form>
+{% endblock %}

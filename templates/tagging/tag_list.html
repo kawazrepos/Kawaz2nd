@@ -1,0 +1,12 @@
+{% extends "tagging/base.html" %}
+
+{% block title %}Kawazのタグ一覧{% endblock %}
+
+{% block content %}
+<h2>Kawazのタグ一覧</h2>
+<ul class="tags ilist">
+	{% for tag in object_list %}
+	<li class="tag tagging-tag-detail"><a href="{{ tag.get_absolute_url }}">{{ tag }}</a></li>
+	{% endfor %}
+</ul>
+{% endblock %}

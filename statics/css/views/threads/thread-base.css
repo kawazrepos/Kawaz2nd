@@ -1,0 +1,34 @@
+@charset "utf-8";
+
+.thread.top div.thread-info{
+	float: left;
+	width: 183px;
+	margin: 0 0 0 0;
+	word-wrap: break-word;
+}
+.thread.top div.thread-info div.thread-author div.profile-icon{
+	float: left;
+	margin: 0 7px 10px 0;
+}
+.thread.top div.thread-info span.thread-created_at{
+	font-size: 0.8em;
+	color: #9a9a9a;
+}
+.thread.top div.thread-project{
+	clear: left;
+}
+.thread.top div.thread-body{
+	margin: 0 0 0 183px;
+}
+.thread.top div.thread-body:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+    }
+* html .thread.top div.thread-body
+{ zoom: 1; } /* IE6 */
+*:first-child+html .thread.top div.thread-body
+{ zoom: 1; } /* IE7 */

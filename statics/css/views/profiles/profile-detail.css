@@ -1,0 +1,48 @@
+@charset "utf-8";
+
+div#content div.profile-thumbnail{
+	float: left;
+	width: 288px;
+	margin-right: 26px;
+}
+
+div#content div.profile-mood {
+	width: 278px;
+	margin: 10px 0 20px 0;
+	padding: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radisu: 5px;
+	background-color: #efefef;
+}
+div#content table.profile-detail{
+	width: 209px;
+	margin-left: 305px;
+}
+div#content table.profile-detail th{
+	width: 51px;
+}
+div#content table.profile-detail td ul.hlist{
+	margin: 0;
+}
+div#content table.profile-detail td ul.hlist li:last-child{
+	margin-bottom: 0;
+}
+div#content table.profile-detail div.django-locationfield-googlemap-surface{
+	width: 209px;
+	height: 218px;
+}
+div#content div.profile-remarks{
+	clear: left;
+}
+div#content table.profile-services th{
+	width: auto;
+	padding: 5px 26px 5px 5px;
+}
+div#content table.profile-services td{
+	width: auto;
+}
+div#content table.profile-services th img{
+	margin: 0 5px 0 0;
+	vertical-align: middle;
+}

@@ -1,0 +1,6 @@
+@charset "utf-8";
+
+div#summary div#task-summary table.task-info tr td.ilist{
+	text-indent: 20px;
+	background-position: 0 3px;
+}

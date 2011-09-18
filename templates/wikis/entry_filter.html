@@ -1,0 +1,22 @@
+{% extends "wikis/base.html" %}
+
+{% block title %}{{ project.title }}の記事一覧{% endblock %}
+
+{% block action %}
+{{ block.super }}
+<h3>フィルタ</h3>
+<div class="filterset">
+{{ filter.form }}
+</div>
+{% endblock %}
+
+{% block content %}
+<h2>{{ project.title }}の記事一覧</h2>
+<ul class="wiki-entries">
+{% for entry in filter %}
+	<li class="wiki-entry"><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></li>
+{% empty %}
+	<li class="wiki-entry">記事がありません的な</li>
+{% endfor %}
+</ul>
+{% endblock %}

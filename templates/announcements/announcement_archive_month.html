@@ -1,0 +1,34 @@
+{% extends "announcements/base.html" %}
+
+{% block title %}
+	お知らせの一覧
+{% endblock %}
+
+{% block breadcrumbs %}
+	{{ block.super }}
+	<li><a href="{% reverse "announcements-announcement-archive-year" year=month.year %}">{{ month|date:"Y年" }}</a></li>
+	<li><a href="{% reverse "announcements-announcement-archive-month" year=month.year,month=month.month %}">{{ month|date:"m月" }}</a></li>
+{% endblock %}
+
+{% block content %}
+<h2>{{ month|date:"Y年 m月" }}のアーカイブ</h2>
+{% with 'announcements-announcement-archive-year' as year_reverse_name %}
+{% with 'announcements-announcement-archive-month' as month_reverse_name %}
+{% include "components/archive-pagination.html" %}
+{% endwith %}
+{% endwith %}
+
+<table class="announcements">
+	{% for announcement in object_list %}
+	<tr>
+		<th>{{ announcement.created_at|date:"m/d (D)" }}</th>
+		<td><a href="{{ announcement.get_absolute_url }}">{{ announcement.title }}</a></td>
+	</tr>
+	{% empty %}
+	<tr>
+		<td colspan="2">お知らせはありません</td>
+	</tr>
+	{% endfor %}
+</table>
+{% include "components/pagination.html" %}
+{% endblock %}

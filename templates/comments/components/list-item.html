@@ -1,0 +1,55 @@
+{% load defaultimg %}
+{% load parser %}
+{% load comments %}
+{% if comment.user.is_authenticated %}
+{% with comment.user.get_profile as profile %}
+<div class="comment-user-icon">
+	<a href="{{ profile.get_absolute_url }}" class="fenced middle filled">
+		<span></span>{{ profile.get_icon_middle_display }}
+	</a>
+</div>
+<div class="comment-info">
+	<div class="comment-user-name">
+		{% if response_number %}{{ response_number }}: {% endif %}
+		{{ profile.get_nickname_display }}さん
+	</div>
+{% endwith %}
+{% else %}
+<div class="comment-user-icon fenced middle filled">
+	<span></span>{% render_default_guest_icon request as 'middle' %}
+</div>
+<div class="comment-info">
+	<div class="comment-user-name">
+		{% if response_number %}{{ response_number }}: {% endif %}
+		{{ comment.user_name }}さん
+	</div>
+{% endif %}
+	<div class="comment-submit-date">
+		{% if comment.user.is_authenticated %}
+		<small>@{{ comment.user.username }}</small><br />
+		{% endif %}
+		{{ comment.submit_date|date:"Y/m/d H:i" }}
+	</div>
+</div>
+<div class="comment-body markdown tiny">
+	{% if comment.is_removed %}
+	<p class="deleted"> -- このコメントは削除されました -- </p>
+	{% else %}
+	{{ comment.comment|parse }}
+	{% endif %}
+</div>
+<ul class="comment-utils ilist hlist">
+	<li class="comments-comment-permalink">
+		<a href="{% get_comment_permalink comment %}" title="このコメントへのリンク">permalink</a>
+	</li>
+	{% if not comment.is_removed %}
+	{% if comment.user == user or comment.user == None and user.is_staff %}
+	<li class="comments-comment-delete">
+		<a href="{% reverse 'comments-delete' comment.pk %}" title="このコメントを削除" class="delete-button postlink"
+			confirm_message="コメントの削除は取り消せません。本当にこのコメントを削除してもよろしいですか？"
+			success_message="コメントを削除しました"
+		>delete</a>
+	</li>
+	{% endif %}
+	{% endif %}
+</ul>

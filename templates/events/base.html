@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% load events %}
+{% load commons %}
+{% load get_archives %}
+
+{% block head %}
+{% if object and object.is_active %}
+{% ifhsp 'events.kick_event' of object for user %}
+<script type="text/javascript">
+$(document).ready(function(){
+	var menu = {
+		"このユーザーをキックする": {
+			click: function(elm){
+				var username = elm.attr('username');
+				var url = "{% reverse 'events-event-quit' object.pk %}"+username+"/";
+				location.href = url;
+			},
+			klass: 'kick'
+		}
+	};
+	$('div#action ul.users.event li.user').contextMenu('context-menu', menu);
+});
+</script>
+{% endifhsp %}
+{% endif %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{% url events-event-list %}">Events</a></li>
+{% endblock %}
+
+{% block action %}
+{% if object %}
+<h3>見る</h3>
+<ul class="ilist">
+	<li class="events-event-list"><a href="{% reverse 'events-event-list' %}">イベント一覧に戻る</a></li>
+</ul>
+{% endif %}
+
+{% ifhsp 'events.add_event','events.change_event','events.delete_event','events.join_event' of object for user %}
+<h3>操作</h3>
+<ul class="ilist">
+	{% if object and object.is_active %}
+	{% ifhsp 'events.join_event' of object for user %}
+	{% if user in object.members.all %}
+	<li class="events-event-quit"><a href="{% reverse 'events-event-quit' object.pk %}">参加をやめる</a></li>
+	{% else %}
+	<li class="events-event-join"><a href="{% reverse 'events-event-join' object.pk %}">参加する</a></li>
+	{% endif %}
+	{% endifhsp %}
+	{% endif %}
+	{% ifhsp 'events.add_event' for user %}
+	<li class="events-event-create"><a href="{% reverse 'events-event-create' %}">イベントを企画</a></li>
+	{% endifhsp %}
+	{% if object %}
+	{% ifhsp 'events.change_event' of object for user %}
+	<li class="events-event-update"><a href="{% reverse 'events-event-update' object.pk %}">編集</a></li>
+	{% endifhsp %}
+	{% ifhsp 'events.delete_event' of object for user %}
+	<li class="events-event-delete"><a href="{% reverse 'events-event-delete' object.pk %}">削除</a></li>
+	{% endifhsp %}
+	{% endif %}
+</ul>
+{% endifhsp %}
+
+{% if object %}
+<h3>添付ファイル一覧</h3>
+{% get_materials for object.body as materials %}
+<ul class="ilist">
+	{% for material in materials %}
+	<li class="commons-material-detail">{{ material.get_title_display }}</li>
+	{% empty %}
+	<li class="commons-material-detail">添付されているファイルはありません</li>
+	{% endfor %}
+</ul>
+{% endif %}
+
+{% if object %}
+<h3>参加者({{ object.members.count }}人)</h3>
+<ul class="users event hlist">
+	{% for user in object.members.all %}
+		<li class="user" username="{{ user.username }}">
+			<a href="{{ user.get_profile.get_absolute_url }}" class="fenced small filled" title="{{ user.get_profile.nickname }}">
+				<span></span>{{ user.get_profile.get_icon_small_display }}
+			</a>
+		</li>
+	{% empty %}
+		<li class="user empty">誰も参加していません</li>
+	{% endfor %}
+</ul>
+{% if object.is_active %}
+{% ifhsp 'events.kick_event' of object for user %}
+<p><small>ユーザーアイコン右クリックで特定ユーザーをキックできます</small></p>
+{% endifhsp %}
+{% endif %}
+{% endif %}
+
+<h3>最近のイベント</h3>
+{% get_events request as events %}
+<ul class="ilist">
+	{% for event in events|slice:":3" %}
+	<li class="events-event-detail"><a href="{{ event.get_absolute_url }}">{{ event.title }}</a><br />
+	<small>{{ event.get_period_display }}</small></li>
+	{% endfor %}
+</ul>
+
+<h3>アーカイブ</h3>
+{% get_monthly_archives of 'events.event' with 'period_start' as archives %}
+<ul class="ilist">
+	{% for archive in archives %}
+	<li class="archives"><a href="{% reverse 'events-event-archive-month' year=archive.date.year,month=archive.date.month %}">
+		{{ archive.date|date:"Y年m月" }} ({{ archive.count }})
+	</a></li>
+	{% empty %}
+	<li class="archives">アーカイブ無し</li>
+{% endfor %}
+</ul>
+{% endblock %}

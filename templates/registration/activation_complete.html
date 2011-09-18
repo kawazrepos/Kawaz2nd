@@ -1,0 +1,16 @@
+{% extends "registration/base.html" %}
+
+{% block title %}新規会員登録完了{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{% url registration_activation_complete %}">新規会員登録完了</a></li>
+{% endblock %}
+
+
+{% block content %}
+<div id="registration-activation-complete">
+	<h2>新規会員登録完了</h2>
+	<p>会員登録が完了しました！まずは<a href="{% url auth_login %}">ログイン</a>してプロフィールを設定しましょう！</p>
+</div>
+{% endblock %}

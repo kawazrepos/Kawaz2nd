@@ -1,0 +1,72 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-12-15 18:31+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: models.py:11
+msgid "content type"
+msgstr "コンテントタイプ"
+
+#: models.py:12
+msgid "object id"
+msgstr "オブジェクトID"
+
+#: models.py:14
+msgid "URL"
+msgstr "URL"
+
+#: models.py:15
+msgid "label"
+msgstr "ラベル"
+
+#: models.py:18
+msgid "read flag"
+msgstr "既読フラグ"
+
+#: models.py:19
+msgid "datetime created"
+msgstr "作成日時"
+
+#: models.py:20
+msgid "datetime modified"
+msgstr "修正日時"
+
+#: models.py:25
+msgid "call"
+msgstr "コール"
+
+#: models.py:26
+msgid "calls"
+msgstr "コール"
+
+#: views.py:23
+msgid "Calls are successfully cleared."
+msgstr "すべてのお知らせを既読にしました"
+
+#: backends/base.py:76
+msgid "Anonymous User"
+msgstr "外部ユーザー"
+
+#: backends/base.py:98
+#, python-format
+msgid "Your name is called at \"%(label)s\" by %(user_from)s."
+msgstr "%(user_from)sさんがあなたの名前を「%(label)s」で呼びました"
+
+#: backends/comments.py:12
+#, python-format
+msgid "%(user_from)s commented on \"%(label)s\""
+msgstr "%(user_from)sさんが「%(label)s」にコメントしました"

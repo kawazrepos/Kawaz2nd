@@ -1,0 +1,18 @@
+@charset "utf-8";
+
+form.comment label{
+	display: inline-block;
+	width: 96px;
+}
+form.comment small.help-text {
+	display: block;
+	margin: 0 20px;
+}
+form.comment p.submit{
+	margin: 10px 0 0 0;
+}
+form.comment p,
+form.comment label{
+	margin: 0;
+	padding: 0;
+}

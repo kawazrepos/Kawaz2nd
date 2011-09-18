@@ -1,0 +1,40 @@
+{% extends 'utilities/base.html' %}
+
+{% block head %}
+{% compressed_css 'uni-form' %}
+{% compressed_js 'uni-form' %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{% url utilities-remodify-object-permission %}">オブジェクトパーミッションの再設定</a></li>
+{% endblock %}
+
+{% block content %}
+<h2>オブジェクトパーミッションの再設定</h2>
+{% if status %}
+<p><strong>コマンドの実行に失敗しました</strong></p>
+<table>
+	<tr>
+		<th>Status</th>
+		<td>{{ status }}</td>
+	</tr>
+	<tr>
+		<th>Output</th>
+		<td><pre>{{ output }}</pre></td>
+	</tr>
+</table>
+{% elif output %}
+<pre>{{ output }}</pre>
+{% else %}
+<p>オブジェクトパーミッションの再設定を行います。自動生成などを行いオブジェクトパーミッションが適切に付与されていない場合に有用です。</p>
+<p><em>この機能には非常に時間がかかるため実行には十分注意してください。</em>また権限の変更により予期しないデーターベースの破損を招くおそれがあります</p>
+
+<form action="" method="post" class="uniForm">{% csrf_token %}
+	<div class="buttonHolder">
+		<button type="button" class="secondaryAction" onclick="history.back();">←キャンセルして戻る</button>
+		<button type="submit" class="primaryAction">危険性を理解した上で実行</button>
+	</div>
+</form>
+{% endif %}
+{% endblock %}

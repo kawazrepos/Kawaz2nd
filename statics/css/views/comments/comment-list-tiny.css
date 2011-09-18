@@ -1,0 +1,30 @@
+@charset "utf-8";
+
+ul.comments li.comment.tiny,
+ul.comments li.comment.empty{
+	margin: 0 0 10px 0;
+	list-style: none;
+	font-size: 0.8em;
+	border-bottom: 1px dotted #cacbc7;
+}
+ul.comments li.comment.empty{
+	color: #9a9a9a;
+}
+ul.comments li.comment.tiny p.comment-name{
+	display: inline;
+	margin: 0;
+}
+ul.comments li.comment.tiny p.comment-submit-date{
+	display: inline;
+	margin: 0;
+	font-size: 0.8em;
+	color: #9a9a9a;
+	text-align: right;
+}
+ul.comments li.comment.tiny p.comment-body{
+	margin: 0;
+	word-wrap: break-word;
+}
+ul.comments li.comment.tiny p.comment-body span.deleted{
+	color: #ababab;
+}

@@ -1,0 +1,16 @@
+{% extends "registration/base.html" %}
+{% load i18n %}
+
+{% block title %}新規会員登録申請完了{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{% url registration_register %}">新規会員登録</a></li>
+<li><a href="{% url registration_complete %}">申請完了</a></li>
+{% endblock %}
+
+
+{% block content %}
+<h2>新規会員登録申請完了</h2>
+<p>登録申請が完了しました。管理者が申請を認可もしくは拒否すると登録されたメールアドレスに自動応答メールが届くのでそれまでお待ちください。</p>
+{% endblock %}

@@ -1,0 +1,20 @@
+<a href="{{ report.get_absolute_url }}" class="report-label">{{ report.label }}</a>
+<br /><small class="report-body">{{ report.body }}</small>
+<table class="report-summary">
+	<tr>
+		<th>進行状況</th>
+		<td>{{ report.get_status_display }}</td>
+	</tr>
+	<tr>
+		<th>処理方法</th>
+		<td>{{ report.get_resolution_display|default:"---" }}</td>
+	</tr>
+	<tr>
+		<th>優先度</th>
+		<td>{{ report.get_priority_display|default:"---" }}</td>
+	</tr>
+	<tr>
+		<th>深刻度</th>
+		<td>{{ report.get_serverity_display|default:"---" }}</td>
+	</tr>
+</table>

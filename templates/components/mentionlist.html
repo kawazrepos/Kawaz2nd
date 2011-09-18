@@ -1,0 +1,12 @@
+{% load contenttype %}
+{% if list.count > 0 %}
+<table id="called-list" class="two-column">
+	{% for call in list %}
+	<tr>
+		<th>{{ call.created_at|date:"m/d" }}</th>
+		<td>{{ call.get_author_display }}さん{{ call.get_message_display }}</td>
+		<td>「{{ call.object|ctimg }}<a href="{{ call.get_absolute_url }}">{{ call.get_label_display }}</a>」</td>
+	</tr>
+	{% endfor %}
+</table>
+{% endif %}

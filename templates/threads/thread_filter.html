@@ -1,0 +1,57 @@
+{% extends "threads/base.html" %}
+{% load parser %}
+{% load tagging %}
+{% load pagination_tags %}
+
+{% block title %}{% if project %}{{ project.title }}の{% endif %}スレッド一覧{% endblock %}
+
+{% block head %}
+{{ block.super }}
+{% compressed_css 'threads-thread-list' %}
+{% endblock %}
+
+{% block action %}
+{{ block.super }}
+<h3>フィルタ</h3>
+<div class="filterset">
+{{ filter.form }}
+</div>
+{% endblock %}
+
+{% block content %}
+<h2>
+	{% if project %}
+	{{ project.title }}のスレッド一覧
+	{% else %}
+	スレッド一覧
+	{% endif %}
+</h2>
+<ul class="threads">
+	{% autopaginate object_list %}
+	{% for thread in object_list %}
+	<li class="thread top">
+		<h3 class="thread-title">
+			<a href="{{ thread.get_absolute_url }}">{{ thread.title }}({{ thread.response.count }})</a>
+		</h3>
+		<div class="thread-info">
+			<div class="thread-author">
+				{% with thread.author.get_profile as profile %}
+				<div class="profile-icon"><a href="{{ profile.get_absolute_url }}" class="fenced middle filled">
+					<span></span>{{ profile.get_icon_middle_display }}
+				</a></div>
+				<span class="profile-nickname">{{ profile.get_nickname_display }}さん</span>
+				{% endwith %}
+			</div>
+			<span class="thread-created_at">{{ thread.created_at|date }}</span>
+		</div>
+		<div class="thread-body markdown thread tiny">
+			{{ thread.body|parse|truncateletters_html:100 }}
+		</div>
+		{% render_tagging_tags for thread %}
+	</li>
+	{% empty %}
+	<li>条件に合うスレッドが存在していません</li>
+	{% endfor %}
+</ul>
+{% paginate %}
+{% endblock %}

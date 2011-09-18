@@ -1,0 +1,44 @@
+{% extends "blogs/base.html" %}
+{% load get_archives %}
+
+{% block title %}
+{% if author %}
+{{ author.get_profile.nickname }}さんの{{ year }}年に書かれた日記一覧
+{% else %}
+{{ year }}年に書かれた日記一覧
+{% endif %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li>
+{% if author %}
+<a href="{% reverse 'blogs-entry-archive-year' author=author,year=year %}">アーカイブ ({{ year }})</a>
+{% else %}
+<a href="{% reverse 'blogs-entry-archive-year' year=year %}">アーカイブ ({{ year }})</a>
+{% endif %}
+</li>
+{% endblock %}
+
+{% block content %}
+<h2>{{ year }}年に書かれた日記一覧</h2>
+{% if author %}
+{% get_monthly_archives of 'blogs.entry' with 'publish_at' for author as archives %}
+{% else %}
+{% get_monthly_archives of 'blogs.entry' with 'publish_at' as archives %}
+{% endif %}
+<ul class="ilist">
+	{% for archive in archives %}
+	<li class="archives">
+		{% if author %}
+		<a href="{% reverse 'blogs-entry-archive-month' author=author,year=archive.date.year,month=archive.date.month %}">
+		{% else %}
+		<a href="{% reverse 'blogs-entry-archive-month' year=archive.date.year,month=archive.date.month %}">
+		{% endif %}
+		{{ archive.date|date:"m月" }}の日記 ({{ archive.count }})
+	</a></li>
+	{% empty %}
+	<li class="archives">アーカイブなし</li>
+{% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+div.filterset label{
+	margin: 0;
+}
+div.filterset ul{
+	margin: 0 5px 10px 5px;
+	padding: 0;
+}
+div.filterset ul li{
+	display: block;
+	list-style: none;
+}
+div.filterset ul li a{
+	display: block;
+	padding: 0 10px;
+}
+div.filterset ul li a.selected{
+	background: url(../image/filter-selected-background.png) no-repeat 0 50%;
+}

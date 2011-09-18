@@ -1,0 +1,19 @@
+@charset "utf-8";
+div#breadcrumbs{
+	position: relative;
+	height: 20px;
+	background: url(../image/breadcrumbs-background.jpg) no-repeat;
+}
+div#breadcrumbs ul{
+	position: absolute;
+	top: 0; right: 0px;
+}
+div#breadcrumbs ul li{
+	padding-left: 15px;
+	border: none;
+	background: url(../image/breadcrumbs-ul-li-background.png) no-repeat 0 50%;
+}
+div#breadcrumbs ul li:first-child{
+	padding-left: 0;
+	background: none;
+}

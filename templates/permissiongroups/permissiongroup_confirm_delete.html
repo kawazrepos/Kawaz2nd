@@ -1,0 +1,29 @@
+{% extends "permissiongroups/base.html" %}
+{% load uni_form_tags %}
+
+{% block title %}
+{{ object.name }}の削除確認
+{% endblock %}
+
+{% block head %}
+{{ block.super }}
+{% compressed_css 'uni-form' %}
+{% compressed_js 'uni-form' %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{{ object.get_absolute_url }}">{{ object.name }}</a></li>
+<li><a href="{% reverse 'permissiongroups-permissiongroup-delete' object.pk %}">削除確認</a></li>
+{% endblock %}
+
+{% block content %}
+<h2>{{ object.name }}の削除確認</h2>
+<p>アクセス不可などの障害が発生する可能性があるため、パーミッショングループの削除は推奨されていません。本当に削除してもよろしいですか？</p>
+<form action="" method="post" class="uniForm">{% csrf_token %}
+	<div class="buttonHolder">
+		<button type="button" class="secondaryAction back-button">←キャンセルし戻る</button>
+		<button type="submit" class="primaryAction">削除する</button>
+	</div>
+</form>
+{% endblock %}

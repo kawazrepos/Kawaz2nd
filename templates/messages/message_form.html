@@ -1,0 +1,28 @@
+{% extends "messages/base.html" %}
+{% load uni_form_tags %}
+
+{% block title %}メッセージの送信{% endblock %}
+
+{% block head %}
+{% compressed_css 'markitupfield' %}
+{% compressed_js 'markitupfield' %}
+{% compressed_css 'uni-form' %}
+{% compressed_js 'uni-form' %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{% url messages-message-create %}">新規メッセージの作成</a></li>
+{% endblock %}
+
+{% block content %}
+<h2>メッセージの送信</h2>
+<p>管理者が管理のためにメッセージの内容を確認することがあります。機密情報を書き込まないようにご注意ください。</p>
+<form action="" method="post" enctype="multipart/form-data" class="uniForm">{% csrf_token %}
+	{{ form|as_uni_form }}
+	<div class="buttonHolder">
+		<button type="button" class="secondaryAction back-button">←キャンセルし戻る</button>
+		<button type="submit" class="primaryAction">送信する</button>
+	</div>
+</form>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'bugwaz/component_base.html' %}
+
+{% block title %}{{ object.label }} - {{ product.label }}{% endblock %}
+
+{% block head %}
+{% compressed_css 'bugwaz-component-detail' %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{{ object.get_absolute_url }}">{{ object.label }}</a></li>
+{% endblock %}
+
+{% block content %}
+<h2>{{ object.label }}</h2>
+<p><a href="{{ product.get_absolute_url }}">{{ product.label }}</a>のコンポーネントです</p>
+<h3>{{ object.label }}で登録されているレポート一覧</h3>
+<ul class="ilist reports">
+	{% for report in object.reports.all %}
+	<li class="report bugwaz-report-detail">
+		{% include "bugwaz/components/report-list-item.html" %}
+	</li>
+	{% empty %}
+	<li class="report empty bugwaz-report-detail">レポートは登録されていません</li>
+	{% endfor %}
+</ul>
+{% endblock %}

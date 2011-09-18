@@ -1,0 +1,25 @@
+@charset "utf-8";
+
+a#totop,a#tobottom{
+	position: fixed;
+	display: block;
+	width: 7px;
+	height: 5px;
+	text-indent: -1000000px;
+	background: url(/css/image/scrollto.png) no-repeat;
+	z-index: 101;
+	opacity: 0.5;
+}
+a#totop:hover,
+a#tobottom:hover{
+	opacity: 0.8;
+}
+a#totop{
+	top: 10px; left: 10px;
+	background-position: 0 0;
+	
+}
+a#tobottom{
+	bottom: 10px; left: 10px;
+	background-position: 0 -5px;
+}

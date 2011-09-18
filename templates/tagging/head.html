@@ -1,0 +1,22 @@
+{% load compressed %}
+{% compressed_css 'tagging' %}
+{% compressed_js 'tagging' %}
+{% if user.is_authenticated %}
+<script type="text/javascript">
+$(document).ready(function(){
+	$('ul.tags').tagging({
+		suggestions: [
+			{% for tag in tags %}
+			"{{ tag.label|escapejs }}"{% if not forloop.last %},{% endif %}
+			{% endfor %}
+		],
+		urls: {
+			add:	"{% url tagging-tag-create %}",
+			del:	"{% url tagging-tag-delete %}",
+			freeze:	"{% url tagging-tag-freeze %}",
+			sort:	"{% url tagging-tag-sort %}"
+		}
+	});
+});
+</script>
+{% endif %}

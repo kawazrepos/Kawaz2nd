@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load typeimg %}
+{% load history %}
+
+{% block head %}
+{% compressed_css 'history-timeline-list' %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{% url history-timeline-list %}">更新情報</a></li>
+{% endblock %}
+
+{% block content %}
+<h2>更新情報</h2>
+<table class="timelines">
+{% for timeline in object_list %}
+	<tr>
+		{% include "history/components/list-item.html" %}
+	</tr>
+{% empty %}
+	<tr><td colspan="2">更新情報はありません</td>
+{% endfor %}
+</table>
+{% include "components/pagination.html" %}
+{% endblock %}

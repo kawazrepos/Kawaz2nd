@@ -1,0 +1,4 @@
+{{ object }}
+{{ object.body }}
+{{ object.rules }}
+{{ object.group }}

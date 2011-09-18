@@ -1,0 +1,22 @@
+{% extends "announcements/base.html" %}
+{% load uni_form_tags %}
+
+{% block title %}
+	お知らせの削除確認
+{% endblock %}
+
+{% block head %}
+	{% compressed_css 'uni-form' %}
+	{% compressed_js 'uni-form' %}
+{% endblock %}
+
+{% block content %}
+<h2>削除確認</h2>
+<p>本当にこのお知らせを削除してもよろしいですか？</p>
+<form action="" method="post" class="uniForm">{% csrf_token %}
+	<div class="buttonHolder">
+		<button type="button" class="secondaryAction back-button">←キャンセルして戻る</button>
+		<button type="submit" class="primaryAction">削除</button>
+	</div>
+</form>
+{% endblock %}

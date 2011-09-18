@@ -1,0 +1,39 @@
+{% extends "events/base.html" %}
+{% load pagination_tags %}
+
+{% block title %}全てのイベント{% endblock %}
+
+{% block head %}
+{{ block.super }}
+{% compressed_css "events-event-list" %}
+{% endblock %}
+
+{% block action %}
+{{ block.super }}
+
+<h3>フィルタ</h3>
+<div class="filterset">
+{{ filter.form }}
+</div>
+{% endblock %}
+
+{% block content %}
+<h2>カレンダー</h2>
+<iframe src="http://www.google.com/calendar/embed?src=kawaz.org_knp8k16jovqbodorkrkt45un0o%40group.calendar.google.com&ctz=Asia/Tokyo" 
+style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+
+<h2>開催予定のイベント</h2>
+<p>終了済みイベントはアーカイブを参照してください</p>
+
+<ul class="events">
+	{% autopaginate object_list %}
+	{% for event in object_list %}
+	<li class="event">
+		{% include "events/components/list-item.html" %}
+	</li>
+	{% empty %}
+	<li class="event empty">条件に一致するイベントがありません</li>
+	{% endfor %}
+</ul>
+{% paginate %}
+{% endblock %}

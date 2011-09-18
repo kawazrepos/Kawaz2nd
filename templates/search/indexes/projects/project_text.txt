@@ -1,0 +1,9 @@
+{% extends "search/indexes/base_text.txt" %}
+{{ object.get_status_display }}
+{{ object.slug }}
+{{ object.body }}
+{{ object.category }}
+{% for member in object.members.all %}
+{{ member }}
+{{ member.get_profile.nickname }}
+{% endfor %}

@@ -1,0 +1,10 @@
+{% extends "search/indexes/base_text.txt" %}
+{{ object.body }}
+{{ object.body }}
+{{ object.period_start }}
+{{ object.period_end }}
+{{ object.place }}
+{% for member in object.members.all %}
+{{ member }}
+{{ member.get_profile.nickname }}
+{% endfor %}

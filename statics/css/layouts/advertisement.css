@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+div#advertisement{
+	display: block;
+	position: relative;
+	width: 960px;
+	height: 200px;
+	margin: -10px auto 20px auto;
+	clear: both;
+}
+div#advertisement p{
+	display: block;
+	position: absolute;
+	top: 27px; left: 20px;
+	font-size: 2.5em;
+	line-height: 1.5em;
+}
+div#advertisement a{
+	display: block;
+	color: #3a3a3a;
+}
+div#advertisement div#cn-toggle-box{
+	display: block;
+	position: absolute;
+	top: 7px; right: 7px;
+	width: 13px; height: 13px;
+	z-index: 100000;
+}

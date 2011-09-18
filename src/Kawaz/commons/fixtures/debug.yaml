@@ -1,0 +1,96 @@
+- model: commons.material
+  pk: 1
+  fields:
+    pub_state: public
+    license: for-profit
+    file: fixtures/commons/commons-00.flv
+    title: METAL GEAR RAIDEN SNAKE ERASER
+    body: |
+      KONAMIが公式ムービーとして公開した物。相変わらず素晴らしいセンスである
+
+      出典: http://www.youtube.com/watch?v=q3LhF9Th4kA
+    project: null
+    ip_address: 127.0.0.1
+    author: 2
+    created_at: 2010-01-15
+    updated_at: 2010-01-15
+- model: commons.material
+  pk: 2
+  fields:
+    pub_state: public
+    license: for-profit
+    file: fixtures/commons/commons-01.flv
+    title: THE END OF CHOCO RANG TANG ISLAND trailer1
+    body: |
+      やはり…来たか…
+
+      出典: http://www.youtube.com/watch?v=uqd9TLKwFas&feature=fvst
+    project: null
+    ip_address: 127.0.0.1
+    author: 2
+    created_at: 2010-01-15
+    updated_at: 2010-01-15
+- model: commons.material
+  pk: 3
+  fields:
+    pub_state: protected
+    license: for-personal
+    file: fixtures/commons/commons-02.zip
+    title: ドラえもんソリッド（読み切り漫画）
+    body: |
+      公開範囲設定が`protected`だからログインしてないと見れないはずです。
+      見れたらそれはバグ！
+
+      出典: http://asame.web.infoseek.co.jp/mgearf2.html
+    ip_address: 127.0.0.1
+    project: null
+    author: 2
+    created_at: 2010-01-15
+    updated_at: 2010-01-15
+- model: commons.material
+  pk: 4
+  fields:
+    pub_state: public
+    license: for-profit
+    file: fixtures/commons/commons-03.mp3
+    title: なつうた！
+    body: |
+      MP3ファイルのサンプルとしてKawazメンバーのTetuさんがアップロードしたものを
+      使ってみています。
+      
+      出典: http://www.kawaz.org/commons/462/
+    project: null
+    ip_address: 127.0.0.1
+    author: 2
+    created_at: 2010-01-15
+    updated_at: 2010-01-15
+- model: commons.material
+  pk: 5
+  fields:
+    pub_state: public
+    license: for-profit
+    file: fixtures/commons/commons-04.jpg
+    title: コケフリーザ
+    body: |
+      私の戦闘力は5です
+
+      出典: http://asame4.web.infoseek.co.jp/cgi-bin/bbsnote.cgi?log=640&fc=thread&res=0-12
+    project: 1
+    ip_address: 127.0.0.1
+    author: 2
+    created_at: 2010-01-15
+    updated_at: 2010-01-15
+- model: commons.material
+  pk: 6
+  fields:
+    pub_state: public
+    license: for-profit
+    file: fixtures/commons/commons-05.txt
+    title: 面白い長文コピペ貼るスレ
+    body: |
+      NHKさんぇ…
+    project: 1
+    ip_address: 127.0.0.1
+    author: 2
+    created_at: 2010-01-15
+    updated_at: 2010-01-15

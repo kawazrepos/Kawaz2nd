@@ -1,0 +1,41 @@
+{% extends "registration/base.html" %}
+{% load uni_form_tags %}
+
+{% block title %}ログイン{% endblock %}
+
+{% block head %}
+{% compressed_css 'uni-form' %}
+{% compressed_js 'uni-form' %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{% url auth_login %}">ログイン</a></li>
+{% endblock %}
+
+{% block action %}
+<h3>操作</h3>
+<ul class="ilist">
+	<li class="auth-password-reset"><a herf="{% url auth_password_reset %}">パスワードをリセット</a></li>
+	<li class="auth-user"><a href="{% url registration_register %}">新規会員登録申請</a></li>
+</ul>
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<h2>ログイン</h2>
+{% if next %}
+<p>このページは公開範囲が内部指定となっているため、まずログインしてください</p>
+{% else %}
+<p>新規登録時に入力したアカウント名もしくは登録しているメールアドレスにてログインが可能です</p>
+{% endif %}
+<form action="" method="post" class="uniForm">{% csrf_token %}
+	{{ form|as_uni_form }}
+	<div class="buttonHolder">
+		<button type="submit" class="primaryAction">ログイン</button>
+	</div>
+	<input type="hidden" name="next" value="{{ next }}" />
+</form>
+<p>パスワードをわすれましたか？ <a href="{% url auth_password_reset %}">パスワードをリセット</a>!</p>
+<p>メンバーではないですか？ <a href="{% url registration_register %}">新規会員登録申請</a>!</p>
+{% endblock %}

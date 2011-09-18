@@ -1,0 +1,71 @@
+@charset: "utf-8";
+body{
+	margin: 0;
+	padding: 0;
+	color: #3d3d3d;
+	font-family: 'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
+}
+img{
+	margin: 0;
+	padding: 0;
+}
+a,a:visited{
+	color: #24527a;
+	text-decoration: none;
+}
+a:hover{
+	color: #3578b2;
+}
+div#wrapper{
+	width: 960px;
+	margin: 60px auto;
+	color: #3d3d3d;
+}
+div#wrapper p.message{
+	margin: 60px 0;
+}
+div#wrapper object{
+	display: block;
+	width: 480px;
+	height: 385px;
+	margin: 20px auto;
+}
+div#wrapper table#information{
+	padding: 20px 20px 40px 20px;
+	border: 1px dotted #cacbc7;
+	background-color: #efefef;
+}
+div#wrapper table#information th,
+div#wrapper table#information td{
+	padding: 20px 20px 2px 20px;
+	vertical-align: baseline;
+}
+
+div#wrapper table#information td{
+	border-bottom: 1px dotted #cacbc7;
+}
+div#footer{
+	position:fixed;
+	bottom:0px;
+	padding: 20px 0 0 0;
+	width: 100%;
+	border-top: 1px solid #dedede;
+	background-color: #efefef;
+	color: #8d8d8d;
+}
+div#footer p.mail{
+	margin: 0 20px 0 0;
+	text-align: right;
+	font-size: 0.7em;
+	color: #8d8d8d;
+}
+div#footer div#copyright{
+	text-align: center;
+	color: #ababab;
+}
+div#footer div#copyright address{
+	margin: 0 0 10px 0;
+	font-size: 0.8em;
+	text-decoration: none;
+	font-style: normal;
+}

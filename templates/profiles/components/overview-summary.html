@@ -1,0 +1,14 @@
+{% load tagging %}
+<div id="overview-profile">
+	<h3 class="profile-nickname">{{ profile.get_nickname_display }}(@{{ profile.user.username }})</h3>
+	<div class="box">
+		<div class="profile-icon"><a href="{{ profile.get_absolute_url }}" class="fenced filled middle">
+			<span></span>{{ profile.get_icon_middle_display }}
+		</a></div>
+		<div class="profile-mood{% if user == profile.user %} editable" 
+			posturl="{% url profiles-profile-update-mood %}{% endif %}">
+				{{ profile.mood }}
+		</div>
+		{% render_tagging_tags for profile %}
+	</div>
+</div>

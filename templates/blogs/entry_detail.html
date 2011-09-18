@@ -1,0 +1,45 @@
+{% extends "blogs/base.html" %}
+{% load trackback_tags %}
+{% load comments %}
+{% load parser %}
+{% load tagging %}
+{% load commons %}
+
+{% block title %}{{ object.title}}{% endblock %}
+
+{% block head %}
+{{ block.super }}
+{% get_trackback_rdf_for object %}
+{% compressed_css 'comments' %}
+{% compressed_css 'markitupfield' %}
+{% compressed_js 'markitupfield' %}
+{% compressed_css 'blogs-entry-list' %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{{ object.get_absolute_url}}">{{ object.title }}</a></li>
+{% endblock %}
+
+{% block content %}
+{% with object as entry %}
+<div class="blog-entry">
+	{% include "blogs/components/entry.html" %}
+</div>
+{% endwith %}
+
+{% comment %}
+<h3>トラックバック</h3>
+{% get_trackbacks_for object as trackbacks %}
+<ul class="trackbacks">
+{% for trackback in trackbacks %}
+	<li class="trackback"><a href="{{ trackback.url }}" target="_blank">{{ trackback.title }} - {{ trackback.blog_name }}</a></li>
+{% empty %}
+	<li class="trackback empty">トラックバックはありません</li>
+{% endfor %}
+</ul>
+{% endcomment %}
+
+{% include "comments/components/sets.html" %}
+
+{% endblock %}

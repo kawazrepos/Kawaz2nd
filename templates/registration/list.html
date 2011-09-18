@@ -1,0 +1,64 @@
+{% extends "utilities/base.html" %}
+
+{% block title %}登録プロファイル一覧{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{% url registration_list %}">登録プロファイル一覧</a></li>
+{% endblock %}
+
+{% block content %}
+<h2>登録プロファイル一覧</h2>
+<p>Kawazに新規登録して待ち状態にあるユーザーの一覧です</p>
+
+<h3>承認許可待ちユーザー</h3>
+<p>登録申請をして権利者の承認を待っているユーザーの一覧です</p>
+<form action="" method="post">{% csrf_token %}
+{% if form.errors %}
+{{ form.errors }}
+{% endif %}
+<ul class="ilist">
+	{% for registration_profile in registered_profiles %}
+	<li class="registration-profile-waiting">
+		<input type="checkbox" name="registration_profiles" id="registration_profiles_{{ registration_profile.pk }}" value="{{ registration_profile.pk }}">
+		<span class="profile-name">{{ registration_profile.user.username }}</span>さん
+		<small>
+			<a href="{% url utilities-email %}?to={{ registration_profile.user.username }}">メールを送る</a>
+			({{ registration_profile.user.last_login|date:"Y/m/d H:i" }}に申請)
+		</small>
+		<div class="profile-remarks">
+			{{ registration_profile.remarks }}
+		</div>
+	</li>
+	{% empty %}
+	<li class="registration-profile-waiting">
+		承認待ちユーザーはいません
+	</li>
+	{% endfor %}
+</ul>
+{% if registered_profiles %}
+<p>選択されたユーザーを{{ form.action }} <input type="submit" value="実行" /></p>
+{% endif %}
+</form>
+
+<h3>承認済みユーザー(アクティヴェーション待ち)</h3>
+<p>アクティベーションメールのURLをクリックしていないユーザーの一覧です</p>
+<ul class="ilist">
+	{% for registration_profile in approved_profiles %}
+	<li class="registration-profile-approved">
+		<label for="users_{{ registration_profile.pk }}">{{ registration_profile.user.username }}さん</label>
+		<small>
+			<a href="{% url utilities-email %}?to={{ registration_profile.user.username }}">メールを送る</a>
+			({{ registration_profile.user.last_login|date:"Y/m/d H:i" }}に申請)
+		</small>
+		<div class="profile-remarks">
+			{{ registration_profile.remarks }}
+		</div>
+	</li>
+	{% empty %}
+	<li class="registration-profile-approved empty">
+		アクティヴェーション待ちユーザーはいません
+	</li>
+	{% endfor %}
+</ul>
+{% endblock %}

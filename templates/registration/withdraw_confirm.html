@@ -1,0 +1,33 @@
+{% extends "registration/base.html" %}
+
+{% block title %}退会確認{% endblock %}
+
+{% block head %}
+{% compressed_css 'uni-form' %}
+{% compressed_js 'uni-form' %}
+{% endblock %}
+
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{% url registration_withdraw %}">退会確認</a></li>
+{% endblock %}
+
+{% block content %}
+<h2>退会確認</h2>
+<p>本当に退会して取り返しがつかなくなる前に以下の注意事項をしっかりと読んでください</p>
+<ul>
+	<li>退会後は一覧には表示されなくなりプロフィールも閲覧不可能になりますが<strong>コモンズにアップロードした素材は削除されません</strong></li>
+	<li>退会すると作成したコンテンツを<strong>削除する手段は存在しません</strong>。削除したいコンテンツがある場合は退会するまえに手動で削除してください。</li>
+	<li>退会後に<strong>同名で新しいアカウントを作成することはできません</strong></li>
+	<li>退会後に<strong>同メールアドレスで新しいアカウントを作成することはできません</strong></li>
+</ul>
+<p>これらの制約はポータル内での各ページの相互作用が破壊されてしまうことを防ぐために必要な措置です。
+これらのことを十分理解した上で本当に退会しますか？</p>
+<form action="" method="post" class="uniForm">{% csrf_token %}
+	<div class="buttonHolder">
+		<button type="submit" class="primaryAction">これらの事を理解した上で退会を行う</button>
+		<button type="button" class="secondaryAction back-button">←キャンセルしてもどる</button>
+	</div>
+</form>
+{% endblock %}

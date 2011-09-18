@@ -1,0 +1,104 @@
+@charset "utf-8";
+
+ul.tweets{
+	margin: 0;
+	padding: 0;
+}
+li.tweet{
+	padding: 10px 20px;
+	border-bottom: 1px solid #cacbc7;
+	list-style: none;
+	z-index: 0;
+}
+li.tweet:hover{
+	margin-top: -1px;
+	border-top: 1px solid #e4bdc6;
+	border-bottom: 1px solid #e4bdc6;
+	background-color: #fae9ed;
+	z-index: 1;
+}
+li.tweet a{
+	color: #3d3d3d;
+}
+li.tweet:hover a{
+	color: #d02b55;
+}
+li.tweet:hover a:hover{
+	text-decoration: underline;
+}
+li.tweet div.tweet-profile-icon{
+	float: left;
+	margin: 0 10px 0 0;
+}
+li.tweet-favorite{
+	background-image: url(/css/image/tweets-tweet/favorite-budge.png);
+	background-repeat: no-repeat;
+}
+li.tweet div.tweet-name{
+	margin: 0 0 0 60px;
+}
+li.tweet div.tweet-name p{
+	display: inline;
+}
+li.tweet div.tweet-name p.tweet-username{
+	font-size: 1.2em;
+}
+li.tweet div.tweet-name p.tweet-nickname{
+	color: #9a9a9a;
+}
+li.tweet div.tweet-body{
+	margin: 0 0 0 60px;
+	font-size: 1.0em;
+}
+li.tweet div.tweet-footer{
+	margin: 0 0 0 60px;
+	font-size: 0.8em;
+	color: #9a9a9a;
+}
+li.tweet div.tweet-footer a{
+	color: #9a9a9a;
+}
+div.tweet:hover div.tweet-footer a{
+	color: #d02b55;
+}
+li.tweet div.tweet-footer p{
+	display: inline;
+}
+li.tweet div.tweet-footer div.tweet-tools{
+	display: inline;
+}
+li.tweet div.tweet-footer p.favorite-button a,
+li.tweet div.tweet-footer p.reply-button a,
+li.tweet div.tweet-footer p.retweet-button a,
+li.tweet div.tweet-footer p.delete-button a{
+	display: inline-block;
+	padding: 0 0 0 18px;
+	height: 15px;
+	background-repeat: no-repeat;
+}
+li.tweet div.tweet-footer p.favorite-button.add a:hover,
+li.tweet div.tweet-footer p.reply-button a:hover,
+li.tweet div.tweet-footer p.retweet-button a:hover,
+li.tweet div.tweet-footer p.delete-button a:hover{
+	background-position: 0 -15px;
+}
+li.tweet div.tweet-footer p.favorite-button.add a{
+	background-image: url(/css/image/tweets-tweet/favorite-add.png);
+}
+li.tweet div.tweet-footer p.favorite-button.delete a{
+	background-image: url(/css/image/tweets-tweet/favorite-delete.png);
+}
+li.tweet div.tweet-footer p.reply-button a{
+	background-image: url(/css/image/tweets-tweet/reply.png);
+}
+li.tweet div.tweet-footer p.retweet-button a{
+	background-image: url(/css/image/tweets-tweet/retweet.png);
+}
+li.tweet div.tweet-footer p.delete-button a{
+	background-image: url(/css/image/tweets-tweet/delete.png);
+}
+p.loading{
+	background-image: url(/css/icon/loading.gif);
+	background-repeat:no-repeat;
+	padding-left: 18px;
+}

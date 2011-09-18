@@ -1,0 +1,34 @@
+{% extends "bugwaz/report_base.html" %}
+{% load pagination_tags %}
+
+{% block title %}{{ product.label }}のバグ報告レポート一覧{% endblock %}
+
+{% block head %}
+{{ block.super }}
+{% compressed_css 'bugwaz-report-list' %}
+{% endblock %}
+
+{% block action %}
+{{ block.super }}
+<h3>フィルタ</h3>
+<div class="filterset">
+{{ filter.form }}
+</div>
+{% endblock %}
+
+{% block content %}
+<h2>バグ報告レポート一覧</h2>
+<p><a href="{{ product.get_absolute_url }}">{{ product.label }}</a>に対するバグ報告レポートの一覧です</p>
+
+<ul class="ilist reports">
+	{% autopaginate object_list %}
+	{% for report in object_list %}
+	<li class="report bugwaz-report-status-{{ report.status }}">
+		{% include "bugwaz/components/report-list-item.html" %}
+	</li>
+	{% empty %}
+	<li class="report empty bugwaz-report-detail">レポートは登録されていません</li>
+	{% endfor %}
+</ul>
+{% paginate %}
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "events/base.html" %}
+
+{% block title %}{{ year }}年のイベント{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{% reverse 'events-event-archive-year' year=year %}">{{ year }}年のアーカイブ</a></li>
+{% endblock %}
+
+{% block action %}
+<h3>見る</h3>
+<ul class="ilist">
+	<li class="events-event-list"><a href="{% url events-event-list %}">イベント一覧に戻る</a></li>
+</ul>
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<h2>{{ year }}年のイベント</h2>
+<ul class="ilist">
+{% for month in date_list %}
+	<li class="archives"><a href="{% reverse "events-event-archive-month" year=month.year,month=month.month %}">
+		{{ month|date:"m月" }}のアーカイブ</a>
+	</li>
+{% empty %}
+	<li class="archives">この年のアーカイブはありません</li>
+{% endfor %}
+</ul>
+{% endblock %}

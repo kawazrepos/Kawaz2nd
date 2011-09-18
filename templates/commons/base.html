@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% compressed_css 'commons-material-base' %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{% reverse 'commons-material-list' %}">Commons</a></li>
+{% if project %}
+<li><a href="{% reverse 'commons-material-list' project=project.slug %}">{{ project.title }}</a></li>
+{% if author %}
+<li><a href="{% reverse 'commons-material-list' project=project.slug,author=author.username %}">{{ author.get_profile.nickname }}</a></li>
+{% endif %}
+{% else %}{% if author %}
+<li><a href="{% reverse 'commons-material-list' author=author.username %}">{{ author.get_profile.nickname }}</a></li>
+{% endif %}{% endif %}
+{% endblock %}
+
+{% block summary %}
+{% if object %}
+{% with object as material %}
+{% include "commons/components/overview-summary.html" %}
+{% endwith %}
+{% if object.project %}
+{% with object.project as project %}
+{% include "projects/components/overview-summary.html" %}
+{% endwith %}
+{% endif %}
+{% endif %}
+{% endblock %}
+
+{% block action %}
+{% if object %}
+<h3>見る</h3>
+<ul class="ilist">
+	<li class="commons-material-list"><a href="{% reverse 'commons-material-list' %}">コモンズトップに戻る</a></li>
+</ul>
+{% endif %}
+
+{% ifhsp 'commons.add_material','commons.change_material','commons.delete_material' of object for user %}
+<h3>操作</h3>
+<ul class="ilist">
+	{% ifhsp 'commons.add_material' for user %}
+	<li class="commons-material-create"><a href="{% reverse 'commons-material-create' %}">素材をアップロード</a></li>
+	{% if project %}
+	{% ifhsp 'projects.add_material_project' of project for user %}
+	<li class="commons-material-create"><a href="{% reverse 'commons-material-create' project.slug %}">プロジェクトの素材をアップロード</a></li>
+	{% endifhsp %}
+	{% endif %}
+	{% endifhsp %}
+	{% if object %}
+	{% ifhsp 'commons.change_material' of object for user %}
+	<li class="commons-material-update"><a href="{% reverse 'commons-material-update' object.pk %}">編集</a></li>
+	{% endifhsp %}
+	{% ifhsp 'commons.delete_material' of object for user %}
+	<li class="commons-material-delete"><a href="{% reverse 'commons-material-delete' object.pk %}">削除</a></li>
+	{% endifhsp %}
+	{% endif %}
+</ul>
+{% endifhsp %}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'bugwaz/component_base.html' %}
+{% load uni_form_tags %}
+
+{% block title %}
+{% if object %}{{ object.label }}の編集{% else %}コンポーネントの新規作成{% endif %} - {{ product.label }}
+{% endblock %}
+
+{% block head %}
+{% compressed_css 'uni-form' %}
+{% compressed_js 'uni-form' %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+{% if object %}
+<li><a href="{% url bugwaz-component-detail product.pk object.pk %}">{{ object.label }}</a></li>
+<li><a href="{% url bugwaz-component-update product.pk object.pk %}">編集</a></li>
+{% else %}
+<li><a href="{% url bugwaz-component-create product.pk %}">コンポーネントの新規作成</a></li>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if object %}
+<h2>{{ object.label }}の編集</h2>
+{% else %}
+<h2>{{ product.label }}のコンポーネント新規作成</h2>
+{% endif %}
+<p>コンポーネントとはプロダクトの<em>部品</em>を表します。例えばノベルゲームを作っているとするならば以下のようなものがコンポーネントとして考えられます</p>
+<ul>
+	<li>メニューウィンドウ</li>
+	<li>選択ウィンドウ</li>
+	<li>立ち絵</li>
+</ul>
+<p>これらの部品を予め定義しておくことでバグ報告者がより細かなバグレポートを作成できます</p>
+<form action="" method="post" class="uniForm">{% csrf_token %}
+	{{ form|as_uni_form }}
+	<div class="buttonHolder">
+		<button type="button" class="secondaryAction back-button">←キャンセルして戻る</button>
+		<button type="submit" class="primaryAction">{% if object %}設定を反映{% else %}保存して公開{% endif %}</button>
+	</div>
+</form>
+{% endblock %}

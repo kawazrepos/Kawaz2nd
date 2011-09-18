@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load typeimg %}
+
+{% block head %}
+{% compressed_css 'search' %}
+{% compressed_css 'pagination' %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="/search/">検索</a></li>
+{% endblock %}
+
+{% block content %}
+<h2>Kawaz内検索</h2>
+<form action="" method="get" class="search detail">
+	<div class="inner">
+		<p><input type="text" id="id_q" name="q" /></p>
+		<p><input type="submit" id="id_submit" value="検索" /></p>
+	</div>
+	<fieldset>
+		<legend>{{ form.models.label }}</legend>
+		{{ form.models }}
+	</fieldset>	
+</form>
+
+<h3>検索結果</h3>
+<ul class="resultset">
+	{% for result in page.object_list %}
+	{% if result.object %}
+	<li class="result">
+		<h4>{% render_ctimg for result.object %}<a href="{{ result.object.get_absolute_url }}">{{ result.object }}</a></h4>
+		<blockquote>
+			{{ result.object.body|striptags|truncateletters:"50" }}
+		</blockquote>
+	</li>
+	{% endif %}
+	{% empty %}
+	<li class="result">条件に一致するものが見つかりませんでした</li>
+	{% endfor %}
+</ul>
+{% include "components/pagination.html" %}
+{% endblock %}

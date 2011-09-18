@@ -1,0 +1,25 @@
+@charset "utf-8";
+/* --- tweet --- */
+form#tweet-form{
+	text-align: right;
+}
+form#tweet-form p{
+	margin: 0;
+}
+form#tweet-form textarea{
+	width: 99.5%;
+	margin: 0;
+	padding: 0;
+}
+form#tweet-form input{
+	width: 96px;
+	height: 30px;
+	border: 1px solid #cacbc7;
+	background-color: #85a7cc;
+	color: white;
+	
+	cursor: pointer;
+}
+form#tweet-form input:hover{
+	background-color: #88b0cf;
+}

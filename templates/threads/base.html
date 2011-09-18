@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load commons %}
+
+{% block head %}
+{% compressed_css 'threads-thread-base' %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{% url threads-thread-list %}">Threads</a></li>
+{% endblock %}
+
+{% block summary %}
+{% if object %}
+{% with object as thread %}
+{% include "threads/components/overview-summary.html" %}
+{% endwith %}
+{% if object.project %}
+{% with object.project as project %}
+{% include "projects/components/overview-summary.html" %}
+{% endwith %}
+{% endif %}
+{% elif project %}
+{% include "projects/components/overview-summary.html" %}
+{% endif %}
+{% endblock %}
+
+{% block action %}
+{% if object %}
+<h3>見る</h3>
+<ul class="ilist">
+	<li class="threads-thread-list"><a href="{% reverse 'threads-thread-list' %}">スレッド一覧へ戻る</a></li>
+	{% if object.project %}
+	<li class="projects-project-detail"><a href="{% url projects-project-detail object.project.slug %}">プロジェクトに戻る</a></li>
+	{% endif %}
+</ul>
+{% endif %}
+
+{% ifhsp 'threads.add_thread','threads.change_thread','threads.delete_thread' of object for user %}
+<h3>管理</h3>
+<ul class="ilist">
+	{% ifhsp 'threads.add_thread' for user %}
+	<li class="threads-thread-create"><a href="{% reverse 'threads-thread-create' %}">スレッドを立てる</a></li>
+	{% if project %}
+	{% ifhsp 'projects.add_thread_project' of project for user %}
+	<li class="threads-thread-create"><a href="{% reverse 'threads-thread-create' project.slug %}">プロジェクトのスレッドを立てる</a></li>
+	{% endifhsp %}
+	{% endif %}
+	{% endifhsp %}
+	{% if object %}
+	{% ifhsp 'threads.change_thread' of object for user %}
+	<li class="threads-thread-update"><a href="{% reverse 'threads-thread-update' object.pk %}">編集</a></li>
+	{% endifhsp %}
+	{% ifhsp 'threads.delete_thread' of object for user %}
+	<li class="threads-thread-delete"><a href="{% reverse 'threads-thread-delete' object.pk %}">削除</a></li>
+	{% endifhsp %}
+	{% endif %}
+</ul>
+{% endifhsp %}
+
+{% if object %}
+<h3>添付ファイル一覧</h3>
+{% get_materials for object.body as materials %}
+<ul class="ilist">
+	{% for material in materials %}
+	<li class="commons-material-detail">{{ material.get_title_display }}</li>
+	{% empty %}
+	<li class="commons-material-detail">添付されているファイルはありません</li>
+	{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

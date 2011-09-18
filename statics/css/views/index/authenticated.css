@@ -1,0 +1,22 @@
+@charset "utf-8";
+
+/* --- history --- */
+div#history{
+	position: relative;
+}
+div#history table{
+	margin: 0 0 30px 0;
+}
+div#history p.more{
+	margin: 100px 0 0 0;
+}
+
+p.twitter-auth{
+	float: right;
+	padding: 0 0 0 20px;
+	font-size: 0.8em;
+}
+
+p.tips{
+	font-size: 0.8em;
+}

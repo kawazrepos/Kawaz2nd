@@ -1,0 +1,16 @@
+{% comment %}
+対象オブジェクトはカスタムアトリビュートで`ul`ごとに指定する
+また`owned`アトリビュートに文字列を入れると凍結処理が可能になる。
+ここでは対象オブジェクトの`author`もしくは`user`が自分と
+等しい場合に凍結処理を可能にしている。ちなみにFirebugなどで
+書き換えられてもビューレベルで却下されるので問題はない
+{% endcomment %}
+<ul class="tags" content_type="{{ content_type }}" object_id="{{ object_id }}" owned="{% if object.author == user or object.user == user %}owned{% endif %}">
+{% for item in tagged_items %}
+	<li class="tag{% if item.frozen %} frozen{% endif %}" pk="{{ item.tag.pk }}">
+		<a href="{{ item.tag.get_absolute_url }}">{{ item.tag.label }}</a>
+	</li>
+{% empty %}
+	<li class="tag empty"><a href="#">タグなし権兵衛</a></li>
+{% endfor %}
+</ul>

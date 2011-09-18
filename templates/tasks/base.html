@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load tasks %}
+
+{% block head %}
+{% compressed_css 'tasks-task-base' %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+{% if project %}
+{% if user.is_authenticated %}
+<li><a href="{% reverse 'tasks-task-list' %}">Tasks</a></li>
+{% else %}
+<li>Tasks</li>
+{% endif %}
+<li><a href="{% reverse 'tasks-task-list' project=project.slug %}">{{ project.title }}のタスク一覧</a></li>
+{% else %}
+<li><a href="{% reverse 'tasks-task-list' %}">Tasks</a></li>
+{% endif %}
+{% endblock %}
+
+{% block summary %}
+{% if object %}{% with object as task %}
+{% include "tasks/components/overview-summary.html" %}
+{% if object.project %}{% with object.project as project %}
+{% include "projects/components/overview-summary.html" %}
+{% endwith %}{% endif %}
+{% endwith %}{% elif project %}
+{% include "projects/components/overview-summary.html" %}
+{% endif %}
+{% endblock %}
+
+{% block action %}
+{% if object %}
+<h3>見る</h3>
+<ul class="ilist">
+	<li class="tasks-task-list"><a href="{% reverse 'tasks-task-list'  %}">タスク一覧に戻る</a></li>
+	{% if project %}
+	<li class="tasks-task-list-project"><a href="{% reverse 'tasks-task-list' project.slug %}">プロジェクトタスク一覧</a></li>
+	{% elif object.project %}
+	<li class="tasks-task-list-project"><a href="{% reverse 'tasks-task-list' object.project.slug %}">プロジェクトタスク一覧</a></li>
+	{% endif %}
+</ul>
+{% elif project %}
+<h3>見る</h3>
+<ul class="ilist">
+	<li class="tasks-task-list"><a href="{% reverse 'tasks-task-list'  %}">タスク一覧に戻る</a></li>
+</ul>
+{% endif %}
+
+{% if object %}
+{% if object.project %}
+{% expr (not user in object.owners.all() and user in object.project.members.all()) as can_join %}
+{% else %}
+{% expr (not user in object.owners.all()) as can_join %}
+{% endif %}
+{% get_avariable_status_list of object for user as avariable_status_list %}
+{% if avariable_status_list|length > 0 or can_join %}
+<h3>状態管理</h3>
+<ul class="ilist">
+	{% if can_join %}
+	<li class="tasks-task-status-join">
+		<a href="{% reverse 'tasks-task-update-status' object.pk 'join' %}">担当者に加わる</a>
+		<br /><small>タスクの担当者に加わります</small>
+	</li>
+	{% endif %}
+	{% for status in avariable_status_list %}
+	<li class="tasks-task-status-{{ status.codename }}">
+		<a href="{% reverse 'tasks-task-update-status' object.pk,status.codename %}">{{ status.do_verbose_name }}</a>
+		<br /><small>{{ status.do_help_text }}</small>
+	</li>
+	{% endfor %}
+</ul>
+{% endif %}
+{% endif %}
+
+{% ifhsp 'tasks.add_task','tasks.change_task','tasks.delete_task' of object for user %}
+<h3>操作</h3>
+<ul class="ilist">
+	{% ifhsp 'tasks.add_task' for user %}
+	<li class="tasks-task-create"><a href="{% reverse 'tasks-task-create' %}">新規タスク作成</a></li>
+	{% endifhsp %}
+	{% if object %}
+	{% ifhsp 'tasks.change_task' of object for user %}
+	<li class="tasks-task-update"><a href="{% reverse 'tasks-task-update' object.pk %}">編集</a></li>
+	{% endifhsp %}
+	{% ifhsp 'tasks.delete_task' of object for user %}
+	<li class="tasks-task-delete"><a href="{% reverse 'tasks-task-delete' object.pk %}">削除</a></li>
+	{% endifhsp %}
+	{% endif %}
+</ul>
+{% endifhsp %}
+{% endblock %}

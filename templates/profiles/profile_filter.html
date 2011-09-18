@@ -1,0 +1,54 @@
+{% extends "profiles/base.html" %}
+{% load pagination_tags %}
+
+{% block title %}メンバーの一覧{% endblock %}
+
+{% block head %}
+{% compressed_css 'profiles-profile-list' %}
+{% endblock %}
+
+{% block action %}
+<h3>フィルタ</h3>
+<div class="filterset">
+{{ filter.form }}
+</div>
+{% endblock %}
+
+{% block content %}
+<h2>メンバーの一覧 ({{ filter.queryset|length }}人)</h2>
+{% if not user.is_authenticated %}
+<p>プロフィールの公開範囲が内部限定のユーザー以外を表示しています</p>
+{% endif %}
+<ul class="users clearfix">
+	{#{% autopaginate object_list %}#}
+	{% for profile in object_list %}
+	<li class="user box {% cycle '' '' 'last' %}">
+		<div class="profile-icon"><a class="fenced middle filled" href="{{ profile.get_absolute_url }}">
+			<span></span>{{ profile.get_icon_middle_display }}
+		</a></div>
+		<div class="profile-name">
+			<h3 class="profile-nickname">{{ profile.get_nickname_display }}</h3>
+			<p class="profile-username">@{{ profile.user.username }}</p>
+		</div>
+		<table class="profile-detail">
+			<tr>
+				<th>性別</th>
+				<td>{{ profile.get_sex_display }}</td>
+			</tr>
+			<tr>
+				<th>誕生日</th>
+				<td>{{ profile.birthday|date:"m/d"|default:"未設定" }}</td>
+			</tr>
+		</table>
+		<blockquote class="profile-mood">
+			{{ profile.mood|striptags|truncateletters:"30" }}
+		</blockquote>
+	</li>
+	{% empty %}
+	<li>条件にマッチするユーザーがいません</li>
+	{% endfor %}
+</ul>
+
+{#{% paginate %}#}
+
+{% endblock %}

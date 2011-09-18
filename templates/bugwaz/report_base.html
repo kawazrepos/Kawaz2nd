@@ -1,0 +1,82 @@
+{% extends 'bugwaz/product_base.html' %}
+
+{% block head %}
+{{ block.super }}
+{% compressed_css 'bugwaz-report-base' %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{% url bugwaz-product-detail product.pk %}">{{ product.label }}</a></li>
+<li><a href="{% url bugwaz-report-list product.pk %}">バグレポート一覧</a></li>
+{% endblock %}
+
+{% block summary %}
+{% if object %}
+{% with object as report %}
+{% include "bugwaz/components/report-overview-summary.html" %}
+{% endwith %}
+{% endif %}
+{% endblock %}
+
+{% block action %}
+{% if object %}
+{% ifhsp 'bugwaz.change_report','bugwaz.delete_report','bugwaz.charge_report','bugwaz.status_report' of object for user %}
+<h3>管理</h3>
+<ul class="ilist">
+	{% ifhsp 'bugwaz.charge_report' of object for user %}
+	{% if user in object.charges.all %}
+	<li class="bugwaz-report-discharge"><a href="{% reverse 'bugwaz-report-discharge' product.pk object.pk %}">担当から外れる</a></li>
+	{% else %}
+	<li class="bugwaz-report-charge"><a href="{% reverse 'bugwaz-report-charge' product.pk object.pk %}">担当する</a></li>
+	{% endif %}
+	{% endifhsp %}
+	
+	{% ifhsp 'bugwaz.status_report' of object for user %}
+	{% if user in object.charges.all %}
+	<li class="bugwaz-report-status"><a href="{% reverse 'bugwaz-report-update-status' product.pk object.pk %}">ステータスを変更</a></li>
+	{% endif %}
+	{% endifhsp %}
+	
+	{% ifhsp 'bugwaz.change_report' of object for user %}
+	<li class="bugwaz-report-update"><a href="{% reverse 'bugwaz-report-update' product.pk object.pk %}">このレポートを編集</a></li>
+	{% endifhsp %}
+	{% ifhsp 'bugwaz.change_report' of object for user %}
+	<li class="bugwaz-report-delete"><a href="{% reverse 'bugwaz-report-delete' product.pk object.pk %}">このレポートを削除</a></li>
+	{% endifhsp %}
+</ul>
+{% endifhsp %}
+{% endif %}
+
+<h3>プロダクト操作</h3>
+<ul class="ilist">
+	<li class="bugwaz-report-create"><a href="{% reverse 'bugwaz-report-create' product.pk %}">バグを報告</a>
+		<br /><small>このプロダクトのバグを開発者グループに報告します</small>
+	</li>
+	{% ifhsp 'bugwaz.add_product' for user %}
+	<li class="bugwaz-product-create"><a href="{% reverse 'bugwaz-product-create' %}">新規プロダクト作成</a></li>
+	{% endifhsp %}
+</ul>
+
+{% ifhsp 'bugwaz.add_product','bugwaz.change_product','bugwaz.delete_product' of product for user %}
+<h3>プロダクト管理</h3>
+<ul class="ilist">
+	{% ifhsp 'bugwaz.add_component_product' of product for user %}
+	<li class="bugwaz-component-create"><a href="{% reverse 'bugwaz-component-create' product.pk %}">コンポーネント追加</a>
+		<br /><small>コンポーネントを追加することでより細かいバグレポートを作成可能です</small>
+	</li>
+	{% endifhsp %}
+	{% ifhsp 'bugwaz.add_version_product' of product for user %}
+	<li class="bugwaz-version-create"><a href="{% reverse 'bugwaz-version-create' product.pk %}">バージョン追加</a>
+		<br /><small>対象バージョンを追加することでバージョンごとのバグレポートを作成可能です</small>
+	</li>
+	{% endifhsp %}
+	{% ifhsp 'bugwaz.change_product' of product for user %}
+	<li class="bugwaz-product-update"><a href="{% reverse 'bugwaz-product-update' product.pk %}">このプロダクトを編集</a></li>
+	{% endifhsp %}
+	{% ifhsp 'bugwaz.delete_product' of product for user %}
+	<li class="bugwaz-product-delete"><a href="{% reverse 'bugwaz-product-delete' product.pk %}">このプロダクトを削除</a></li>
+	{% endifhsp %}
+</ul>
+{% endifhsp %}
+{% endblock %}

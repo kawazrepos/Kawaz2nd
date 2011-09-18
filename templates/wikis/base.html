@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load commons %}
+
+{% block head %}
+{% compressed_css 'wikis-entry-base' %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{{ project.get_absolute_url }}">{{ project.title }}</a></li>
+<li><a href="{% reverse 'wikis-entry-list' project=project.slug %}">記事一覧</a></li>
+{% endblock %}
+
+{% block summary %}
+{% if object %}
+{% with object as entry %}
+{% include "wikis/components/overview-summary.html" %}
+{% endwith %}
+{% endif %}
+{% include "projects/components/overview-summary.html" %}
+{% endblock %}
+
+{% block action %}
+<h3>見る</h3>
+<ul class="ilist">
+	<li class="wikis-entry-detail"><a href="{% reverse 'wikis-entry-detail' project=project.slug %}">トップページに戻る</a></li>
+	<li class="projects-project-detail"><a href="{% reverse 'projects-project-detail' project.slug %}">プロジェクトに戻る</a></li>
+	<li class="wikis-entry-list"><a href="{% reverse 'wikis-entry-list' project=project.slug %}">記事一覧</a></li>
+</ul>
+
+<h3>操作</h3>
+<ul class="ilist">
+	{% ifhsp 'wikis.add_entry' for user %}
+	{% ifhsp 'projects.add_wiki_project' of project for user %}
+	<li class="wikis-entry-create"><a href="{% reverse 'wikis-entry-create' project=project.slug %}">新規記事作成</a></li>
+	{% endifhsp %}
+	{% endifhsp %}
+	{% if object %}
+	{% ifhsp 'wikis.change_entry' of object for user %}
+	<li class="wikis-entry-update"><a href="{% reverse 'wikis-entry-update' project=project.slug,slug=object.title %}">編集</a></li>
+	{% endifhsp %}
+	{% ifhsp 'wikis.delete_entry' of object for user %}
+	<li class="wikis-entry-delete"><a href="{% reverse 'wikis-entry-delete' project=project.slug,slug=object.title %}">削除</a></li>
+	{% endifhsp %}
+	{% endif %}
+</ul>
+
+{% if object %}
+<h3>添付ファイル一覧</h3>
+{% get_materials for object.body as materials %}
+<ul class="ilist">
+	{% for material in materials %}
+	<li class="commons-material-detail">{{ material.get_title_display }}</li>
+	{% empty %}
+	<li class="commons-material-detail">添付されているファイルはありません</li>
+	{% endfor %}
+</ul>
+{% endif %}
+
+<h3>記事一覧</h3>
+<ul class="ilist">
+	{% for entry in project.wiki_entries.all|slice:":5" %}
+	<li class="wikis-entry-detail"><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></li>
+	{% empty %}
+	<li>記事が存在しません</li>
+	{% endfor %}
+</ul>
+<p class="more"><a href="{% reverse 'wikis-entry-list' project.slug %}">もっと見る</a></p>
+{{ block.super }}
+{% endblock %}

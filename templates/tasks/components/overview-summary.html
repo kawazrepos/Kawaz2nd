@@ -1,0 +1,61 @@
+{% load tagging %}
+<div id="task-summary">
+	<h3 class="task-title">{{ task.title }}</h3>
+	<table class="task-info">
+		<tr>
+			<th>報告者</th>
+			<td><a href="{{ task.author.get_profile.get_absolute_url }}" class="fenced small filled">
+				<span></span>{{ task.author.get_profile.get_icon_small_display }}
+				</a> {{ task.author.get_profile.get_nickname_display }}さん
+			</td>
+		</tr>
+		<tr>
+			<th>担当者</th>
+			<td>
+				{% if task.owners.count == 1 %}
+				{% with task.owners.all.0.get_profile as profile %}
+				<a href="{{ profile.get_absolute_url }}" class="fenced small filled">
+					<span></span>{{ profile.get_icon_small_display }}
+				</a> {{ profile.get_nickname_display }}さん
+				{% endwith %}
+				{% else %}
+				<ul class="hlist">
+				{% for owner in task.owners.all %}
+					<li>
+						{% with owner.get_profile as profile %}
+						<a href="{{ profile.get_absolute_url }}" class="fenced small filled">
+							<span></span>{{ profile.get_icon_small_display }}
+						</a>
+						{% endwith %}
+					</li>
+				{% empty %}
+					<li>担当者がいないようです</li>
+				{% endfor %}
+				{% endif %}
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<th>状態</th>
+			<td class="ilist tasks-task-status-{{ task.status }}">{{ task.get_status_display }}<br />
+			<small>{{ task.get_status_display.help_text }}</small></td>
+		</tr>
+		<tr>
+			<th>優先度</th>
+			<td>{{ task.get_priority_display }}</td>
+		</tr>
+		<tr>
+			<th>締切</th>
+			<td>{{ task.deadline|default:"締切なし" }}</td>
+		</tr>
+		<tr>
+			<th>作成日</th>
+			<td>{{ task.created_at|date }}</td>
+		</tr>
+		<tr>
+			<th>最終更新日</th>
+			<td>{{ task.updated_at|date }}</td>
+		</tr>
+	</table>
+	{% render_tagging_tags for task %}
+</div>

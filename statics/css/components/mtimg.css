@@ -1,0 +1,29 @@
+@chraset "utf-8";
+
+.mtimg{
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	margin: 0 2px 0 0;
+	background: url(../image/mtimg.png) no-repeat;
+	vertical-align: midlle;
+}
+.mtimg.application{ background-position: -16px 0px; }
+.mtimg.application.msaccess{ background-position: -32px 0px; }
+.mtimg.application.msexcel{ background-position: -48px 0px; }
+.mtimg.application.msoutlook{ background-position: -64px 0px; }
+.mtimg.application.msword{ background-position: -80px 0px; }
+.mtimg.application.mspowerpoint{ background-position: -96px 0px; }
+.mtimg.application.pdf{ background-position: -112px 0px; }
+.mtimg.application.rtf{ background-position: -128px 0px; }
+.mtimg.application.illustrator{ background-position: -144px 0px; }
+.mtimg.application.photoshop{ background-position: -160px 0px; }
+.mtimg.application.x-shockwave-flash{ background-position: -176px 0px; }
+.mtimg.application.zip{ background-position: -192px 0px; }
+.mtimg.audio{ background-position: -208px 0px; }
+.mtimg.image{ background-position: -224px 0px; }
+.mtimg.text{ background-position: -240px 0px; }
+.mtimg.text.code{ background-position: -256px 0px; }
+.mtimg.text.xaml{ background-position: -272px 0px; }
+.mtimg.text.php{ background-position: -288px 0px; }
+.mtimg.video{ background-position: -304px 0px; }

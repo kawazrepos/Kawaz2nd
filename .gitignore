@@ -1,0 +1,40 @@
+*.tmp
+.tmp*
+*~
+
+# Subversion
+.svn
+.svnignore
+
+# Aptana
+/.settings
+/.project
+/.pydevproject
+
+# Python
+*.py[co]
+*.egg
+*.egg-info
+dist
+build
+eggs
+parts
+bin
+var
+sdist
+develop-eggs
+.installed.cfg
+pip-log.txt
+.coverage
+.tox
+*.mo
+
+# Django
+*.log
+*.pot
+local_settings.py
+local_site.py
+*.db
+/statics/storage/*
+/statics/css/compressed/*
+/statics/javascript/compressed/*

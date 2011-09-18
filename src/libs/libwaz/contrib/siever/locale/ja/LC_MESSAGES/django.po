@@ -1,0 +1,46 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-12-04 17:07+0900\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: filters.py:126
+msgid "Any Date"
+msgstr "いつでも"
+
+#: filters.py:127
+msgid "Today"
+msgstr "今日"
+
+#: filters.py:132
+msgid "Pre 7 days"
+msgstr "先7日以内"
+
+#: filters.py:136
+msgid "Past 7 days"
+msgstr "過去7日以内"
+
+#: filters.py:140
+msgid "This month"
+msgstr "今月"
+
+#: filters.py:144
+msgid "This year"
+msgstr "今年"
+
+#: widgets.py:49
+msgid "All"
+msgstr "すべて"

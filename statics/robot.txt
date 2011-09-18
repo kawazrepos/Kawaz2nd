@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /storage/
+Disallow: /image/
+Disallow: /css/
+Disallow: /component/
+Disallow: /javascript/
+Disallow: /thumbnails/
+Disallow: /media/

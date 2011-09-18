@@ -1,0 +1,297 @@
+#
+# WARNING:
+#   先に適切な permissingroup が生成されている必要があるためこのfixtureは
+#   permissiongroup のfixtureより後に呼ばれる必要がある
+#
+# Remarks:
+#   is_staff属性は所属するPermissionGroupによって上書きされるため設定の意味なし
+#   特定のPermissionGroupに所属させるには group 属性に下記の値を追加すれば良い
+#
+#       - 20: チルドレングループ、通常ユーザーは全員所属する必要がある
+#       - 21: ネルフグループ、スタッフ権限を持つユーザーが所属する必要がある
+#       - 22: ゼーレグループ、神となりうる人材をここに…
+# 
+# Authorities:
+#   使用している画像に関しては`statics/fixtures/profiles/AUTHORITES.rst`に出典などを記載してある
+#
+# -- 綾波レイ
+- model: auth.user
+  pk: 2
+  fields:
+    username: ayanami
+    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+    email: ''
+    is_active: true
+    is_superuser: false
+    is_staff: false
+    groups: [20]
+- model: profiles.profile
+  pk: 2
+  fields:
+    user: 2
+    nickname: 綾波レイ
+    icon: fixtures/profiles/profile-00.jpg
+    mood: あなたは死なないわ…。私が守るもの。
+    remarks: | 
+      山、重い山。時間をかけて変わるもの
+      空、青い空。目に見えない物。目に見えない物。
+      太陽、一つしかない物。
+      水、気持ちのいい事、碇指令
+      花、同じ物がいっぱい、いらない物もいっぱい
+      空、赤い、赤い空。
+      赤い色。赤い色は嫌い。
+      流れる水。
+      血。血の臭い。血を流さない女。
+      赤い土から作られた人間。
+      男と女から作られた人間。
+      街。人の造り出した物。
+      エヴァ。人の造りし物。
+      人は何。神様が作り出した物。
+      人は人が作り出した物。
+      私にあるものは、命、心の入れ物。
+      エントリープラグ。それは魂の座。
+      これは誰。これは私。私は何。
+      私は自分。この物体が自分。自分を造っている形。
+      目に見える私。でも私が私ではない感じ。とても変。
+      体が解けていく感じ。
+      私がわからなくなる。
+      私の形が消えていく
+      私ではない人の感じがする
+      誰かいるの？
+      碇君。
+      この人知っている、葛城三佐
+      赤木博士
+      みんな、クラスメイト
+      二号機パイロット。
+      碇指令
+      あなた誰、あなた誰、**あなた誰**。
+    url: http://www.kawaz.org/
+    sex: woman
+    birthday: 2008-09-10
+    place: 東京都小金井市梶野町一丁目2番29号
+    location: 43.068625, 139.731542, 18
+    pub_state: public
+    created_at: 2010-01-15
+    updated_at: 2010-01-15
+# -- 惣流アスカ・ラングレー
+- model: auth.user
+  pk: 3
+  fields:
+    username: Asuka
+    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+    email: ''
+    is_active: true
+    is_superuser: false
+    is_staff: false
+    groups: [20]
+- model: profiles.profile
+  pk: 3
+  fields:
+    user: 3
+    nickname: 惣流アスカ・ラングレー
+    icon: fixtures/profiles/profile-01.jpg
+    mood: あんたバカァ？
+    remarks: | 
+      ママ！！ママ！！私、選ばれたの！人類を守るエリートパイロットなのよ！世界一なのよっ！
+      誰にも秘密なの。でもママにだけ、教えるわねっ！
+      いろんな人が親切にしてくれるわ。だから、寂しくなんかないの！
+      だから、パパがいなくなっても大丈夫。寂しくなんかないわ。
+      だから、**私を見て、ねえママ！**
+    url: http://www.kawaz.org/
+    sex: woman
+    birthday: 2008-09-10
+    place: 東京都小金井市梶野町一丁目2番29号
+    location: 35.665356,139.731542,16
+    pub_state: public
+    created_at: 2010-01-15
+    updated_at: 2010-01-15
+# -- 葛城ミサト
+- model: auth.user
+  pk: 4
+  fields:
+    username: Misato
+    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+    email: ''
+    is_active: true
+    is_superuser: false
+    is_staff: false
+    groups: [20, 21]
+- model: profiles.profile
+  pk: 4
+  fields:
+    user: 4
+    nickname: 葛城ミサト
+    icon: fixtures/profiles/profile-02.jpg
+    mood: あら。希望的観測は人が生きていくための必需品よ？
+    remarks: | 
+      いい？ シンジ君。ここから先はもうあなた一人よ。
+      全て一人で決めなさい。誰の助けもなく。
+      同情なんかしないわよ！
+      
+      自分が傷つくのがいやだったら、何もせずに死になさい！
+      今泣いたってどうにもならないわ！
+      
+      自分が嫌いなのね。だから人も傷つける。
+      自分が傷つくより人を傷つけた方が
+      心が痛いことを知っているから。
+      
+      でも、どんな思いが待っていても、
+      それはあなたが自分一人で決めたことだわ。
+      
+      
+      価値のあることなのよシンジ君。あなた自身のことなのよ。
+      ごまかさず、自分の出来ることを考え、償いは自分でやりなさい。
+      他人だからどうだって言うのよ！ あんたこのままやめるつもり？
+      *今ここで何もしなかったら私許さないからね！！*
+      **一生あんたを許さないからね！！**
+      
+      今の自分が絶対じゃないわ。後で間違いに気づき後悔する。
+      私はその繰り返しだった。ぬか喜びと自己嫌悪を重ねるだけ。
+      でも、そのたびに前に進めた気がする。
+      
+      いい、シンジ君。もう一度エヴァに乗ってけりをつけなさい。
+      エヴァに乗っていた自分に。
+      何のためにここに来たのか、何のためにここにいるのか。
+      今の自分の答えを見つけなさい。
+      そして、けりをつけたら必ず戻ってくるのよ。
+      
+      約束よ・・・・行ってらっしゃい・・・・
+      大人のキスよ・・・・*帰ってきたら*続きをしましょう・・・・・
+    url: http://www.kawaz.org/
+    sex: woman
+    birthday: 2008-09-10
+    place: 東京都小金井市梶野町一丁目2番29号
+    location: 43.068625, 139.731542, 18
+    pub_state: public
+    created_at: 2010-01-15
+    updated_at: 2010-01-15
+# -- Unknown
+- model: auth.user
+  pk: 5
+  fields:
+    username: Unknown
+    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+    email: ''
+    is_active: true
+    is_superuser: false
+    is_staff: false
+    groups: [20]
+- model: profiles.profile
+  pk: 5
+  fields:
+    user: 5
+    nickname: かたつむり
+    icon: fixtures/profiles/profile-03.jpg
+    mood: がががががががががが
+    remarks: | 
+      ががががががががががががｇ
+    url: http://www.kawaz.org/
+    sex: man
+    birthday: 2008-09-10
+    place: 東京都小金井市梶野町一丁目2番29号
+    location: 35.665356,139.731542,16
+    pub_state: public
+    created_at: 2010-01-15
+    updated_at: 2010-01-15
+# -- 第三の使徒 サキエル
+- model: auth.user
+  pk: 6
+  fields:
+    username: Sakieru
+    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+    email: ''
+    is_active: true
+    is_superuser: false
+    is_staff: false
+    groups: [20]
+- model: profiles.profile
+  pk: 6
+  fields:
+    user: 6
+    nickname: 第三の使徒 サキエル
+    icon: fixtures/profiles/profile-04.jpg
+    mood: ずどーん がっしゃーん ぼっかーん 
+    remarks: | 
+      特徴
+      =================================
+      人類の前に、15年ぶりに出現した使徒。暴走した初号機に
+      倒されるが実際はかなり強い。
+    url: http://www.kawaz.org/
+    sex: man
+    birthday: 2008-09-10
+    place: 東京都小金井市梶野町一丁目2番29号
+    location: 43.068625, 139.731542, 18
+    pub_state: public
+    created_at: 2010-01-15
+    updated_at: 2010-01-15
+# -- 碇シンジ
+- model: auth.user
+  pk: 7
+  fields:
+    username: Shinji
+    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+    email: ''
+    is_active: true
+    is_superuser: false
+    is_staff: false
+    groups: [20]
+- model: profiles.profile
+  pk: 7
+  fields:
+    user: 7
+    nickname: 碇シンジ
+    icon: fixtures/profiles/profile-05.jpg
+    mood: 逃げちゃダメだ逃げちゃダメだ逃げちゃダメだ
+    remarks: | 
+      僕は…ダメだ。ダメなんですよ…。ヒトを傷つけてまで、殺してまでエヴァに乗る資格ないんだ。
+      僕はエヴァにのるしかないと思ってた。でもそんなのごまかしだ。
+      何もわかってない僕にはエヴァに乗る価値もない。僕にはヒトの為にできる事なんてなにもないんだ。
+      アスカにひどいことしたんだ。カヲル君も殺してしまったんだ。
+      やさしさなんかかけらもない、ずるくて臆病なだけだ。
+      僕にはヒトを傷つけることしかできないんだ。
+      **だったら何もしない方がいい！**
+    url: http://www.kawaz.org/
+    sex: man
+    birthday: 2008-09-10
+    place: 東京都小金井市梶野町一丁目2番29号
+    location: 35.665356,139.731542,16
+    pub_state: public
+    created_at: 2010-01-15
+    updated_at: 2010-01-15
+# -- 渚カヲル 
+- model: auth.user
+  pk: 8
+  fields:
+    username: Kaoru
+    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+    email: ''
+    is_active: true
+    is_superuser: false
+    is_staff: false
+    groups: [20, 21, 22]
+- model: profiles.profile
+  pk: 8
+  fields:
+    user: 8
+    nickname: 渚カヲル 
+    icon: fixtures/profiles/profile-06.jpg
+    mood: 生と死は僕にとって等価値なんだよ
+    remarks: | 
+      他人を知らなければ裏切られる事も、互いに傷付く事もない。
+      でも、寂しさを忘れる事もないよ。
+      人間は寂しさを永久に無くす事は出来ない。
+      人は一人だからね。
+
+      ただ、忘れる事が出来るから人は生きていけるのさ。
+      人間は常に心に傷みを感じてる。
+
+      心が痛がりだから、生きるのも辛いと感じる。
+      ガラスの様に繊細だね。 特に君の心は……
+    url: http://www.kawaz.org/
+    sex: man
+    birthday: 2008-09-10
+    place: 東京都小金井市梶野町一丁目2番29号
+    location: 43.068625, 139.731542, 18
+    pub_state: public
+    created_at: 2010-01-15
+    updated_at: 2010-01-15

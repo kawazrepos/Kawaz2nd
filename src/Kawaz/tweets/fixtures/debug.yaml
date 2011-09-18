@@ -1,0 +1,48 @@
+- model: tweets.tweet
+  pk: null
+  fields:
+    body: テストだァーーーーーー
+    reply: null
+    author: 2
+    source: kawaz
+    created_at: 2010-12-01
+- model: tweets.tweet
+  pk: null
+  fields:
+    body: テストだァーーーーーー
+    reply: null
+    author: 2
+    source: kawaz
+    created_at: 2010-12-01
+- model: tweets.tweet
+  pk: null
+  fields:
+    body: テストだァーーーーーー
+    reply: null
+    author: 2
+    source: kawaz
+    created_at: 2010-12-01
+- model: tweets.tweet
+  pk: null
+  fields:
+    body: テストだァーーーーーー
+    reply: null
+    author: 2
+    source: kawaz
+    created_at: 2010-12-01
+- model: tweets.tweet
+  pk: null
+  fields:
+    body: テストだァーーーーーー
+    reply: null
+    author: 2
+    source: kawaz
+    created_at: 2010-12-01
+- model: tweets.tweet
+  pk: null
+  fields:
+    body: テストだァーーーーーー
+    reply: null
+    author: 2
+    source: kawaz
+    created_at: 2010-12-01

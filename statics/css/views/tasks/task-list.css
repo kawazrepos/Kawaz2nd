@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+div#summary div.tasks-info{
+	margin: 0 0 20px 0;
+}
+
+ul.tasks li.task table.task-info{
+	float: left;
+	width: 244px;
+	margin: 0 20px 0 0;
+}
+ul.tasks li.task div.task-body{
+	margin-left: 264px;
+}
+ul.tasks li.task div.task-body:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+    }
+* html ul.tasks li.task div.task-body
+{ zoom: 1; } /* IE6 */
+*:first-child+html ul.tasks li.task div.task-body
+{ zoom: 1; } /* IE7 */

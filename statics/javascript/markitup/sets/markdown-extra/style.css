@@ -1,0 +1,60 @@
+/*
+ * 
+ * このCSSは`compressed`を使用して圧縮されるため相対パスが変わってしまう。
+ * したがって絶対パスで画像ファイルを指定している
+ * 
+ */
+.markItUp .markItUpSeparator{
+	margin: 0 2px !important;
+}
+.markItUp .h1 a {
+	background-image:url(/javascript/markitup/sets/markdown-extra/images/h1.png); 
+}
+.markItUp .h2 a {
+	background-image:url(/javascript/markitup/sets/markdown-extra/images/h2.png); 
+}
+.markItUp .h3 a {
+	background-image:url(/javascript/markitup/sets/markdown-extra/images/h3.png); 
+}
+.markItUp .strong a {
+	background-image:url(/javascript/markitup/sets/markdown-extra/images/strong.png); 
+}
+.markItUp .em a {
+	background-image:url(/javascript/markitup/sets/markdown-extra/images/em.png); 
+}
+.markItUp .list a {
+	background-image:url(/javascript/markitup/sets/markdown-extra/images/list.png); 
+}
+.markItUp .list-order a {
+	background-image:url(/javascript/markitup/sets/markdown-extra/images/list-order.png); 
+}
+.markItUp .image a {
+	background-image:url(/javascript/markitup/sets/markdown-extra/images/image.png); 
+}
+.markItUp .link a {
+	background-image:url(/javascript/markitup/sets/markdown-extra/images/link.png); 
+}
+.markItUp .attache a {
+	background-image:url(/javascript/markitup/sets/markdown-extra/images/attache.png); 
+}
+.markItUp .quote a {
+	background-image:url(/javascript/markitup/sets/markdown-extra/images/quote.png); 
+}
+.markItUp .code a {
+	background-image:url(/javascript/markitup/sets/markdown-extra/images/code.png); 
+}
+.markItUp .AA a {
+	background-image:url(/javascript/markitup/sets/markdown-extra/images/AA.png); 
+}
+.markItUp .fullscreen a {
+	background-image:url(/javascript/markitup/sets/markdown-extra/images/fullscreen.png); 
+}
+.markItUp .indentable a {
+	background-image:url(/javascript/markitup/sets/markdown-extra/images/indentable.png); 
+}
+.markItUp .disindentable a {
+	background-image:url(/javascript/markitup/sets/markdown-extra/images/disindentable.png); 
+}
+.markItUp .preview a {
+	background-image:url(/javascript/markitup/sets/markdown-extra/images/preview.png); 
+}

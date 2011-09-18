@@ -1,0 +1,33 @@
+{% extends "announcements/base.html" %}
+{% load uni_form_tags %}
+
+{% block title %}
+	お知らせの{% if object %}編集{% else %}作成{% endif %}
+{% endblock %}
+
+{% block head %}
+	{% compressed_css 'uni-form' %}
+	{% compressed_css 'markitupfield' %}
+	{% compressed_js 'uni-form' %}
+	{% compressed_js 'markitupfield' %}
+{% endblock %}
+
+{% block content %}
+<h2>
+	{% if object %}
+	{{ object.title }}の編集
+	{% else %}
+	新規お知らせの作成
+	{% endif %}
+</h2>
+<form action="" method="post" class="uniForm">{% csrf_token %}
+	{{ form|as_uni_form }}
+	<div class="buttonHolder">
+		<button type="button" class="secondaryAction back-button">←キャンセルして戻る</button>
+		{% if not object %}
+		<button type="button" class="primaryAction draft-button">下書きとして保存</button>
+		{% endif %}
+		<button type="submit" class="primaryAction">保存して公開</button>
+	</div>
+</form>
+{% endblock %}

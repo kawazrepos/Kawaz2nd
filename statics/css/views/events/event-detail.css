@@ -1,0 +1,27 @@
+@charset "utf-8";
+
+div#overview div#summary div.event-summary-body{
+	font-size: 0.8em;
+}
+
+div#content div.event-info{
+	float: left;
+	width: 218px;
+	margin-bottom: 20px;
+}
+div#content div.event-info h3{
+	display: none;
+}
+div#content div.event-info table tr th{
+	width: 30px;
+}
+div#content div.event-map{
+	width: 279px;
+	margin-left: 244px;
+}
+div#content div.event-map h3{
+	display: none;
+}
+div#content div.event-body{
+	clear: both;
+}

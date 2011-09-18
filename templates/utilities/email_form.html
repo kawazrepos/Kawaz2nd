@@ -1,0 +1,25 @@
+{% extends 'utilities/base.html' %}
+{% load uni_form_tags %}
+
+{% block head %}
+{% compressed_css 'uni-form' %}
+{% compressed_js 'uni-form' %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{% url utilities-email %}">メール送信</a></li>
+{% endblock %}
+
+{% block content %}
+<h2>メール送信</h2>
+<p>退会済みユーザーにもメールの送信が可能なので注意してください。またリストにはメールアドレスが登録済みのユーザーのみが表示してあります</p>
+<p>このメール送信機能は非登録ユーザーへのメールや緊急メールの送信のために使用し、通常のメッセージ送信にはメッセージアプリを利用してください</p>
+<form action="" method="post" class="uniForm">{% csrf_token %}
+	{{ form|as_uni_form }}
+	<div class="buttonHolder">
+		<button type="button" class="secondaryAction back-button">←キャンセルして戻る</button>
+		<button type="submit" class="primaryAction">送信</button>
+	</div>
+</form>
+{% endblock %}

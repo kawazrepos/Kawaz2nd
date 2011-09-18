@@ -1,0 +1,13 @@
+@charset "utf-8";
+
+fieldset{
+	width: 523px;
+	margin: 10px 0;
+	padding: 10px 0px;
+	border: none;
+	border-top: 1px dotted #cacbc7;
+	border-bottom: 1px dotted #cacbc7;
+	font-size: 0.8em;
+}
+fieldset legend{
+}

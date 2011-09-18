@@ -1,0 +1,20 @@
+{% extends "announcements/base.html" %}
+
+{% block title %}
+	お知らせの一覧
+{% endblock %}
+
+{% block breadcrumbs %}
+	{{ block.super }}
+	<li><a href="{% reverse "announcements-announcement-archive-year" year=year %}">{{ year }}年</a></li>
+{% endblock %}
+
+{% block content %}
+<h2>{{ year }}年のアーカイブ</h2>
+
+<ul>
+	{% for month in date_list %}
+	<li><a href="{% reverse "announcements-announcement-archive-month" year=year,month=month.month %}">{{ month|date:"m月" }}のアーカイブ一覧</a></li>
+	{% endfor %}
+</ul>
+{% endblock %}

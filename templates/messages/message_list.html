@@ -1,0 +1,67 @@
+{% extends "messages/base.html" %}
+{% load messages %}
+
+{% block title %}最新メッセージ一覧{% endblock %}
+
+{% block head %}
+{% compressed_css 'messages-message-inbox' %}
+{% endblock %}
+
+{% block content %}	
+<h2>最新メッセージ一覧</h2>
+<h3><a href="{% url messages-message-recived %}">受信メッセージ(最新10件)</a></h3>
+<table>
+	<thead>
+		<tr>
+			<th>件名</th>
+			<th>送信者</th>
+			<th>送信日時</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for message in user.recived_messages.all|slice:":10" %}
+		<tr>
+			{% ifhasread message for user %}
+			<td class="messages-message-read">
+			{% else %}
+			<td class="messages-message-unread">
+			{% endifhasread %}
+				<a href="{{ message.get_absolute_url }}">{{ message.title }}</a>
+			</td>
+			<td>{{ message.author.get_profile.get_nickname_display }}</td>
+			<td>{{ message.created_at|date }}</td>
+		</tr>
+	{% empty %}
+		<tr><td colspan="3">受信したメッセージはありません</td></tr>
+	{% endfor %}
+	</tbody>
+</table>
+<h3><a href="{% url messages-message-sent %}">送信済みメッセージ(最新10件)</a></h3>
+<table>
+	<thead>
+		<tr>
+			<th>件名</th>
+			<th>受信者</th>
+			<th>送信日時</th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for message in user.sent_messages.all|slice:":10" %}
+		<tr>
+			<td class="messages-message-read">
+				<a href="{{ message.get_absolute_url }}">{{ message.title }}</a>
+			</td>
+			<td>
+				{{ message.recivers.all.0.get_profile.get_nickname_display }}
+				{% if message.recivers.count > 1 %}
+				(他{{ message.recivers.count|add:"-1" }}名)
+				{% endif %}
+			</td>
+			<td>{{ message.created_at|date }}</td>
+		</tr>
+	{% empty %}
+		<tr><td colspan="3">送信したメッセージはありません</td></tr>
+	{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

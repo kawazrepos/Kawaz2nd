@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+ul.commons li.material div.digest a.fenced{
+	float: left;
+	margin: 0 29px 20px 0;
+}
+ul.commons li.material table{
+	width: 340px;
+	margin: 0 0 10px 175px;
+	font-size: 0.8em;
+}
+ul.commons li.material div.material-body{
+	margin: 0 0 0 175px;
+}
+ul.commons li.material div.material-body:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+* html ul.commons li.material div.material-body
+{ zoom: 1; } /* IE6 */
+*:first-child+html ul.commons li.material div.material-body
+{ zoom: 1; } /* IE7 */

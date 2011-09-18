@@ -1,0 +1,9 @@
+{% extends "wikis/base.html" %}
+
+{% block title %}{{ title }}の作成確認{% endblock %}
+
+{% block content %}
+<h2>新規記事作成確認</h2>
+<p>「{{ title }}」という記事が見つかりません。以下から作成できます。</p>
+<p><a href="{% url wikis-entry-create project.slug %}?title={{ title }}">「{{ title }}」という名前の記事を作成する</a></p>
+{% endblock %}

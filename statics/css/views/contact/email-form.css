@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+div#action ul.users{
+	margin: 0;
+	padding: 0;
+}
+div#action ul.users li.user{
+	height: auto !important;
+	min-height: 50px;
+	height: 50px;
+	margin: 0 0 10px 0;
+	list-style: none;
+}
+div#action ul.users li.user div.profile-icon{
+	float:left;
+	margin: 0 5px 0 0;
+}
+div#action ul.users li.user div.profile-mood{
+	font-size: 0.8em;
+	margin-left: 55px;
+}

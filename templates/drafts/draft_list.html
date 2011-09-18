@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load typeimg %}
+
+{% block title %}下書きの一覧{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{% url drafts-draft-list %}">下書きの一覧</a></li>
+{% endblock %}
+
+{% block action %}
+<h3>見る</h3>
+<ul class="ilist">
+	<li class="home"><a href="/">ホームに戻る</a></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<h2>下書き({{ drafts|length }}件)</h2>
+<p>この部分のデザイン募集中！！！</p>
+<ul class="drafts">
+{% for draft in drafts %}
+	<li class="draft">
+		{% render_ctimg for draft.content_type %}
+		<span class="draft-label"><a href="{{ draft.url }}">{{ draft.label }}</a></span>
+		<div class="draft-body markdown">
+			{{ draft.body }}
+		</div>
+		<p>{{ draft.updated_at }}</p>
+	</li>
+{% empty %}
+	<li>下書き状態の記事はありません</li>
+{% endfor %}
+</ul>
+{% endblock %}

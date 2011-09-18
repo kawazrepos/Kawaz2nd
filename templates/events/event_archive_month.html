@@ -1,0 +1,41 @@
+{% extends "events/base.html" %}
+
+{% block title %}{{ month|date:"Y年m月" }}のイベント{% endblock %}
+
+{% block head %}
+{{ block.super }}
+{% compressed_css "events-event-list" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+<li><a href="{% reverse 'events-event-archive-year' year=month.year %}">{{ month|date:"Y年" }}のアーカイブ</a></li>
+<li><a href="{% reverse 'events-event-archive-month' year=month.year,month=month.month %}">{{ month|date:"m月" }}</a></li>
+{% endblock %}
+
+{% block action %}
+<h3>見る</h3>
+<ul class="ilist">
+	<li class="events-event-list"><a href="{% url events-event-list %}">イベント一覧に戻る</a></li>
+</ul>
+{{ block.super }}
+{% endblock %}
+
+{% block content %}
+<h2>{{ month|date:"Y年m月" }}のイベント({{ object_list.count }}件)</h2>
+{% with 'events-event-archive-year' as year_reverse_name %}
+{% with 'events-event-archive-month' as month_reverse_name %}
+{% include "components/archive-pagination.html" %}
+{% endwith %}
+{% endwith %}
+<ul class="events">
+	{% for event in object_list %}
+	<li class="event">
+		{% include "events/components/list-item.html" %}
+	</li>
+	{% empty %}
+	<li class="event empty">この月にイベントはありませんでした</li>
+	{% endfor %}
+</ul>
+{% include "components/pagination.html" %}
+{% endblock %}

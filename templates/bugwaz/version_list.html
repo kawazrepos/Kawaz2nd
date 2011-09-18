@@ -1,0 +1,15 @@
+{% extends 'bugwaz/version_base.html' %}
+
+{% block title %}{{ product.label }}のバージョン一覧{% endblock %}
+
+{% block content %}
+<h2>{{ product.label }}のバージョン一覧</h2>
+
+<ul class="versions ilist">
+	{% for version in object_list %}
+	<li class="version bugwaz-version-detail"><a href="{{ version.get_absolute_url }}">{{ version.label }}</a></li>
+	{% empty %}
+	<li class="version empty bugwaz-version-detail">バージョンが登録されていません</li>
+	{% endfor %}
+</ul>
+{% endblock %}

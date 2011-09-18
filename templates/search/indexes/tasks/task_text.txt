@@ -1,0 +1,10 @@
+{% extends "search/indexes/base_text.txt" %}
+{{ object.body }}
+{{ object.get_status_display }}
+{{ object.get_priority_display }}
+{{ object.deadline }}
+{% for owner in object.owners.all %}
+{{ owner }}
+{{ owner.get_profile.nickname }}
+{% endfor %}
+{{ object.project }}

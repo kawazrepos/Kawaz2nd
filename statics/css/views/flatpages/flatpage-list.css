@@ -1,0 +1,21 @@
+@charset "utf-8";
+
+ul.flatpages li.flatpage h3{
+	position: relative;
+}
+ul.flatpages li.flatpage h3 span.edit{
+	position: absolute;
+	top: 0; right: 36px;
+}
+ul.flatpages li.flatpage h3 span.delete{
+	position: absolute;
+	top: 0; right: 10px;
+}
+ul.flatpages li.flatpage h3 span.edit a,
+ul.flatpages li.flatpage h3 span.delete a{
+	display: block;
+	width: 16px;
+	height: 16px;
+	text-indent: -100000px;
+	outline: none;
+}

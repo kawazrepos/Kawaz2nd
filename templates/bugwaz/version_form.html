@@ -1,0 +1,37 @@
+{% extends 'bugwaz/version_base.html' %}
+{% load uni_form_tags %}
+
+{% block title %}
+{% if object %}{{ object.label }}の編集{% else %}バージョンの新規作成{% endif %} - {{ product.label }}
+{% endblock %}
+
+{% block head %}
+{% compressed_css 'uni-form' %}
+{% compressed_js 'uni-form' %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{{ block.super }}
+{% if object %}
+<li><a href="{% url bugwaz-version-detail product.pk object.pk %}">{{ object.label }}</a></li>
+<li><a href="{% url bugwaz-version-update product.pk object.pk %}">編集</a></li>
+{% else %}
+<li><a href="{% url bugwaz-version-create product.pk %}">バージョンの新規作成</a></li>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if object %}
+<h2>{{ object.label }}の編集</h2>
+{% else %}
+<h2>{{ product.label }}のバージョン新規作成</h2>
+{% endif %}
+<p>複数のバージョンを配布しているプロダクトでどのバージョンで発生しているバグかを報告してもらうために使用します</p>
+<form action="" method="post" class="uniForm">{% csrf_token %}
+	{{ form|as_uni_form }}
+	<div class="buttonHolder">
+		<button type="button" class="secondaryAction back-button">←キャンセルして戻る</button>
+		<button type="submit" class="primaryAction">{% if object %}設定を反映{% else %}保存して公開{% endif %}</button>
+	</div>
+</form>
+{% endblock %}
