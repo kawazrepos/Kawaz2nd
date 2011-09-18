@@ -1,0 +1,76 @@
+@charset: "utf-8";
+body{
+	margin: 0;
+	padding: 0;
+	color: #3d3d3d;
+	font-family: 'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
+	text-align: center;
+}
+img{
+	margin: 0;
+	padding: 0;
+}
+a,a:visited{
+	color: #24527a;
+	text-decoration: none;
+}
+a:hover{
+	color: #3578b2;
+}
+div#wrapper{
+	width: 960px;
+	margin: 60px auto;
+}
+header figure{
+    display: block;
+    width: 253px;
+    height: 81px;
+    background: url(../image/logo.jpg) no-repeat;
+}
+header figure h1{
+    display: none;
+}
+header figure p{
+    display: none;
+}
+
+section#content figure{
+    display: block;
+    border: 1px solid #dedede;
+    padding: 5px;
+    text-align: center;
+    background: #030303;
+    border-radius: 5px;
+    margin: 40px 0;
+    padding: 20px 0;
+}
+section#content figure object{
+    width: 480px;
+    height: 385px;
+    margin: 0 auto;
+}
+section#content figure p.description{
+    color: #ab4422;
+    letter-spacing: 1em;
+}
+
+section#content table#information{
+    width: 100%;
+    margin: 0 auto;
+    background: #eaebec;
+    border-radius: 5px;
+}
+section#content table#information th{
+    width: 180px;
+    padding: 5px;
+}
+
+footer{
+    margin: 30px 0 0 0;
+    font-size: 80%;
+    color: #ababab;
+    text-align: center;
+}
+footer p.mail{
+    text-align: right;
+}

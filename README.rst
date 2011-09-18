@@ -2,20 +2,21 @@
  README
 ************
 
-How to Install
-============================
+Kawaz Buillboard Branch
 
-Mac OS X
-----------------
+How to install
+==========================
 ::
     
-    curl https://raw.github.com/gist/1224448/kawaz.sh | bash
-
-Ubuntu (Debian)
-------------------------------
-::
+    cd /var/www
+    git clone git://github.com/kawazrepos/Kawaz.git Kawaz.buillboard
+    git checkout origin/buillboard
+    sudo ln -sf /var/www/Kawaz.buillboard/conf/buillboard.kawaz.org /etc/apache2/sites-available/
     
-    wget -q -O - https://raw.github.com/gist/1224448/kawaz.sh | bash
+How to use
+====================
+::
 
-See `Wiki <https://github.com/kawazrepos/Kawaz/wiki/Kawazのインストール>`_ for detail.
-
+    sudo a2dissite www.kawaz.org
+    sudo a2ensite buillboard.kawaz.org
+    sudo service apache2 reload

@@ -1,4 +1,0 @@
-{% load history %}
-{% load typeimg %}
-<th title="{{ timeline.created_at }}">{{ timeline.created_at|humanize_date }}</th>
-<td>{% render_ctimg for timeline.content_type %}{{ timeline.get_message }}</td>

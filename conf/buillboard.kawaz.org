@@ -1,0 +1,23 @@
+<VirtualHost *:80>
+    ServerAdmin webmaster@kawaz.org
+    ServerName kawaz.org
+    ServerAlias www.kawaz.org
+
+    DocumentRoot /var/www/Kawaz.buillboard
+
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+    </Directory>
+    <Directory /var/www>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+    </Directory>
+
+    LogLevel warn
+    ErrorLog /var/log/apache2/buillboard.kawaz.org.error.log
+    CustomLog /var/log/apache2/buillboard.kawaz.org.access.log combined
+</VirtualHost>
+

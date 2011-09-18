@@ -1,1 +1,0 @@
-お問合せ: {{ subject }} - {{ site.name }}:

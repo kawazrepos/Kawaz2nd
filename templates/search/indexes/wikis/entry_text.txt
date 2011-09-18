@@ -1,5 +1,0 @@
-{% extends "search/indexes/base_text.txt" %}
-{{ object.body }}
-{{ object.project }}
-{{ object.updated_by }}
-{{ object.updated_by.get_profile }}

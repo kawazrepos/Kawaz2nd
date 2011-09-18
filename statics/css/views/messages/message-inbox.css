@@ -1,7 +1,0 @@
-@charset "utf-8";
-
-td.messages-message-read,
-td.messages-message-unread{
-	padding: 3px 0 3px 25px;
-	background-position: 0 5px;
-}
