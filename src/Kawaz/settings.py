@@ -18,7 +18,7 @@ INTERNAL_IPS = (
 # 円周率は固定バージョン
 # Ex:
 #   0.3, 0.31, 0.314, 0.315, ...
-VERSION = '0.31415rc1'
+VERSION = '0.31415rc2'
 
 SITE_ID = 1
 

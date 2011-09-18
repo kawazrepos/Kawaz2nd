@@ -1,8 +1,8 @@
+WSGIPythonPath "/var/www/Kawaz.dev/env/lib/python/site-packages"
 <VirtualHost *:80>
 	ServerName		dev.kawaz.org
 	ServerAdmin		webmaster@kawaz.org
 
-    WSGIPythonPath "/var/www/Kawaz.dev/env/lib/python/site-packages"
 	WSGIScriptAlias / "/var/www/Kawaz.dev/src/django.wsgi"
 
 	<Directory />
