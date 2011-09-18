@@ -2,6 +2,7 @@
 	ServerName		www.kawaz.org
 	ServerAdmin		webmaster@kawaz.org
 
+    WSGIPythonPath "/var/www/Kawaz/env/lib/python2.7/site-packages"
 	WSGIScriptAlias / "/var/www/Kawaz/src/django.wsgi"
 
 	<Directory />
@@ -33,7 +34,7 @@
 	Alias /javascript/		"/var/www/Kawaz/statics/javascript/"
 	Alias /storage/			"/var/www/Kawaz/statics/storage/"
 	Alias /component/		"/var/www/Kawaz/statics/component/"
-	Alias /media/			"/usr/local/lib/python2.6/dist-packages/django/contrib/admin/media/"
+	Alias /media/			"/var/www/Kawaz/env/lib/python2.7/site-packages/Django-1.3.1-py2.7.egg/django/contrib/admin/media/"
 
 	ErrorLog				"/var/log/apache2/www.kawaz.org.error.log"
 	CustomLog				"/var/log/apache2/www.kawaz.org.access.log" combined
