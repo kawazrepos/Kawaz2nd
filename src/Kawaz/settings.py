@@ -18,7 +18,7 @@ INTERNAL_IPS = (
 # 円周率は固定バージョン
 # Ex:
 #   0.3, 0.31, 0.314, 0.315, ...
-VERSION = '0.31415rc2'
+VERSION = '0.31415rc3'
 
 SITE_ID = 1
 
@@ -87,7 +87,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-#    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -102,7 +102,7 @@ MIDDLEWARE_CLASSES = (
     'libwaz.contrib.calls.middleware.CallsMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'pagination.middleware.PaginationMiddleware',
-#    'django.middleware.cache.FetchFromCacheMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 ROOT_URLCONF = 'Kawaz.urls'
