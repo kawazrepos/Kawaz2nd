@@ -3,3 +3,6 @@
 div#content table.material-info tr th{
 	width: 105px;
 }
+div#content center.material-preview{
+    margin: 20px auto;
+}

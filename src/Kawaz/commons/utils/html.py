@@ -46,35 +46,18 @@ def _movie_player(src, mimetype, width, height):
         'height': height,
         'mimetype': mimetype,
     }
-    if mimetype in ('video/x-flv', 'video/mp4'):
-        kwargs['FLOWPLAYER'] = settings.MEDIA_URL + "component/flowplayer-3.2.5.swf"
-        html = u"""
-        <video src="%(src)s" width="%(width)spx" height="%(height)s" controls>
-        <object id="flowplayer" width="%(width)s" height="%(height)s" data="%(FLOWPLAYER)s" 
-            type="application/x-shockwave-flash"> 
-            <param name="movie" value="%(FLOWPLAYER)s" /> 
-            <param name="allowfullscreen" value="true" /> 
-            <param name="flashvars" 
-            value='config={"clip": {"url": "%(src)s", "autoPlay":false}}' />
+    html = u"""
+    <video>
+        <source src="%(src)s" width="%(width)s" height="%(height)s">
+        <!-- Flash fallback for non-HTML5 browsers without JavaScript -->
+        <object width="%(width)s" height="%(height)s"
+        type="application/x-shockwave-flash" data="/javascript/mediaelement/flashmediaelement.swf">
+            <param name="movie" value="/javascript/mediaelement/flashmediaelement.swf" />
+            <param name="flashvars" value="controls=true&file=%(src)s" />
+            <!-- Image as a last resort -->
+            <p>No video playback capabilities</p>
         </object>
-        </video>"""
-    elif mimetype in ('video/mpeg'):
-        html = u"""
-        <video src="%(src)s" width="%(width)spx" height="%(height)s" controls>
-        <object data="%(src)s" width="%(width)s" height="%(height)s" type="video/mpeg">
-            <param name="src" value="%(src)s" />
-            <param name="autoplay" value="false" />
-            <param name="autoStart" value="0" />
-        </object>
-        </video>"""
-    elif mimetype in ('video/x-msvideo', 'video/x-ms-wmv'):
-        html = u"""
-        <video src="%(src)s" width="%(width)spx" height="%(height)s" controls>
-        <object data="%(src)s" width="%(width)s" height="%(height)s" type="%(mimetype)s">
-            <param name="src" value="%(src)s" />
-            <param name="autoStart" value="0" />
-        </object>
-        </video>"""
+    </video>"""
     return mark_safe(html%kwargs)
 def _syntax_viewer(src, file, mimetype, width, height):
     # http://alexgorbatchev.com/SyntaxHighlighter/manual/brushes/

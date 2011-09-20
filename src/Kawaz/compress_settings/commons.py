@@ -34,22 +34,22 @@ COMPRESS_CSS = {
             'media': 'screen, projection',
         }
     },
-    'commons-audio-player': {
+    'commons-player': {
         'source_filenames': (
-            r"javascript/jPlayer/jplayer.css",
+            r"javascript/mediaelement/mediaelementplayer.css",
         ),
-        'output_filename': r'css/compressed/commons-audio-player.css',
+        'output_filename': r'css/compressed/commons-player.css',
         'extra_context': {
             'media': 'screen, projection',
         }
     },
 }
 COMPRESS_JS = {
-    'commons-audio-player': {
+    'commons-player': {
         'source_filenames': (
-            r'javascript/jPlayer/jquery.jplayer.min.js',
-            r'javascript/jPlayer/audio-player.js',
+            r'javascript/mediaelement/mediaelement-and-player.min.js',
+            r'javascript/mediaelement/conf.js',
         ),
-        'output_filename': r'javascript/compressed/commons-audio-player.js',
+        'output_filename': r'javascript/compressed/commons-player.js',
     },
 }
