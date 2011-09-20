@@ -54,7 +54,7 @@ INSTALL_REQUIRES = [
     'whoosh==1.1.1',
     'south',
     'PIL',  
-    'django>=1.2.3',
+    'django==1.2.3',
     'django-compress',
     'django-reversetag',
     'django-pagination',

@@ -67,8 +67,7 @@ MEDIA_ROOT = os.path.join(os.path.dirname(__file__), '../../statics')
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = '/'#if not hasattr(settings, "MARKITUP_PATH"):
-#    raise ImproperlyConfigured("You must define the MARKITUP_PATH setting before using the field.")
+MEDIA_URL = '/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -78,6 +77,8 @@ ADMIN_MEDIA_PREFIX = '/media/'
 # Make this unique, and don't share it with anybody.
 # 以下値は setup_secret_key.sh にて自動的に書き換えられる
 SECRET_KEY = ""
+
+CACHE_BACKEND = 'locmem:///'
 
 # List of callables that know how to import templates from various hsources.
 TEMPLATE_LOADERS = (
@@ -89,7 +90,6 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
