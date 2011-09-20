@@ -30,6 +30,62 @@ def read(filename):
     import os.path
     filename = os.path.join(os.path.dirname(__file__), filename)
     return open(filename).read()
+def is_deploy():
+    import imp
+    import os.path
+    path = os.path.join(os.path.dirname(__file__), 'src/Kawaz')
+    try:
+        args = imp.find_module('local_settings', [path])
+        module = imp.load_module('local_settings', *args)
+        return module.DEBUG == False
+    except ImportError:
+        return False
+
+INSTALL_REQUIRES = [
+    'distribute',
+    'setuptools',
+    'setuptools-git',
+    'dateutils',
+    'docutils',
+    'pyyaml',
+    'markdown',
+    'BeautifulSoup',
+    'gdata',
+    'whoosh==1.1.1',
+    'south',
+    'PIL',  
+    'django>=1.2.3',
+    'django-compress',
+    'django-reversetag',
+    'django-pagination',
+    'django-haystack==1.1',
+    'django-markupfield',
+]
+if is_deploy():
+    print("*"*80)
+    print(" Install requirements on Deploy mode.")
+    print("")
+    print(" Note: Install requirements package as Deploy mode because")
+    print("       You have set the following lines on 'local_settings.py'")
+    print("")
+    print("       DEBUG=False")
+    print("")
+    print("*"*80)
+    INSTALL_REQUIRES += [
+        'pysolr',
+        'MySQL-python',
+        'python-memcached',
+    ]
+else:
+    print("*"*80)
+    print(" Install requirements on Develop mode.")
+    print("")
+    print(" Note: If you want to install requirements package as Deploy mode.")
+    print("       Add the following lines on 'local_settings.py'")
+    print("")
+    print("       DEBUG=False")
+    print("")
+    print("*"*80)
 
 setup(
     name="Kawaz",
@@ -52,29 +108,7 @@ setup(
     zip_safe = False,
     test_suite='nose.collector',
     tests_require=['Nose'],
-    install_requires=[
-        'distribute',
-        'setuptools',
-        'setuptools-git',
-        'dateutils',
-        'docutils',
-        'pyyaml',
-        'markdown',
-        'BeautifulSoup',
-        'gdata',
-        'pysolr',
-        'whoosh==1.1.1',
-        'south',
-        'PIL',  
-        'MySQL-python',
-        'django>=1.2.3',
-        'django-compress',
-        'django-reversetag',
-        'django-pagination',
-        'django-haystack==1.1',
-        'django-markupfield',
-        'python-memcached',
-    ],
+    install_requires=INSTALL_REQUIRES,
     dependency_links=[
         # Use falked version of django-markupfield till my pull request is
         # accepted.
