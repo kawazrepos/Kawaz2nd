@@ -25,4 +25,8 @@ cd $DIRECTORY/src/$NAME
 [ -f local_settings.pyc ] && chmod 640 local_settings.pyc
 [ -f local_sites.py ] && chmod 640 local_sites.py
 [ -f local_sites.pyc ] && chmod 640 local_sites.pyc
+
+echo "Changing env/bin/* permission to 744"
+[ -d $DIRECTORY/env/bin ] && chmod 755 $DIRECTORY/env/bin/*
+
 echo "Done. You have to confirm that you can access to the website correctly."
