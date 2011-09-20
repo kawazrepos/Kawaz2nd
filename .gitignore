@@ -37,6 +37,7 @@ pip-log.txt
 local_settings.py
 local_site.py
 *.db
+/statics/thumbnails/*.jpg
 /statics/storage/*
 /statics/css/compressed/*
 /statics/javascript/compressed/*
