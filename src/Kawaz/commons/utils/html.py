@@ -32,13 +32,12 @@ def _audio_player(src, mimetype, width, height):
         'height': height,
     }
     html = u"""
-        <audio src="%(src)s" width="%(width)spx" height="%(height)s" controls>
-        <object type="%(mimetype)s" data="%(src)s" width="%(width)s" height="%(height)s" type="application/x-mplayer2">
-            <param name="src" value="%(src)s" />
-            <param name="autoplay" value="false" />
-            <embed src="%(src)s" width="%(width)s" height="%(height)s" autoplay="false" type="application/x-mplayer2" />
-        </object>
-        </audio>"""
+        <div id="player">
+            <audio controls>
+                <source src="%(src)s" type="%(mimetype)s">
+            </audio>
+        </div>
+        """
     return mark_safe(html%kwargs)
 def _movie_player(src, mimetype, width, height):
     kwargs = {
@@ -161,8 +160,8 @@ def thumbnail_html(material, width, height):
     filetype = material.filetype()
     if filetype == 'image':
         return _image_viewer(
-            url=reverse('commons-material-preview', kwargs={'object_id': material.pk}),
-            thumbnail_url=reverse('commons-material-thumbnail', kwargs={'object_id': material.pk}),
+            url=material.get_preview_url(),
+            thumbnail_url=material.get_thumbnail_url(),
             title=material.title,
             description=striptags(material.body),
             width=width,
@@ -170,14 +169,14 @@ def thumbnail_html(material, width, height):
         )
     elif filetype == 'audio':
         return _audio_player(
-            src=reverse('commons-material-preview', kwargs={'object_id': material.pk}),
+            src=material.get_preview_url(),
             mimetype=mimetype,
             width=width,
             height=height,
         )
     elif filetype == 'movie':
         return _movie_player(
-            src=reverse('commons-material-preview', kwargs={'object_id': material.pk}),
+            src=material.get_preview_url(),
             mimetype=mimetype,
             width=width,
             height=height,
@@ -185,13 +184,13 @@ def thumbnail_html(material, width, height):
     elif filetype == 'text':
         if mimetype in ('application/vnd.ms-powerpoint', 'application/pdf'):
             return _document_viewer(
-                src=reverse('commons-material-preview', kwargs={'object_id': material.pk}),
+                src=material.get_preview_url(),
                 width=width,
                 height=height,
             )
         else:
             return _syntax_viewer(
-                src=reverse('commons-material-preview', kwargs={'object_id': material.pk}),
+                src=material.get_preview_url(),
                 file=material.file,
                 mimetype=mimetype,
                 width=width,
@@ -199,8 +198,8 @@ def thumbnail_html(material, width, height):
             )
     else:
         return _download_link(
-            src=reverse('commons-material-download', kwargs={'object_id': material.pk}),
-            src2=reverse('commons-material-detail', kwargs={'object_id': material.pk}),
+            src=material.get_download_url(),
+            src2=material.get_preview_url(),
             file=material.file,
             mimetype=mimetype,
             license=material.license,

@@ -1,0 +1,118 @@
+/**
+ * jplayer.css
+ */
+
+/* sprites */
+.jp-controls a, .jp-seek-bar, .jp-play-bar, .jp-volume-bar, .jp-volume-bar-value {
+	background-image: url(/javascript/jPlayer/jplayer.png);
+	background-repeat: no-repeat;
+}
+
+.jp-jplayer, .jp-audio, .jp-audio div, .jp-audio ul, .jp-audio li {
+	margin: 0;
+	padding: 0;
+	line-height: 1;
+	list-style: none;
+}
+
+.jp-jplayer {
+	width: 0;
+	height: 0;
+}
+
+	.jp-jplayer img {
+		display: none;
+	}
+
+.jp-audio {
+	position: relative;
+	height: 20px;
+}
+
+.jp-controls a {
+	position: absolute;
+	display: block;
+	top: 0;
+	width: 20px;
+	height: 20px;
+	overflow: hidden;
+	text-indent: -9999px;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+	.jp-play { background-position: 0 0; left: 0; }
+	.jp-play:hover { background-position: -20px 0; }
+	
+	.jp-pause { background-position: -40px 0; left: 0; }
+	.jp-pause:hover { background-position: -60px 0; }
+	
+	.jp-stop { background-position: -80px 0; left: 20px; }
+	.jp-stop:hover { background-position: -100px 0; }
+	
+	.jp-unmute { background-position: -200px 0; right: 32px; }
+	.jp-unmute:hover { background-position: -220px 0; }
+	
+	.jp-mute { background-position: -240px 0; right: 32px; }
+	.jp-mute:hover { background-position: -260px 0; }
+
+.jp-controls, .jp-controls li {
+	display: inline;
+}
+
+.jp-audio .jp-progress {
+	margin: 0 58px 0 46px;
+	padding: 6px 0 6px 0;
+	height: 8px;
+}
+
+	.jp-progress div {
+		height: 8px;
+	}
+
+	.jp-seek-bar {
+		background-color: #F4F4F4;
+		background-position: 0 -20px;
+	}
+	.jp-progress:hover .jp-seek-bar {
+		background-color: #E6E6E6;
+		background-position: 0 -36px;
+	}
+	
+	.jp-play-bar {
+		background-color: #D1D1D1;
+		background-position: 0 -28px;
+	}
+	.jp-progress:hover .jp-play-bar {
+		background-color: #177BCD;
+		background-position: 0 -44px;
+	}
+
+.jp-volume-bar {
+	position: absolute;
+	right: 6px;
+	top: 6px;
+	width: 24px;
+	height: 8px;
+	background-color: #F4F4F4;
+	background-position: 0 -52px;
+}
+.jp-audio:hover .jp-volume-bar {
+	background-color: #E6E6E6;
+	background-position: -48px -52px;
+}
+
+	.jp-volume-bar-value {
+		width: 24px;
+		height: 8px;
+		background-color: #BFBFC0;
+		background-position: -24px -52px;
+	}
+	.jp-volume-bar:hover .jp-volume-bar-value {
+		background-color: #177BCD;
+		background-position: -72px -52px;
+	}
+
+.jp-current-time, .jp-duration {
+	display: none;
+}

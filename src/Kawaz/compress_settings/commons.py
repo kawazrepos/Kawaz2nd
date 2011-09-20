@@ -34,5 +34,22 @@ COMPRESS_CSS = {
             'media': 'screen, projection',
         }
     },
+    'commons-audio-player': {
+        'source_filenames': (
+            r"javascript/jPlayer/jplayer.css",
+        ),
+        'output_filename': r'css/compressed/commons-audio-player.css',
+        'extra_context': {
+            'media': 'screen, projection',
+        }
+    },
 }
-COMPRESS_JS = {}
+COMPRESS_JS = {
+    'commons-audio-player': {
+        'source_filenames': (
+            r'javascript/jPlayer/jquery.jplayer.min.js',
+            r'javascript/jPlayer/audio-player.js',
+        ),
+        'output_filename': r'javascript/compressed/commons-audio-player.js',
+    },
+}

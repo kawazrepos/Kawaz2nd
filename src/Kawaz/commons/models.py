@@ -126,7 +126,8 @@ class Material(models.ModelWithRequest):
         return ("commons-material-download", (), {'object_id': self.pk})
     @models.permalink
     def get_preview_url(self):
-        return ("commons-material-preview", (), {'object_id': self.pk})
+        return ("commons-material-preview", (), {'object_id': self.pk,
+            'filename': self.filename()})
     @models.permalink
     def get_thumbnail_url(self):
         return ("commons-material-thumbnail", (), {'object_id': self.pk})

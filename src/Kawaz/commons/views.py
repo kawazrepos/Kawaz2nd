@@ -12,6 +12,7 @@ from libwaz.http import Http403, JsonResponse
 from libwaz.views.generic import list_detail
 from libwaz.views.generic import create_update
 from libwaz.contrib.object_permission.decorators import permission_required
+from django.core.servers.basehttp import FileWrapper
 
 from utils import watermark
 from models import Material
@@ -25,6 +26,23 @@ try:
     from PIL import Image
 except ImportError:
     import Image
+class StreamingHttpResponse(HttpResponse):
+
+    """This class exists to bypass middleware that uses .content.
+
+    See Django bug #6027: http://code.djangoproject.com/ticket/6027
+
+    We override content to be a no-op, so that GzipMiddleware doesn't exhaust
+    the FileWrapper generator, which reads the file incrementally.
+    """
+
+    def _get_content(self):
+        return ""
+
+    def _set_content(self, value):
+        pass
+
+    content = property(_get_content, _set_content)
 
 def _thumbnail_image_response(material, width, height):
     img = Image.open(material.file)
@@ -168,6 +186,7 @@ def material_download(request, *args, **kwargs):
     return response
 
 @permission_required('commons.view_material', Material)
+@never_cache
 def material_preview(request, *args, **kwargs):
     obj = get_object_or_404(Material, pk=kwargs['object_id'])
     mimetype = obj.mimetype()
@@ -176,14 +195,10 @@ def material_preview(request, *args, **kwargs):
         WIDTH = 960
         HEIGHT = 620
         return _watermark_image_response(obj, width=WIDTH, height=HEIGHT)
-    else:
-        # 他のファイル形式に関してはWatermarkに対応していない
-        # 動画・音は頑張ればできると思うんだがちょい面倒
-        # ソースコードについては行頭にコメントでURL記載とか
-        # 自動的にやってもいいかなとも考えてる
-        # まぁとりあえず今は画像だけWatermarkを付ける
-        response = HttpResponse(obj.file, mimetype=mimetype)
-        return response
+    response = StreamingHttpResponse(obj.file)
+    response['Content-Type'] = mimetype
+    response['Content-Length'] = obj.file.size
+    return response
 
 @permission_required('commons.view_material', Material)
 def material_thumbnail(request, *args, **kwargs):
