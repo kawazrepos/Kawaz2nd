@@ -157,6 +157,7 @@ INSTALLED_APPS = (
     'Kawaz.markitupfield',
     'Kawaz.templatetags',
     'Kawaz.threestep_registration',
+    'Kawaz.permissiongroups',
     'Kawaz.profiles',
     'Kawaz.blogs',
     'Kawaz.events',
@@ -170,7 +171,6 @@ INSTALLED_APPS = (
     'Kawaz.tasks',
     'Kawaz.announcements',
     'Kawaz.utilities',
-    'Kawaz.permissiongroups',
 )
 
 FIXTURE_DIRS = (

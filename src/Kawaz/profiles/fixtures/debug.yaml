@@ -14,6 +14,32 @@
 # Authorities:
 #   使用している画像に関しては`statics/fixtures/profiles/AUTHORITES.rst`に出典などを記載してある
 #
+# -- 井の中かわず
+- model: auth.user
+  pk: 1
+  fields:
+    username: system
+    password: sha1$3257b$f28813baca2391ec1e03ebec46988912c18257dd
+    email: webmaster@kawaz.org
+    is_active: true
+    is_superuser: false
+    is_staff: false
+    groups: [20, 21, 22]
+- model: profiles.profile
+  pk: 1
+  fields:
+    user: 1
+    nickname: 井ノ中かわず
+    icon: fixtures/profiles/profile-admin.jpg
+    mood: あっかんべー♡
+    remarks: |
+      あは♡
+    url: http://www.kawaz.org/
+    sex: woman
+    birthday: 2010-11-01
+    pub_state: public
+    created_at: 2010-11-01
+    updated_at: 2010-11-01
 # -- 綾波レイ
 - model: auth.user
   pk: 2
