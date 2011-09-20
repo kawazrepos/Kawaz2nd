@@ -23,7 +23,7 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-__VERSION__ = "0.31415rc3"
+__VERSION__ = "0.31415rc4"
 from setuptools import setup, find_packages
 
 def read(filename):
