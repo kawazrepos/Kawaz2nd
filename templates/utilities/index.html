@@ -5,10 +5,6 @@
 <h3>情報関係</h3>
 <ul class="ilist">
 	{% if user.is_staff %}
-	<li class="utilities-subversion">
-		<a href="{% reverse 'utilities-subversion' %}">リポジトリ情報</a><br />
-		<small>Kawazのリポジトリ情報を表示します</small>
-	</li>
 	<li class="utilities-template-check">
 		テンプレートチェック<br />
 		<small>エラーページなどのテンプレートの描画確認を行います

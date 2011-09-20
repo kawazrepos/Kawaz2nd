@@ -41,28 +41,6 @@ def configure(request):
     }
     return simple.direct_to_template(request, **kwargs)
 
-@staff_required
-def subversion(request):
-    import pysvn, os.path, time
-    client = pysvn.Client()
-    path = os.path.join(os.path.dirname(__file__), '../../../')
-    info_list = client.info(path)
-    outputs = []
-    for i in info_list:
-        if i.find("time") >= 0:
-            outputs.append("%s: %s" %(i, time.ctime(info_list[i])))
-        elif i.find("revision") >= 0:
-            outputs.append("%s: %s" % (i, info_list[i].number))
-        else:
-            outputs.append("%s: %s" % (i,info_list[i]))
-    kwargs = {
-        'template': r'utilities/subversion.html',
-        'extra_context': {
-            'output': "\n".join(outputs)
-        }
-    }
-    return simple.direct_to_template(request, **kwargs)
-
 @csrf_protect
 @staff_required
 def email(request):
