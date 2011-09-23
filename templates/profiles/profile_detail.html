@@ -8,6 +8,7 @@
 
 {% load commons %}
 {% load blogs %}
+{% load djangostar %}
 
 {% block title %}{{ object.nickname }}さんのプロフィール{% endblock %}
 
@@ -166,7 +167,7 @@
 	</tr>
 	{% endif %}
 </table>
-
+{% render_djangostar_list for object %}
 <div class="profile-remarks markdown">
 	<div class="markdown">{{ object.remarks|parse }}</div>
 </div>

@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 #    
-#    
-#    created by giginet on 2011/07/20
+#    django_star_demo.blogs.admin
+#    created by giginet on 2011/09/20
 #
 from django.contrib import admin
+
 from models import Star
 
 class StarAdmin(admin.ModelAdmin):
-    date_hierarchy  = 'created_at'
-    fields          = ('comment', 'color')
-    list_display    = ('content_object', 'author', 'color',)
-    list_filter     = ('content_object', 'author')
-    search_fields   = ['comment', 'author']
-
+    list_display = ('content_object', 'author', 'comment')
+    search_fields = ('content_object',)
+    filter_fields = ('author',)
 admin.site.register(Star, StarAdmin)

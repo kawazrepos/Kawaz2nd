@@ -1,4 +1,5 @@
 {% load parser %}
+{% load djangostar %}
 <div class="blogs-entry {{ entry.pub_state }}">
 	<div class="blogs-entry-publish-at" title="{{ entry.publish_at|date }}">
 		{% if entry.pub_state != 'draft' %}
@@ -38,6 +39,7 @@
 			<td>{{ entry.updated_at|date:"Y/m/d H:i:s" }}</td>
 		</tr>
 	</table>
+	{% render_djangostar_list for entry %}
 	<div class="blogs-entry-body markdown">
 		{{ entry.body|parse }}
 	</div>

@@ -1,3 +1,4 @@
+{% load djangostar %}
 <p class="comment-name">
 	{% if comment.user %}
 	{% with comment.user.get_profile as profile %}
@@ -14,4 +15,5 @@
 	{% else %}
 	{{ comment.comment|striptags|truncateletters:"50" }}
 	{% endif %}
+	{% render_djangostar_list for comment %}
 </p>

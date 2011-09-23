@@ -1,5 +1,6 @@
 {% load parser %}
 {% load tagging %}
+{% load djangostar %}
 <div class="blogs-entry {{ entry.pub_state }}">
 	<div class="blogs-entry-publish-at" title="{{ entry.publish_at|date }}">
 		{% if entry.pub_state != 'draft' %}
@@ -62,4 +63,5 @@
 		{{ entry.body|parse|truncateletters_html:300 }}
 	</div>
 	{% render_tagging_tags for entry %}
+	{% render_djangostar_list for entry %}
 </div>

@@ -2,6 +2,7 @@
 {% load parser %}
 {% load tagging %}
 {% load pagination_tags %}
+{% load djangostar %}
 
 {% block title %}{% if project %}{{ project.title }}の{% endif %}スレッド一覧{% endblock %}
 
@@ -48,6 +49,7 @@
 			{{ thread.body|parse|truncateletters_html:100 }}
 		</div>
 		{% render_tagging_tags for thread %}
+		{% render_djangostar_list for thread %}
 	</li>
 	{% empty %}
 	<li>条件に合うスレッドが存在していません</li>

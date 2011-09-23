@@ -149,6 +149,7 @@ INSTALLED_APPS = (
     'libwaz.contrib.drafts',
     'libwaz.contrib.object_permission',
     'libwaz.contrib.siever',
+    'libwaz.contrib.star',
     # app
     'Kawaz.contact',
     'Kawaz.bugwaz',

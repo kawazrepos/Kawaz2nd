@@ -1,3 +1,4 @@
+{% load djangostar %}
 <h3 class="task-title">
 	<a href="{{ task.get_absolute_url }}">{{ task.title }}
 	{% if user in task.owners.all %} (担当中){% endif %}
@@ -26,3 +27,4 @@
 <div class="task-body">
 	{{ task.body|striptags|truncateletters:100 }}
 </div>
+{% render_djangostar_list for task %}

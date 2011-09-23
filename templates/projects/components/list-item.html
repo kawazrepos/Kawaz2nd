@@ -3,6 +3,7 @@
 {% load tagging %}
 {% load tasks %}
 {% load bugwaz %}
+{% load djangostar %}
 <h3 class="project-title">
 	<a href="{{ project.get_absolute_url }}">
 		{{ project.title }}
@@ -48,3 +49,4 @@
 	</ul>
 </div>
 {% render_tagging_tags for project of 10 %}
+{% render_djangostar_list for project %}

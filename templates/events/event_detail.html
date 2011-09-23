@@ -6,7 +6,7 @@
 {% load parser %}
 {% load tagging %}
 {% load typeimg %}
-
+{% load djangostar %}
 {% block title %}{{ object.title }}{% endblock %}
 
 {% block head %}
@@ -88,7 +88,6 @@
 {% if not object.is_active %}
 <p>このイベントはすでに終了しています</p>
 {% endif %}
-
 <div class="event-info">
 	<h3>詳細情報</h3>
 	<table>
@@ -117,7 +116,7 @@
 	<p><small>{{ object.get_location_link }}</small></p>	
 </div>
 {% endif %}
-
+{% render_djangostar_list for object %}
 <div class="event-body markdown">
 	{{ object.body|parse }}
 </div>

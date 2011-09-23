@@ -36,6 +36,7 @@ urlpatterns = patterns('',
     (r'^utilities/',                            include('Kawaz.utilities.urls')),
     (r'^contact/',                              include('Kawaz.contact.urls')),
     (r'^calls/',                                include('libwaz.contrib.calls.urls')),
+    (r'^star/',                                 include('libwaz.contrib.star.api.urls')),
 )
 
 #

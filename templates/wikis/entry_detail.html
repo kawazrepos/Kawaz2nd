@@ -1,6 +1,7 @@
 {% extends "wikis/base.html" %}
 {% load parser %}
 {% load wikis %}
+{% load djangostar %}
 
 {% block title %}
 	{% if object.title == 'index' %}{{ project.title }}{% else %}{{ object.title }}{% endif %}
@@ -32,6 +33,6 @@
 <div class="entry-body markdown">
 	{{ object.body|parse|wikilinks:object }}
 </div>
-
+{% render_djangostar_list for task %}
 {% include "comments/components/sets.html" %}
 {% endblock %}

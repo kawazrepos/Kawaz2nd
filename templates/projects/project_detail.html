@@ -3,7 +3,7 @@
 {% load typeimg %}
 {% load parser %}
 {% load commons %}
-
+{% load djangostar %}
 {% block title %}{{ object.title }}{% endblock %}
 
 {% block head %}
@@ -21,6 +21,7 @@
 
 {% block content %}
 <h2 class="project-title">{{ object.title }}</h2>
+{% render_djangostar_list for object %}
 <div class="project-icon fenced huge filled">
 	<span></span>{{ object.get_icon_huge_display }}
 </div>
