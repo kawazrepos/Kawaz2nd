@@ -116,8 +116,8 @@
 	<p><small>{{ object.get_location_link }}</small></p>	
 </div>
 {% endif %}
-{% render_djangostar_list for object %}
 <div class="event-body markdown">
+    {% render_djangostar_list for object %}
 	{{ object.body|parse }}
 </div>
 

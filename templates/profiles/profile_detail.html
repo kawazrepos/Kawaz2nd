@@ -167,8 +167,8 @@
 	</tr>
 	{% endif %}
 </table>
-{% render_djangostar_list for object %}
 <div class="profile-remarks markdown">
+	{% render_djangostar_list for object %}
 	<div class="markdown">{{ object.remarks|parse }}</div>
 </div>
 
