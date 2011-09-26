@@ -20,7 +20,6 @@
 
 {% block content %}
 <h2 class="task-title">{{ object.title }}</h2>
-{% render_djangostar_list for object %}
 {% if object.status == 'new' %}
 <p>このタスクを受け付けるには右の「状態管理」から「認証・再開」を押してください</p>
 {% elif object.status == 'rejected' %}
@@ -29,5 +28,6 @@
 <div class="task-body markdown">
 	{{ object.body|parse }}
 </div>
+{% render_djangostar_list for object %}
 {% include "comments/components/sets.html" %}
 {% endblock %}

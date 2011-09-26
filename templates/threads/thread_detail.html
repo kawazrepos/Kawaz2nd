@@ -23,7 +23,6 @@
 
 {% block content %}
 <h2>{{ object.title }}({{ object.response.count }})</h2>
-	{% render_djangostar_list for object %}
 <div class="thread top response" response_number="1" id="thread-1">
 	<div class="thread-info">
 		<div class="thread-author">
@@ -50,6 +49,7 @@
 	<div class="thread-body markdown tiny">
 		{{ object.body|parse }}
 	</div>
+	{% render_djangostar_list for object %}
 </div>
 
 <ul class="comments">
