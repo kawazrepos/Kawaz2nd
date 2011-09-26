@@ -41,7 +41,7 @@ class Star(models.Model):
     objects         = StarManager()
     
     class Meta:
-        ordering            = ('author__pk',)
+        ordering            = ('created_at',)
         verbose_name        = _('star')
         verbose_name_plural = _('stars')
         
