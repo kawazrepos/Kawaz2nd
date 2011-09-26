@@ -48,33 +48,10 @@ class rc_factory(object):
         except TypeError:
             raise AttributeError(attr)
 
-        class HttpResponseWrapper(HttpResponse):
-            """
-            Wrap HttpResponse and make sure that the internal _is_string 
-            flag is updated when the _set_content method (via the content 
-            property) is called
-            """
-            def _set_content(self, content):
-                """
-                Set the _container and _is_string properties based on the 
-                type of the value parameter. This logic is in the construtor
-                for HttpResponse, but doesn't get repeated when setting 
-                HttpResponse.content although this bug report (feature request)
-                suggests that it should: http://code.djangoproject.com/ticket/9403 
-                """
-                if not isinstance(content, basestring) and hasattr(content, '__iter__'):
-                    self._container = content
-                    self._is_string = False
-                else:
-                    self._container = [content]
-                    self._is_string = True
-
-            content = property(HttpResponse._get_content, _set_content)            
-
-        return HttpResponseWrapper(r, content_type='text/plain', status=c)
+        return HttpResponse(r, content_type='text/plain', status=c)
     
 rc = rc_factory()
-
+    
 class FormValidationError(Exception):
     def __init__(self, form):
         self.form = form
@@ -169,20 +146,6 @@ def coerce_put_post(request):
     in mod_python. This should fix it.
     """
     if request.method == "PUT":
-        # Bug fix: if _load_post_and_files has already been called, for
-        # example by middleware accessing request.POST, the below code to
-        # pretend the request is a POST instead of a PUT will be too late
-        # to make a difference. Also calling _load_post_and_files will result 
-        # in the following exception:
-        #   AttributeError: You cannot set the upload handlers after the upload has been processed.
-        # The fix is to check for the presence of the _post field which is set 
-        # the first time _load_post_and_files is called (both by wsgi.py and 
-        # modpython.py). If it's set, the request has to be 'reset' to redo
-        # the query value parsing in POST mode.
-        if hasattr(request, '_post'):
-            del request._post
-            del request._files
-        
         try:
             request.method = "POST"
             request._load_post_and_files()
@@ -234,7 +197,7 @@ class Mimer(object):
 
         ctype = self.request.META.get('CONTENT_TYPE', type_formencoded)
         
-        if type_formencoded in ctype:
+        if ctype.startswith(type_formencoded):
             return None
         
         return ctype

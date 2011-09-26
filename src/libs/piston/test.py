@@ -4,8 +4,8 @@ import django.test as test
 from django.utils.http import urlencode
 
 # Piston imports
-import oauth
-from models import Consumer, Token
+from piston import oauth
+from piston.models import Consumer, Token
 
 # 3rd/Python party imports
 import httplib2, urllib, cgi
