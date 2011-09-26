@@ -22,7 +22,6 @@ class RenderDjangoStarHeadNode(template.Node):
 
 class RenderDjangoStarListNode(template.Node):
     def __init__(self, object):
-        print object
         self.object = template.Variable(object)
         
     def render(self, context):
