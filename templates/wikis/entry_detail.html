@@ -29,10 +29,10 @@
 	{{ object.title }}
 	{% endif %}
 </h2>
+{% render_djangostar_list for object %}
 	
 <div class="entry-body markdown">
 	{{ object.body|parse|wikilinks:object }}
 </div>
-{% render_djangostar_list for object %}
 {% include "comments/components/sets.html" %}
 {% endblock %}
