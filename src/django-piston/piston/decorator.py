@@ -131,7 +131,7 @@ def decorator(caller):
 
     >>> @decorator
     ... def chatty(f, *args, **kw):
-    ...     print "Calling %r" % f.__name__
+    ...     #print "Calling %r" % f.__name__
     ...     return f(*args, **kw)
 
     >>> chatty.__name__
