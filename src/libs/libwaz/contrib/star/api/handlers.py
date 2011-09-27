@@ -54,7 +54,7 @@ class StarHandler(BaseHandler):
     def delete(self, request, content_type, object_id, star_id):
         if not star_id: rc.BAD_REQUEST
         star = self.model.objects.get(pk=star_id)
-        if request.user.is_authenticated() and request.user.pk is star.author.pk:
+        if request.user.is_authenticated():
             star.delete()
             return rc.DELETED
         return rc.FORBIDDEN
