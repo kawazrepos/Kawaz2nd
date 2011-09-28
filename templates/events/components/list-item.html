@@ -1,6 +1,7 @@
 {% load comments %}
 {% load tagging %}
 {% load query %}
+{% load djangostar %}
 <h3 class="event-title"><a href="{{ event.get_absolute_url }}">{{ event.title }}</a> {% if not event.is_active %}(終了済み){% endif %}</h3>
 <table class="event-detail">
 	<tr>
@@ -45,3 +46,4 @@
 	{% endfor %}
 </ul>
 {% render_tagging_tags for event %}
+{% render_djangostar_list for event %}

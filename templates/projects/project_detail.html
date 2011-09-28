@@ -3,7 +3,7 @@
 {% load typeimg %}
 {% load parser %}
 {% load commons %}
-
+{% load djangostar %}
 {% block title %}{{ object.title }}{% endblock %}
 
 {% block head %}
@@ -37,8 +37,8 @@
 	{% endfor %}
 	</table>
 </div>
-
 <div class="project-body markdown">
+    {% render_djangostar_list for object %}
 	{{ object.body|parse }}
 </div>
 {% include "comments/components/sets.html" %}

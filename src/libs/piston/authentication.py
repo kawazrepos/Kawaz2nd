@@ -1,20 +1,21 @@
 import binascii
-
 import oauth
-from django.http import HttpResponse, HttpResponseRedirect
+
+from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.models import User, AnonymousUser
-from django.contrib.auth.decorators import login_required
-from django.template import loader
-from django.contrib.auth import authenticate
-from django.conf import settings
-from django.core.urlresolvers import get_callable
 from django.core.exceptions import ImproperlyConfigured
+from django.core.urlresolvers import get_callable
+from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.template import loader
 from django.template import RequestContext
 from django.utils.http import urlquote
 
-import forms
+from piston import forms
 
 class NoAuthentication(object):
     """
@@ -62,7 +63,7 @@ class HttpBasicAuthentication(object):
         
         request.user = self.auth_func(username=username, password=password) \
             or AnonymousUser()
-                
+        
         return not request.user in (False, None, AnonymousUser())
         
     def challenge(self):
@@ -70,20 +71,6 @@ class HttpBasicAuthentication(object):
         resp['WWW-Authenticate'] = 'Basic realm="%s"' % self.realm
         resp.status_code = 401
         return resp
-
-    def __repr__(self):
-        return u'<HTTPBasic: realm=%s>' % self.realm
-
-class HttpBasicSimple(HttpBasicAuthentication):
-    def __init__(self, realm, username, password):
-        self.user = User.objects.get(username=username)
-        self.password = password
-
-        super(HttpBasicSimple, self).__init__(auth_func=self.hash, realm=realm)
-    
-    def hash(self, username, password):
-        if username == self.user.username and password == self.password:
-            return self.user
 
 def load_data_store():
     '''Load data store for OAuth Consumers, Tokens, Nonces and Resources
@@ -316,7 +303,7 @@ class OAuthAuthentication(object):
     def validate_token(request, check_timestamp=True, check_nonce=True):
         oauth_server, oauth_request = initialize_server_request(request)
         return oauth_server.verify_request(oauth_request)
-
+        
 class DjangoAuthentication(object):
     """
     Django authentication. 
@@ -350,3 +337,4 @@ class DjangoAuthentication(object):
         path = urlquote(self.request.get_full_path())
         tup = self.login_url, self.redirect_field_name, path 
         return HttpResponseRedirect('%s?%s=%s' %tup)
+

@@ -4,6 +4,7 @@
 {% load comments %}
 {% load commons %}
 {% load tagging %}
+{% load djangostar %}
 
 {% block title %}{{ object.title }}{% endblock %}
 
@@ -22,7 +23,6 @@
 
 {% block content %}
 <h2>{{ object.title }}({{ object.response.count }})</h2>
-
 <div class="thread top response" response_number="1" id="thread-1">
 	<div class="thread-info">
 		<div class="thread-author">
@@ -49,6 +49,7 @@
 	<div class="thread-body markdown tiny">
 		{{ object.body|parse }}
 	</div>
+	{% render_djangostar_list for object %}
 </div>
 
 <ul class="comments">

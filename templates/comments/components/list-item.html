@@ -1,6 +1,7 @@
 {% load defaultimg %}
 {% load parser %}
 {% load comments %}
+{% load djangostar %}
 {% if comment.user.is_authenticated %}
 {% with comment.user.get_profile as profile %}
 <div class="comment-user-icon">
@@ -53,3 +54,4 @@
 	{% endif %}
 	{% endif %}
 </ul>
+{% render_djangostar_list for comment %}

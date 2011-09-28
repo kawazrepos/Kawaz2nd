@@ -2,6 +2,7 @@
 {% load typeimg %}
 {% load parser %}
 {% load tagging %}
+{% load djangostar %}
 
 {% block title %}{{ object.title }}{% endblock %}
 
@@ -95,7 +96,7 @@
 	</tr>
 	{% endifhsp %}
 </table>
-
+{% render_djangostar_list for object %}
 <h3>概要</h3>
 <div class="material-body markdown">
 	{{ object.body|parse }}

@@ -2,6 +2,7 @@
 {% load parser %}
 {% load tagging %}
 {% load comments %}
+{% load djangostar %}
 
 {% block title %}{{ object.title }}{% endblock %}
 
@@ -24,10 +25,9 @@
 {% elif object.status == 'rejected' %}
 <p>タスクの完了が棄却されました。タスクを再び受けるには右の「状態管理」から「認証・再開」を押してください</p>
 {% endif %}
-
 <div class="task-body markdown">
 	{{ object.body|parse }}
 </div>
-
+{% render_djangostar_list for object %}
 {% include "comments/components/sets.html" %}
 {% endblock %}

@@ -1,6 +1,7 @@
 {% extends "commons/base.html" %}
 {% load tagging %}
 {% load pagination_tags %}
+{% load djangostar %}
 
 {% block head %}
 {% compressed_css 'commons-material-list' %}
@@ -90,6 +91,7 @@ Kawaz Commons
 		<div class="material-body markdown">
 			{{ material.body|striptags|truncateletters:500 }}
 		</div>
+		{% render_djangostar_list for material %}
 		{% render_tagging_tags for material %}
 	</li>
 	{% empty %}
