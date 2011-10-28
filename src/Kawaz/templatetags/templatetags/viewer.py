@@ -14,7 +14,7 @@ from django.utils.safestring import mark_safe
 
 import re
 
-YOUTUBE_PATTERN = r"""<a\W*href=["']http:\/\/www.youtube.com/watch\?v=(?P<id>[a-zA-Z0-9_]+)["'].*>.*</a>"""
+YOUTUBE_PATTERN = r"""<a\W*href=["']http:\/\/www.youtube.com/watch\?v=(?P<id>[a-zA-Z0-9_\-]+)["'].*>.*</a>"""
 NICONICO_PATTERN = r"""<a\W*href=["']http:/\/\www.nicovideo.jp\/watch\/(?P<id>[a-z]{2}[0-9]+)\/?["'].*>.*</a>"""
 USTREAM_PATTERN = r"""<a\W*href=["']http:/\/\www.ustream.tv\/recorded\/(?P<id>[0-9]+)\/?["'].*>.*</a>"""
 
