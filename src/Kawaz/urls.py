@@ -67,4 +67,5 @@ if settings.DEBUG:
         (r'^image/(?P<path>.*)$',       'serve', {'document_root': document_root('../../statics/image')}),
         (r'^storage/(?P<path>.*)$',     'serve', {'document_root': document_root('../../statics/storage')}),
         (r'^component/(?P<path>.*)$',   'serve', {'document_root': document_root('../../statics/component')}),
+        (r'^flatpages/(?P<path>.*)$',   'serve', {'document_root': document_root('../../statics/flatpages')}),
     )
