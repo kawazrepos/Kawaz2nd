@@ -1,6 +1,0 @@
-{{ object }}
-{{ object.author }}
-{{ object.author.get_profile }}
-{% for tag in object.tags.all %}
-{{ tag }}
-{% endfor %}
