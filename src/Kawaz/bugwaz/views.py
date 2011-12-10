@@ -10,6 +10,7 @@ from django.views.generic import simple
 from libwaz.http import Http403
 from libwaz.views.generic import list_detail
 from libwaz.views.generic import create_update
+from libwaz.views.generic.withspamchecking import create_update as create_update_spam
 from libwaz.contrib.object_permission.decorators import permission_required
 
 from models import Component, Version, Report, Product
@@ -165,7 +166,7 @@ def create_report(request, product):
                 'product': product,
             }
         }
-    return create_update.create_object(request, **kwargs)
+    return create_update_spam.create_object(request, spam_check_scope_attr='body', author_name_attr='username', **kwargs)
 @permission_required('bugwaz.add_product')
 def create_product(request):
     kwargs = {

@@ -7,7 +7,7 @@ from django.db.models import Count
 from libwaz.contrib.siever import filterset, filters, widgets
 from libwaz.contrib.tagging.filters import TaggingFilter
 
-from profiles.models import Profile
+from ..profiles.models import Profile
 from models import Component, Version, Report
 
 CHOICE = lambda x: [('', u"全て")]+list(x)

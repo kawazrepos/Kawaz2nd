@@ -103,7 +103,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'pagination.middleware.PaginationMiddleware',
     'django.middleware.cache.FetchFromCacheMiddleware',
-    'spaminspector.middleware.SpamInspectionMiddleware',
 )
 
 ROOT_URLCONF = 'Kawaz.urls'
@@ -141,7 +140,6 @@ INSTALLED_APPS = (
     'piston',
     'registration',
     'pagination',
-    'spaminspector',
     'libwaz.contrib.googlemap',
     'libwaz.contrib.evaluate',
     'libwaz.contrib.trackback',
@@ -310,21 +308,12 @@ BOT_ACCESS_TOKEN_SECRET = ''
 DEFAULT_TIMELINE_LENGTH = 6
 TWITTER_ENABLE          = False
 
-SPAMINSPECTOR_VIEWS = (
-    ('django.contrib.comments.views.comments.post_comment', {
-        'comment_type': 'comment',
-        'comment_author': lambda request: request.POST.get('name', ""),
-        'comment_author_email': lambda request: request.POST.get('email', ""),
-        'comment_author_url': lambda request: request.POST.get('url', ""),
-        'comment_contents': lambda request: request.POST.get('comment', ""),
-    }),
-    ('Kawaz.bugwaz.views.create_report', {
-        'comment_type': 'comment',
-        'comment_author': lambda request: request.POST.get('username', "safe"),
-        'comment_contents': lambda request: request.POST.get('body', "safe"),
-    })
-)
-
+#
+# Akismet
+# added by giginet on 2011/7/20
+#--------------------------------------------------------------------------------
+TYPEPAD_ANTISPAM_API_KEY = ''
+AKISMET_API_KEY = ''
 
 #
 # utilities.resave

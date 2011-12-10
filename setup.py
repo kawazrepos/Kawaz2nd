@@ -55,7 +55,6 @@ INSTALL_REQUIRES = [
     'south',
     'PIL',  
     'django==1.2.3',
-    'django-spaminspector',
     'django-compress',
     'django-reversetag',
     'django-pagination',
