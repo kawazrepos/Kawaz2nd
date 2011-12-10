@@ -4,9 +4,9 @@ from django.db import models
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
 
-from ..imagefield.fields import ImageField
-from ..markitupfield.models import MarkItUpField
-from ..defaultimg import get_default_profile_icon
+from imagefield.fields import ImageField
+from markitupfield.models import MarkItUpField
+from defaultimg import get_default_profile_icon
 
 from libwaz.contrib.googlemap.models import GoogleMapField
 from libwaz.contrib.tagging.fields import TaggingField
