@@ -41,3 +41,6 @@ local_site.py
 /statics/storage/*
 /statics/css/compressed/*
 /statics/javascript/compressed/*
+
+# Rope
+/.ropeproject
