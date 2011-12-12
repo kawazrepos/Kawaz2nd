@@ -79,11 +79,7 @@ class ServiceForm(forms.ModelForm):
     class Meta:
         model = models.Service
         fields = ('service', 'account', 'pub_state')
-ServiceFormSet = inlineformset_factory(models.Profile, models.Service,
-                                       extra=1, can_delete=True)
-
-def get_service_formset(form, formset=BaseInlineFormSet, *args, **kwargs):
-    return inlineformset_factory(
-            models.Profile, models.Service,
-            form, formset, **kwargs)
-                
+ServiceFormSet = inlineformset_factory(
+        models.Profile, models.Service, 
+        form=ServiceForm, formset=BaseInlineFormSet,
+        extra=1, can_delete=True)

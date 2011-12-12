@@ -41,6 +41,7 @@ setup(
         'django>=1.3',
         'django-nose',
         'django-filter',
+        'django-piston',
         'django-qwert',
         'django-object-permission',
         'django-universaltag',
