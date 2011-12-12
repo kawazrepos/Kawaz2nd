@@ -1,1 +1,0 @@
-{{ user.username }}さんが新規会員登録申請をしました - {{ site.name }}:
