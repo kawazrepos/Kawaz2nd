@@ -26,17 +26,17 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.conf.urls.defaults import patterns, url, include
 
-from ..api import urls
-from ..views import ProfileFilterView
-from ..views import ProfileListView
-from ..views import ProfileDetailView
-from ..views import ProfileUpdateView
+from views import ProfileFilterView
+from views import ProfileListView
+from views import ProfileDetailView
+from views import ProfileUpdateView
+from api import urls
 
 urlpatterns = patterns('',
-    url(r'^filter/$', ProfileFilterView.as_view()),
-    url(r'^list/$', ProfileListView.as_view()),
-    url(r'^detail/(?P<slug>[^/]+)/$', ProfileDetailView.as_view()),
+    url(r'^$', ProfileFilterView.as_view(), name='profiles-profile-list'),
     url(r'^update/$', ProfileUpdateView.as_view(),
         name='profiles-profile-update'),
-    url(r'^api/', include(urls)),
+    url(r'^(?P<slug>[^/]+)/$', ProfileDetailView.as_view(),
+        name='profiles-profile-detail'),
+    url(r'^', include(urls)),
 )

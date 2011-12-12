@@ -50,7 +50,7 @@ def permission_required(perm, model=None):
             if not generic_permission_check(
                     queryset, perm, request, *args, **kwargs):
                 if request.user.is_authenticated():
-                    raise Http403
+                    raise Http403('You are not permitted to access the page')
                 else:
                     return redirect_to_login(request.path)
             return fn(request, *args, **kwargs)

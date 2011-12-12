@@ -32,6 +32,7 @@ __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 __VERSION__ = "0.1.0"
 import os
 import warnings
+import logging
 
 from django.conf import settings
 from django.db import models

@@ -1,3 +1,8 @@
+#
+# Note:
+#   each password is set to 'password'
+#   pk: 1 for auth.user and profile.profile is used for admin
+#
 - model: auth.user
   pk: 2
   fields:
@@ -24,15 +29,6 @@
   pk: 2
   fields:
     label: hogehoge
-- model: profile.profile
-  pk: 1
-  fields:
-    pub_state: public
-    nickname: admin
-    mood: admin
-    sex: man
-    created_at: 2000-1-1
-    updated_at: 2000-1-1
 - model: profile.profile
   pk: 2
   fields:

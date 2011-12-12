@@ -118,6 +118,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'kawaz.app.profile.middleware.ForceRedirectToProfileUpdatePageMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -146,6 +147,8 @@ INSTALLED_APPS = (
     'django.contrib.comments',
     'django_nose',
     'django_filters',
+    'piston',
+    'haystack',
     'qwert',
     'googlemap',
     'universaltag',

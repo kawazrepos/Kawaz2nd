@@ -25,12 +25,20 @@ License:
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.test import TestCase
-from ..models import Profile
+from django.contrib.auth.models import User
 
 class BaseTestCase(TestCase):
     """Base TestCase of profile views"""
     urls = 'kawaz.app.profile.tests.urls'
     fixtures = ['test.yaml']
+
+    def setUp(self):
+        # Activate admin
+        # Note: Without activating admin, accessing admin profile page may
+        #       Fail
+        profile = User.objects.get(pk=1).get_profile()
+        profile.nickname = 'admin'
+        profile.save()
 
 class TestProfileFilterView(BaseTestCase):
     """Test collection for ProfileFilterView"""
@@ -66,3 +74,41 @@ class TestProfileDetailView(BaseTestCase):
         response = self.client.get('/detail/hogehoge/')
         self.assertEqual(response.status_code, 200)
 
+
+class TestProfileMoodAPIView(BaseTestCase):
+    """Test collection for ProfileMoodAPI"""
+    def testAccessWithAnonymous(self):
+        """profile.API: anonymouse user rejection works correctly"""
+        # Logout in case
+        self.client.logout()
+        response = self.client.get('/api/mood/')
+        self.assertEqual(response.status_code, 302)
+        response = self.client.post('/api/mood/')
+        self.assertEqual(response.status_code, 302)
+        response = self.client.delete('/api/mood/')
+        self.assertEqual(response.status_code, 302)
+        response = self.client.put('/api/mood/')
+        self.assertEqual(response.status_code, 302)
+
+    def testAccessWithAuthenticated(self):
+        """profile.API: updating mood api works correctly"""
+        # Login
+        self.client.login(username='foobar', password='password')
+        response = self.client.get('/api/mood/')
+        self.assertEqual(response.status_code, 405)
+        response = self.client.post('/api/mood/')
+        self.assertEqual(response.status_code, 405)
+        response = self.client.delete('/api/mood/')
+        self.assertEqual(response.status_code, 405)
+
+        response = self.client.put('/api/mood/', {'mood': 'barbar'})
+        self.assertEqual(response.status_code, 200)
+
+        user = User.objects.get(username='foobar')
+        profile = user.get_profile()
+        self.assertEqual(profile.mood, 'barbar')
+
+        # Invalid mood message (mood at most 127 characters)
+        response = self.client.put('/api/mood/', {'mood': '*' * 128})
+        self.assertEqual(response.status_code, 400)
+        assert response.content.startswith('Bad Request')

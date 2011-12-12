@@ -37,6 +37,7 @@ setup(
         'dateutils',
         'docutils',
         'pyyaml',
+        'whoosh',
         'PIL',
         'django>=1.3',
         'django-nose',

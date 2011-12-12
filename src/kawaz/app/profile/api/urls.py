@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
-short module explanation
+API urls 
 
 
 AUTHOR:
@@ -24,19 +24,18 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from django.conf.urls.defaults import patterns, url, include
+from django.conf.urls.defaults import patterns, url
+from piston.resource import Resource
+from kawaz.extensions.piston.authentication import DjangoAuthentication
 
-from ..api import urls
-from ..views import ProfileFilterView
-from ..views import ProfileListView
-from ..views import ProfileDetailView
-from ..views import ProfileUpdateView
+from handlers import ProfileMoodHandler
+
+auth = DjangoAuthentication()
+ad = {'authentication': auth}
+
+profilemood_resource = Resource(handler=ProfileMoodHandler, **ad)
 
 urlpatterns = patterns('',
-    url(r'^filter/$', ProfileFilterView.as_view()),
-    url(r'^list/$', ProfileListView.as_view()),
-    url(r'^detail/(?P<slug>[^/]+)/$', ProfileDetailView.as_view()),
-    url(r'^update/$', ProfileUpdateView.as_view(),
-        name='profiles-profile-update'),
-    url(r'^api/', include(urls)),
+    # TODO: name should be 'profiles-api-mood'
+    url(r'^mood/$', profilemood_resource, name='profiles-profile-update-mood'),
 )
