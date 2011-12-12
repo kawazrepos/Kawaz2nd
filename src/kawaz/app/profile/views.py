@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
-short module explanation
+View models of profile application
 
 
 AUTHOR:

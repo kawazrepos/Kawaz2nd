@@ -28,37 +28,41 @@ import datetime
 from nose.tools import *
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
-from kawaz.app.profile.models import Profile
+
+from ..models import Profile
 
 foo = None
 profile = None
 
-def _create_user():
+def _create_user(username='foo'):
     """create user and return user and automatically generated profile"""
     # create test user
     try:
-        user = User.objects.get(username='foo')
+        user = User.objects.get(username=username)
     except User.DoesNotExist:
         user = User.objects.create_user(
-                username='foo',
-                email='foo@foo.com',
-                password='foo')
-    # profile related to `foo` should be created automatically
-    if not Profile.objects.filter(user__username='foo').exists():
+                username=username,
+                email='%s@test.com' % username,
+                password=username)
+    # profile related should be created automatically
+    if not Profile.objects.filter(user__username=username).exists():
         raise Exception(
                 """Profile should be automatically created but none """
                 """related profile is found.""")
     profile = user.get_profile()
     # set nickname because nickname is required but not be created
     # automatically
-    profile.nickname = 'foobar'
+    profile.nickname = username
+    profile.full_clean()
     profile.save()
     return user, profile
+
+
 def _delete_user(user):
     """delete user then related profile automatically removed"""
     _profile = user.get_profile()
     # remove test user
-    foo.delete()
+    user.delete()
     # profile related should be removed automatically
     if Profile.objects.filter(pk=_profile.pk).exists():
         raise Exception(
@@ -68,21 +72,15 @@ def _delete_user(user):
 
 # this function should be appear at first of this module
 def test_creation():
-    """profile.Profile: automatic creation works correctly"""
+    """profile.Profile: creation works correctly"""
     global foo, profile
     foo, profile = _create_user()
 
 
 def test_modification():
     """profile.Profile: modification works correctly"""
-
-    # check the returning instance type
-    ok_(isinstance(profile, Profile),
-        """user.get_profile() should return Profile instance""")
-
-    # modify
     kwargs = {
-            'pub_state': 'private',
+            'pub_state': 'protected',
             'nickname': 'foobar',
             'mood': 'foobar',
             'icon': '',
@@ -96,10 +94,20 @@ def test_modification():
         }
     for key, value in kwargs.iteritems():
         setattr(profile, key, value)
+    # call validation
+    profile.full_clean()
 
-    # check each attributes
+    # check
     for key, value in kwargs.iteritems():
         eq_(getattr(profile, key), value)
+
+    profile.save()
+
+    found = Profile.objects.get(pk=profile.pk)
+    # check
+    for key, value in kwargs.iteritems():
+        eq_(getattr(found, key), value)
+
 
 def test_invalid_values():
     """profile.Profile: validation works correctly"""
@@ -108,33 +116,40 @@ def test_invalid_values():
     profile.pub_state = 'foo'
     assert_raises(ValidationError, profile.full_clean)
     profile.pub_state = 'public'
+    profile.full_clean()
 
     # nickname should not be empty
     profile.nickname = ''
     assert_raises(ValidationError, profile.full_clean)
     profile.nickname = 'foobar'
+    profile.full_clean()
 
     # mood should has at most 127 characters
     profile.mood = '*' * 128
     assert_raises(ValidationError, profile.full_clean)
     profile.mood = ''
+    profile.full_clean()
 
     # sex should be in ['man', 'woman']
     profile.sex = 'foo'
     assert_raises(ValidationError, profile.full_clean)
     profile.sex = ''
+    profile.full_clean()
     
     # birthday should be an instance of datetime.date
     profile.birthday = 'foo'
     assert_raises(ValidationError, profile.full_clean)
     profile.birthday = None
+    profile.full_clean()
 
     # url must be exist
     profile.url = 'foo'
     assert_raises(ValidationError, profile.full_clean)
     profile.url = ''
+    profile.full_clean()
+
 
 # This function should be appear at last of this module
 def test_deletion():
-    """profile.Profile: automatic deletion works correctly"""
+    """profile.Profile: deletion works correctly"""
     _delete_user(foo)

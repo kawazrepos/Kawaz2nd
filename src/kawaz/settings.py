@@ -145,6 +145,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.comments',
     'django_nose',
+    'django_filters',
     'qwert',
     'googlemap',
     'universaltag',

@@ -40,9 +40,13 @@ setup(
         'PIL',
         'django>=1.3',
         'django-nose',
+        'django-filter',
         'django-qwert',
         'django-object-permission',
         'django-universaltag',
         'django-googlemap-widget',
+    ],
+    dependency_links = [
+        'https://github.com/alex/django-filter/zipball/master#egg=django-filter',
     ],
 )

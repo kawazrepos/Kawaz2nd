@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
-admin module for django-admin
+Admin module for profile application
 
 
 AUTHOR:
@@ -27,21 +27,23 @@ __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.contrib import admin
 from django.utils.text import ugettext_lazy as _
 
-import models
+from models import Skill
+from models import Profile
+from models import Service
 
 
 class SkillAdmin(admin.ModelAdmin):
     """Admin class for skill in django-admin"""
     list_display = ('__unicode__',)
     search_fields = ('label',)
-admin.site.register(models.Skill, SkillAdmin)
+admin.site.register(Skill, SkillAdmin)
 
 
 class ProfileAdmin(admin.ModelAdmin):
     """Admin class for profile in django-admin"""
     class ServiceInline(admin.TabularInline):
         """Inline class for service in django-admin"""
-        model = models.Service
+        model = Service
         verbose_name = _('service')
         verbose_name_plural = _('services')
         extra = 0
@@ -52,7 +54,7 @@ class ProfileAdmin(admin.ModelAdmin):
     list_filter = ('sex', 'skills', 'user__last_login')
     search_fields = ('nickname', 'user__username', 'mood', 'remarks')
     inlines = (ServiceInline,)
-admin.site.register(models.Profile, ProfileAdmin)
+admin.site.register(Profile, ProfileAdmin)
 
 
 class ServiceAdmin(admin.ModelAdmin):
@@ -60,4 +62,4 @@ class ServiceAdmin(admin.ModelAdmin):
     list_display = ('service', 'account', 'profile',)
     list_filter = ('service', 'profile',)
     search_fields = ('account', 'profile')
-admin.site.register(models.Service, ServiceAdmin)
+admin.site.register(Service, ServiceAdmin)

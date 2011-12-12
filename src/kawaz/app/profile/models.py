@@ -31,6 +31,7 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 __VERSION__ = "0.1.0"
 import os
+import warnings
 
 from django.conf import settings
 from django.db import models
@@ -58,6 +59,7 @@ class Skill(models.Model):
     >>> assert hasattr(skill, 'order')
     """
     label = models.CharField(_('skill'), unique=True, max_length=32)
+    # TODO: should use `Meta.order_with_respect_to`
     order = models.IntegerField(_('order'), default=0)
 
     def __unicode__(self):
@@ -146,7 +148,10 @@ class Profile(models.Model):
 
     # Required functions
     >>> assert callable(getattr(profile, 'get_absolute_url'))
-    >>> assert callable(getattr(profile, 'get_icon_display'))
+    >>> assert callable(getattr(profile, 'get_huge_avatar_display'))
+    >>> assert callable(getattr(profile, 'get_large_avatar_display'))
+    >>> assert callable(getattr(profile, 'get_middle_avatar_display'))
+    >>> assert callable(getattr(profile, 'get_small_avatar_display'))
     >>> assert callable(getattr(profile, 'get_nickname_display'))
 
     # Automatically called required functions
@@ -235,8 +240,16 @@ class Profile(models.Model):
         """get absolute permalink of this profile"""
         return ('profiles-profile-detail', (), {'slug': self.user.username})
 
-    # TODO: ``get_avatar_display`` is the better name of this function
+    # deprecated at 0.314159 ---
     def get_icon_display(self, pattern_name):
+        warnings.warn('deprecated. use get_XXX_avatar_display insted', DeprecationWarning)
+        return self._get_avatar_display(self, pattern_name)
+    get_icon_huge_display = lambda self: self.get_icon_display('huge')
+    get_icon_large_display = lambda self: self.get_icon_display('large')
+    get_icon_middle_display = lambda self: self.get_icon_display('middle')
+    get_icon_small_display = lambda self: self.get_icon_display('small')
+    # --------------------------
+    def _get_avatar_display(self, pattern_name):
         """get ``img`` tag safe string of ``icon`` field for displaying"""
         kwargs = {
                 'alt': _('avatar of %s') % self.nickname,
@@ -251,10 +264,10 @@ class Profile(models.Model):
             kwargs['src'] = get_default_profile_icon(pattern_name, self.pk)
         pattern = r"""<img src='%(src)s' alt='%(alt)s' title='%(title)s' />"""
         return mark_safe(pattern % kwargs)
-    get_icon_huge_display = lambda self: self.get_icon_display('huge')
-    get_icon_large_display = lambda self: self.get_icon_display('large')
-    get_icon_middle_display = lambda self: self.get_icon_display('middle')
-    get_icon_small_display = lambda self: self.get_icon_display('small')
+    get_huge_avatar_display = lambda self: self._get_avatar_display('huge')
+    get_large_avatar_display = lambda self: self._get_avatar_display('large')
+    get_middle_avatar_display = lambda self: self._get_avatar_display('middle')
+    get_small_avatar_display = lambda self: self._get_avatar_display('small')
 
     def get_nickname_display(self):
         """get ``a`` tag safe string of ``nickname`` field for displaying"""
@@ -284,16 +297,26 @@ class Service(models.Model):
         account - service account
 
     >>> service = Service()
+
+    # Attributes service should have
     >>> assert hasattr(service, 'pub_state')
     >>> assert hasattr(service, 'service')
     >>> assert hasattr(service, 'account')
+
+    # Automatically generated function via Django
+    >>> assert callable(getattr(service, 'get_pub_state_display'))
+    >>> assert callable(getattr(service, 'get_service_display'))
+
+    # Required functions
+    >>> assert callable(getattr(service, 'get_account_display'))
+    >>> assert callable(getattr(service, 'get_service_icon_display'))
 
     """
     PUB_STATES = (
             ('public', _('public')),
             ('protected', _('protected')),
         )
-    SERVICES = (
+    SERVICES = (                                                    
             ('skype', _('Skype')),
             ('wlm', _('Windows Live Messenger')),
             ('twitter', _('Twitter')),
@@ -307,10 +330,10 @@ class Service(models.Model):
             ('psn', _('PlayStation Network')),
             ('dropbox', _('Dropbox')),
         )
-    pub_state = models.CharField(_('publish state'), max_length=10,
-                                 choices=PUB_STATES, default='public')
     profile = models.ForeignKey(Profile, verbose_name=_('profile'), 
                                 related_name=_('services'), editable=False)
+    pub_state = models.CharField(_('publish state'), max_length=10,
+                                 choices=PUB_STATES, default='public')
     service = models.CharField(_('service name'), max_length=20,
                                choices=SERVICES)
     account = models.CharField(_('service account'), max_length=127)
@@ -320,6 +343,9 @@ class Service(models.Model):
         verbose_name_plural = _('services')
         # Nobody have same account on same service
         unique_together = ('service', 'account')
+
+    def __unicode__(self):
+        return "%s - [%s]" % (self.account, self.service)
 
     def get_account_display(self):
         """get ``a`` tag safe string of ``account`` for displaying"""
