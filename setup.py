@@ -37,7 +37,6 @@ setup(
         'dateutils',
         'docutils',
         'pyyaml',
-        'whoosh',
         'PIL',
         'django>=1.3',
         'django-nose',
@@ -49,6 +48,6 @@ setup(
         'django-googlemap-widget',
     ],
     dependency_links = [
-        'https://github.com/alex/django-filter/zipball/master#egg=django-filter',
+        'https://github.com/lambdalisue/django-filter/zipball/master#egg=django-filter',
     ],
 )

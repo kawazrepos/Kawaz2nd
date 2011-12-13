@@ -26,6 +26,8 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.core.urlresolvers import NoReverseMatch
+from django.core.exceptions import MiddlewareNotUsed
 
 import django.views.static
 import django.contrib.auth.views
@@ -36,6 +38,14 @@ IGNORE_REDIRECTION_VIEWS = (
 )
 class ForceRedirectToProfileUpdatePageMiddleware(object):
     """Force redirect to profile update page while user hasn't update profile"""
+    def __init__(self, *args, **kwargs):
+        try:
+            reverse('profiles-profile-update')
+        except NoReverseMatch:
+            # Do Not use this middleware in test which doesn't have
+            # profiles-profile-update url otherwise test fail
+            raise MiddlewareNotUsed
+
     def process_view(self, request, view_func, view_args, view_kwargs):
         if not hasattr(request, 'user'):
             raise RuntimeError(

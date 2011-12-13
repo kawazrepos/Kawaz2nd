@@ -27,7 +27,6 @@ __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.conf.urls.defaults import patterns, url, include
 
 from views import ProfileFilterView
-from views import ProfileListView
 from views import ProfileDetailView
 from views import ProfileUpdateView
 from api import urls

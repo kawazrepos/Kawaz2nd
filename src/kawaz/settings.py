@@ -11,7 +11,6 @@ except ImportError:
 ROOT = os.path.join(os.path.dirname(__file__), '../../')
 #--- Add PYTHON_PATH ---------------------------------
 PYTHON_PATHS = (
-    os.path.join(ROOT, 'src/libs'),
     os.path.join(ROOT, 'src/libs/django-thumbnailfield'),
 )
 for path in PYTHON_PATHS:
@@ -127,6 +126,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "django.core.context_processors.request",
+    "django.contrib.messages.context_processors.messages",
 )
 
 ROOT_URLCONF = 'kawaz.urls'
@@ -148,7 +148,6 @@ INSTALLED_APPS = (
     'django_nose',
     'django_filters',
     'piston',
-    'haystack',
     'qwert',
     'googlemap',
     'universaltag',
@@ -165,6 +164,12 @@ AUTH_PROFILE_MODULE = 'profile.Profile'
 
 
 # django-nose
+# Note:
+#   To test django or external libraries, comment out the following lines
+#   django-nose doesn't run test of INSTALLED_APPS but the tests in project.
+#   See https://github.com/jbalogh/django-nose/issues/34 and
+#   https://github.com/jbalogh/django-nose/issues/8 for more detail
+#
 NOSE_ARGS = ['--with-doctest', '--verbose']
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
