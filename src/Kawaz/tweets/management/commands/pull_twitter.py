@@ -22,7 +22,10 @@ class Command(BaseCommand):
         return '\n'.join(output)
 
     def handle_user(self, user, **options):
-        result = pull_tweet_from_twitter(user)
+        try:
+            result = pull_tweet_from_twitter(user)
+        except:
+            result = None
         output = ""
         if result:
             if options['verbosity'] != 0:
