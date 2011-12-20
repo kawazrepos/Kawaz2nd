@@ -10,12 +10,11 @@
 #
 from libwaz.contrib.history import site
 from libwaz.contrib.history.backends import CommentHistoryBackend
-from libwaz.contrib.history import backends
 from models import MarkItUpComment
 
-class EntryHistoryBackend(backends.BasicHistoryBackend):
+class MarkItUpCommentHistoryBackend(CommentHistoryBackend):
     def autodiscover(self, instance, *args, **kwargs):
         if not instance.is_public:
             return None
-        return super(EntryHistoryBackend, self).autodiscover(instance, *args, **kwargs)
-site.register(MarkItUpComment, CommentHistoryBackend)
+        return super(MarkItUpCommentHistoryBackend, self).autodiscover(instance, *args, **kwargs)
+site.register(MarkItUpComment, MarkItUpCommentHistoryBackend)
