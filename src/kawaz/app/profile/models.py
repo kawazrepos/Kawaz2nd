@@ -32,7 +32,6 @@ __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 __VERSION__ = "0.1.0"
 import os
 import warnings
-import logging
 
 from django.conf import settings
 from django.db import models
@@ -43,7 +42,6 @@ from django.utils.text import ugettext_lazy as _
 from universaltag.fields import UniversalTagField
 from googlemap.models import GoogleMapField
 from thumbnailfield.models import ThumbnailField
-from object_permission import ObjectPermissionMediator
 
 from kawaz.utils.default.image import get_default_profile_icon
 
@@ -156,7 +154,6 @@ class Profile(models.Model):
     >>> assert callable(getattr(profile, 'get_nickname_display'))
 
     # Automatically called required functions
-    >>> assert callable(getattr(profile, 'modify_object_permission'))
     >>> assert callable(getattr(profile, 'is_authenticated_twitter'))
     """
     def _get_upload_path(self, filename):
@@ -226,15 +223,6 @@ class Profile(models.Model):
         if self.nickname:
             return self.nickname
         return _('non active user (%s)') % self.user.username
-
-    def modify_object_permission(self, mediator, created):
-        mediator.manager(self, self.user)
-        if self.pub_state == 'public':
-            mediator.viewer(self, None)
-            mediator.viewer(self, 'anonymous')
-        else:
-            mediator.viewer(self, None)
-            mediator.reject(self, 'anonymous')
 
     @models.permalink
     def get_absolute_url(self):
@@ -391,6 +379,4 @@ def create_profile(sender, instance, created, **kwargs):
     if not created: return
     new = Profile(user=instance)
     new.save()
-    # set object permissions
-    ObjectPermissionMediator.manager(new, instance)
 post_save.connect(create_profile, sender=User)

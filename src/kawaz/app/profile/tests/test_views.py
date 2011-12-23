@@ -40,6 +40,10 @@ class BaseTestCase(TestCase):
         profile.nickname = 'admin'
         profile.save()
 
+    def tearDown(self):
+        from observer import unwatch_all
+        unwatch_all()
+
 class TestProfileFilterView(BaseTestCase):
     """Test collection for ProfileFilterView"""
 

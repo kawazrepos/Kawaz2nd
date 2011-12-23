@@ -24,39 +24,17 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from django.views.generic import DetailView
 
 from qwert.http import Http403
+from object_permission.decorators import permission_required
 from django_filters.generic.classbase import FilterView
 
 from models import Profile
 from filtersets import ProfileFilterSet
 from forms import ProfileForm
 from forms import ServiceFormSet
-
-def permission_required(perm, model=None):
-    """permission required decorator"""
-    from django.contrib.auth.views import redirect_to_login
-    from qwert.http import Http403
-    from object_permission.utils import generic_permission_check
-    def wrapper(fn):
-        def inner(request, *args, **kwargs):
-            queryset = None
-            if model:
-                queryset = model.objects.all()
-            kwargs['slug_field'] = 'user__username'
-            if not generic_permission_check(
-                    queryset, perm, request, *args, **kwargs):
-                if request.user.is_authenticated():
-                    raise Http403('You are not permitted to access the page')
-                else:
-                    return redirect_to_login(request.path)
-            return fn(request, *args, **kwargs)
-        return inner
-    return wrapper
-
 
 class ProfileFilterView(FilterView):
     """Profile filter view"""
@@ -74,7 +52,7 @@ class ProfileDetailView(DetailView):
     model = Profile
     slug_field = 'user__username'
     
-    @method_decorator(permission_required('profile.view_profile', Profile))
+    @permission_required('profile.view_profile')
     def dispatch(self, *args, **kwargs):
         return super(ProfileDetailView, self).dispatch(*args, **kwargs)
 
