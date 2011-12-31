@@ -38,7 +38,7 @@ def is_deploy():
         args = imp.find_module('local_settings', [path])
         module = imp.load_module('local_settings', *args)
         return module.DEBUG == False
-    except ImportError:
+    except:
         return False
 
 INSTALL_REQUIRES = [
