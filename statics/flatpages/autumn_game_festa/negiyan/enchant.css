@@ -1,0 +1,13 @@
+#enchant-stage {
+	margin: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	width : 800px;
+	height: 600px;
+	border: solid 1px #000000;
+	
+
+	white-space: nowrap;
+	line-height: 50%;
+	letter-spacing: 0.2em;
+}
