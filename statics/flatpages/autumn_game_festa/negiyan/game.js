@@ -2,9 +2,9 @@ enchant();
 // ライブラリを使用するための初期化処理：必ず最初に呼び出す。おまじないのようなもの
 
 messages = [											//メッセージの配列をつくっておく（多次元配列。台詞,ジェド表情,ラチカ表情）
-["ー聖ニコラウス学園ー",7,4],
-["この学園には、世界中から「意識の高い学生（笑）」たちが集う。",7,4],
-["彼らが志し高く目指しているもの、それは……",7,4],
+["ー聖ニコラウス学園ー",7,6],
+["この学園には、世界中から「意識の高い学生（笑）」たちが集う。",7,6],
+["彼らが志し高く目指しているもの、それは……",7,6],
 ["【ラチカ】<br/>「ほーほーほー」",7,2],
 ["【ジェド】<br/>「違う。もっと腹の奥で響かせるように」",0,2],
 ["【ラチカ】<br/>「ほーほーほー！」",0,3],
@@ -25,9 +25,9 @@ messages = [											//メッセージの配列をつくっておく（多次�
 ["【ラチカ】<br/>「へえ〜☆」<br/>【ジェド】<br/>「わりと重大な発表なのに超ひとごと！？」",4,0],
 ["【ジェド】<br/>「なお、この実習はプロサンタ試験の一貫であるからして、<br/>　真面目にやらなければお前は一生アマチュアサンタで、<br/>　ニートで、二流の萌えキャラで、<br/>　そして、社会から忘れ去られてしまうのが関の山だ」",0,0],
 ["【ラチカ】<br/>「うにゅにゅうう……世の中甘くないよぉ！」",5,1],
-["【ジェド】<br/>「まあ心配するな。チュートリアルを用意したから、<br/>　まずはそれでしっかり練習しろ」",1,1],
+["【ジェド】<br/>「まあ心配するな。サンタ界のファイナル・ウェポンと呼ばれた<br/>　このジェド様が、マンツーマンで指導してやるのだからな」",1,1],
 ["【ラチカ】<br/>「さすがです！ジェド先生！」",1,0],
-["【ジェド】<br/>「シビれるだろう？って、大丈夫？このネタ」",1,0],
+["【ジェド】<br/>「シビれるだろう？　って、大丈夫？このネタ」",1,0],
 ["【ジェド】<br/>「さて、連絡は以上だ。何か質問はあるか？」",0,2],
 ["【ラチカ】<br/>「あ、せんせぇ。ずっと疑問だったんですけど、」",5,4],
 ["【ラチカ】<br/>「どうして冬場が稼ぎ時のサンタなのに、<br/>　制服がヘソ出しなんですか〜？」",5,2],
@@ -41,7 +41,7 @@ messages = [											//メッセージの配列をつくっておく（多次�
 ["【ラチカ】<br/>「端的に言って、寒い。」<br/>【ジェド】<br/>「わかる（？）」",5,2],
 ["【ジェド】<br/>「ちなみに、サンタの乗るソリはとてつもなく高級なため、<br/>　かわいそうな貧乏ヘソ出し実習生は、<br/>　直接トナカイにつかまって飛行してもらう」",0,2],
 ["【ラチカ】<br/>「うにゅう……そこはかとなく危険だよぉ……」",0,1],
-["【ラチカ】<br/>「でも、先生の隣になんかそれこそ乗りたくないし」<br/>【ジェド】<br/>「ですよねぇーっ☆（白目）」",2,4],
+["【ラチカ】<br/>「でも、先生の隣になんかそれこそ乗りたくないし」<br/>【ジェド】<br/>「ですよねぇーっ☆（白目）」",3,2],
 ["【ジェド】<br/>「というわけだ。お前の準備が整ったら、今晩すぐに出発するぞ」",0,2],
 ["【ラチカ】<br/>「らじゃ〜☆」",0,0],
 ["storyEnd",0,0]
@@ -55,13 +55,14 @@ window.onload = function() {
 	game.keybind(90, 'a');						// AボタンをZキーに設定(今回は不使用)
 	game.keybind(32, 'space');				// spaceキーを設定
 	// ゲーム中使用する画像をあらかじめ読み込んでおく
-	game.preload('img/n_yes.png','img/title_ui.png', 'img/title_btn.png','img/title.jpg','img/n_no.png', 'img/bg.jpg', 'img/jed.png', 'img/ratica.png','img/guide1.png','img/guide2.png', 'img/game_ui.png', 'img/msg_ui.png', 'img/game_bg.jpg', 'img/g_ratica.png','img/g_rud.png','img/g_bag.png','img/ready.png','se1.wav', 'se2.wav','bgm.mp3','img/result.jpg','img/gohobi.jpg','img/result_ui.png','img/result_btn.png','img/present.png','img/love.png');
+	game.preload('img/n_yes.png','img/title_ui.png', 'img/title_btn.png','img/title.jpg','img/n_no.png', 'img/bg.jpg', 'img/jed.png', 'img/ratica.png','img/guide1.png','img/guide2.png', 'img/game_ui.png', 'img/msg_ui.png', 'img/game_bg.jpg', 'img/g_ratica.png','img/g_rud.png','img/g_bag.png','img/g_jed.png','img/ready.png','se1.wav', 'se2.wav','img/result.jpg','img/gohobi.jpg','img/result_ui.png','img/result_btn.png','img/present.png','img/love.png','img/stage1.png');
 
 	var LAYER_BG = 0;							//背景レイヤ
 	var LAYER_CHARA = 1;						//キャラレイヤ
 	var LAYER_FRAME = 2;						//フレームレイヤ
 	var LAYER_MSG = 3;							//メッセージレイヤ
 	msgClick = 0;									//メッセージ送り用変数
+	rePlay = 0;
 
 	//ここから処理を書いていく！
 	game.onload = function() {
@@ -70,6 +71,7 @@ window.onload = function() {
 		var storyScene = new Scene();		//ストーリー画面を用意
 		var guideScene = new Scene();		//チュートリアル（ガイド）画面を用意
 		var gameScene = new Scene();		//ゲームのメイン画面を用意
+		var gameoverScene = new Scene();	//ジェドが突き落とす画面用
 		var scoreScene = new Scene();		//プレイ後のスコア画面を用意
 		var startTime = 0;							//もろもろ表示前の一時停止用
 
@@ -95,7 +97,7 @@ window.onload = function() {
 		//ストーリーボタン設置
 		var ssButton = new Sprite(250,95)
 		ssButton.image = game.assets['img/title_btn.png']
-		ssButton.x = 50;
+		ssButton.x = 70;
 		ssButton.y = 150;
 		ssButton._element.style.zIndex = LAYER_MSG;
 		ssButton.addEventListener('touchstart', function() {		//クリックされたときの挙動
@@ -106,8 +108,8 @@ window.onload = function() {
 		//hou to設置
 		var psButton = new Sprite(250,95)
 		psButton.image = game.assets['img/title_btn.png']
-		psButton.x = 100;
-		psButton.y = 230;
+		psButton.x = 70;
+		psButton.y = 235;
 		psButton.frame = 1;
 		psButton._element.style.zIndex = LAYER_MSG;
 		psButton.addEventListener('touchstart', function() {	//クリックされたときの挙動
@@ -119,8 +121,8 @@ window.onload = function() {
 		//ゲームスタートボタン設置
 		var gsButton = new Sprite(250,90)
 		gsButton.image = game.assets['img/title_btn.png']
-		gsButton.x = 150;
-		gsButton.y = 300;
+		gsButton.x = 60;
+		gsButton.y = 310;
 		gsButton.frame = 2;
 		gsButton._element.style.zIndex = LAYER_MSG;
 		gsButton.addEventListener('touchstart', function() {	//クリックされたときの挙動
@@ -136,7 +138,7 @@ window.onload = function() {
             var snow = new Label("＊");           
             snow.font = "25px 'Arial Black'";
 			snow.color = "#ffffff"           
-            snow._element.style.zIndex = LAYER_BG;
+            snow._element.style.zIndex = LAYER_CHARA;
           	snow.x =  snowSpd +i * 60;
             snow.y = -60;
             snow.speed = snowSpd;
@@ -358,12 +360,12 @@ window.onload = function() {
 	    			this.frame = 0;
 	    			}else if (poseLimit < 8) {
                    		this.frame = 1;
-                	} else if (poseLimit < 35){
+                	} else if (poseLimit < 30){
                    		this.frame = 2;
                 	}
                 poseLimit = poseLimit + 1;
             
-            	if (poseLimit === 35){
+            	if (poseLimit === 30){
             	poseLimit = 0;
             	}
             }
@@ -377,6 +379,14 @@ window.onload = function() {
 		bag.image = game.assets['img/g_bag.png']
 		bag._element.style.zIndex = LAYER_CHARA;
 		gameScene.addChild(bag);
+		
+		//ステージテーマ設置
+		var stageTheme = new Sprite(508,89)
+		stageTheme.x = -80;
+		stageTheme.y = 320;
+		stageTheme.image = game.assets['img/stage1.png']
+		stageTheme._element.style.zIndex = LAYER_CHARA;
+		gameScene.addChild(stageTheme);
 
 		//フレームレイヤ設置
 		var frame = new Sprite(800, 600);
@@ -387,8 +397,8 @@ window.onload = function() {
 		//are you ready?
 		var auReady = new Sprite(592,68);
 		auReady.image = game.assets['img/ready.png'];
-		auReady.x = 60;
-		auReady.y = 110;
+		auReady.x = 90;
+		auReady.y = 90;
 		auReady._element.style.zIndex = LAYER_CHARA;
 		auReady.addEventListener('enterframe',function(){
 			if(startTime < 50){
@@ -402,7 +412,7 @@ window.onload = function() {
 		//ハート（正解マーク）設置
 		var heart = new Sprite(115, 110);
 		heart.x = 370;		// 表示位置を指定
-		heart.y = 90;
+		heart.y = 105;
 		heart.image = game.assets['img/love.png'];
 		heart._element.style.zIndex = LAYER_MSG;
 		seikai = 0;			//正解かどうかの変数をセット
@@ -414,20 +424,24 @@ window.onload = function() {
 				}
 		});
 		gameScene.addChild(heart);
-		
+				
 		//プレゼント画像設置
 		var present = new Sprite(196, 174);
 		present._element.style.zIndex = LAYER_CHARA;
 		present.x = 340;		// 表示位置を指定
-		present.y = 60;
-		present.pose = 0;		// アニメーションに使う変数
+		present.y = 70;
 		limit = 0;					//画像を切り替えるタイマー
 		kubaru = 0;
-    var isYes;
 
 			//タイマー0のとき必ず正解か不正解の画像をランダムで選ぶ
 			//30fr以内にボタンをおしたかおさないか。ボタンをおされたとき正解だったか不正解だったかで分岐。
 	    present.addEventListener('enterframe', function() {// 毎フレーム発生するイベントに使う関数を定義
+	   /* 	if (rePlay === 1){
+	    	limit = 0;
+	    	rePlay = 0;	
+	    	};
+	    	*/
+	    	
 	    	startTime = startTime + 1;
 	    	if(startTime < 80){
 	 //   	if(game.frame < startTime + 80){
@@ -455,23 +469,25 @@ window.onload = function() {
 				}
 
 				//タイマーが30以下なら画像を表示、そうでなければ非表示
-				if(limit < 30) {
+				
+				if (limit < 28) {
 					this.opacity = 1;
 					//opacity…透明度
 				} else {
 					this.opacity = 0;
 					if(kubaru === 0) {//タイマーが30〜35のとき、もし配るボタン（spaceキー）が押されていなかったら
 						if(isYes >= 1) {//かつ、正解の画像だったら
-							game.replaceScene(scoreScene);
+							this.opacity = 0;
+							game.replaceScene(gameoverScene);
 							//リザルト画面に（ゲームオーバー）
 						}
 					}
 				}
 
-				//タイマーの更新を35まで続けて、35になったらリセット
+				//タイマーの更新を30まで続けて、30になったらリセット
 				limit = limit + 1;
 				//タイマーを1すすめる
-				if(limit === 32) {
+				if(limit === 30) {
 					kubaru = 0;							//ボタンが押されたかのフラグをリセット
 					seikai = 0;							//正解したかどうかのフラグをリセット
 					limit = 0;
@@ -491,7 +507,8 @@ window.onload = function() {
 					seikai += 1;
 					game.score += 100;
 					} else {
-					game.replaceScene(scoreScene);
+					present.opacity = 0;	
+					game.replaceScene(gameoverScene);
 					}
 			}
 		});
@@ -507,7 +524,7 @@ window.onload = function() {
 		seikai = 0;			//正解かどうかの変数をセット
 		pNage.addEventListener('enterframe', function() {
 		if(seikai ===1 ){
-				if(limit < 30){
+				if(limit < 28){
 					this.opacity = 1;
 					this.x -= 20;
 					this.y += 10;
@@ -521,7 +538,7 @@ window.onload = function() {
 				}
 		});
 		gameScene.addChild(pNage);
-
+		
 		//スコア設置
 		var score = new Label();
 		score._element.style.zIndex = LAYER_MSG;
@@ -533,6 +550,66 @@ window.onload = function() {
 			this.text = game.score;
 		});
 		gameScene.addChild(score);
+
+//不正解時にふってくるジェドのシーン(gameoverScene)
+		
+		// 背景
+		var goBg = new Sprite(800, 600);
+		goBg._element.style.zIndex = LAYER_BG;
+		goBg.image = game.assets["img/game_bg.jpg"];
+		gameoverScene.addChild(goBg);
+
+		//トナカイ設置
+		var goRudo = new Sprite(180, 137);
+		goRudo.x = 510;
+		goRudo.y = 270;
+		goRudo._element.style.zIndex = LAYER_CHARA;
+		goRudo.image = game.assets['img/g_rud.png'];
+		gameoverScene.addChild(goRudo);
+
+		//ミニラチカ設置
+		var goRatica = new Sprite(219, 221);
+		goRatica.x = 500;
+		goRatica.y = 180;
+		goRatica._element.style.zIndex = LAYER_CHARA;
+		goRatica.image = game.assets['img/g_ratica.png'];
+		goRatica.addEventListener('enterframe', function() {
+					this.y += 15;
+					if(this.y > 1000){
+						this.y = 180;
+					}
+		});
+		gameoverScene.addChild(goRatica);
+		
+		//袋設置
+		var goBag = new Sprite(124,115)
+		goBag.x = 600;
+		goBag.y = 270;
+		goBag.image = game.assets['img/g_bag.png']
+		goBag._element.style.zIndex = LAYER_CHARA;
+		gameoverScene.addChild(goBag);
+
+		//フレームレイヤ設置
+		var goFrame = new Sprite(800, 600);
+		goFrame._element.style.zIndex = LAYER_FRAME;
+		goFrame.image = game.assets['img/game_ui.png'];
+		gameoverScene.addChild(goFrame);
+
+		//ジェドてんてー
+		var mjed = new Sprite(201, 252);
+		mjed.x = 550;		// 表示位置を指定
+		mjed.y = -30;
+		mjed.image = game.assets['img/g_jed.png'];
+		mjed._element.style.zIndex = LAYER_CHARA;
+		mjed.addEventListener('enterframe', function() {
+					this.y += 20;
+					if(this.y > 1000){
+						game.replaceScene(scoreScene);
+						this.y = -30;
+					}
+		});
+		gameoverScene.addChild(mjed);
+
 		
 //リザルト画面
 		
@@ -558,10 +635,11 @@ window.onload = function() {
 		replayBtn.image = game.assets['img/result_btn.png'];
 		replayBtn.frame = 0;
 		replayBtn.addEventListener('touchstart', function() {	//クリックされたときの挙動
-			game.replaceScene(gameScene);
 			isYes = 0;
 			game.score = 0;
 			startTime = 0;
+			rePlay = 1;
+			game.replaceScene(gameScene);
 		});
 		scoreScene.addChild(replayBtn);
 		
@@ -581,39 +659,92 @@ window.onload = function() {
 		scoreScene.addChild(titleBtn2);
 		
 		//給料（スコア）
-		var finalScore = new Label();
+		var finalScore = new Label(" ");
 		finalScore.font = "28px 'Arial Black'";					// フォントの指定
-		finalScore.x = 300;
+		finalScore.x = 230;
 		finalScore.y =226;
 		finalScore._element.style.zIndex = LAYER_MSG;
+		finalScore._element.style.textAlign = "left";
 		finalScore.addEventListener('enterframe', function() {
 			this.text = game.score + "円";
 		});
 		scoreScene.addChild(finalScore);			//最終スコア表示
 		
 		//ランク表示
-		var rank = new Label();
+		var rank = new Label(" ");
 		rank.font = "28px 'Arial Black'";
-		rank.x = 320;
-		rank.y = 257;
+		rank.x = 230;
+		rank.y = 256;
 		rank._element.style.zIndex = LAYER_MSG;
-    rank.addEventListener('enterframe', function(){
-      if ((0 <= game.score ) &&  (game.score <= 500)){
-        this.text = "D";
-      }else if  ((500 < game.score ) &&  (game.score <= 1000)){
-        this.text = "C";
-      }else if  ((1000 < game.score ) &&  (game.score <= 5000)){
-        this.text = "B";
-      }else if  ((5000 < game.score ) &&  (game.score <= 10000)){
-        this.text = "A";
-      }else if  ((10000 < game.score ) &&  (game.score <= 100000)){
-        this.text = "S";
-      }else if (game.score > 100000){
-        this.text = "SSS";
-      };
-    });
-		
+		rank._element.style.textAlign = "left";
+		console.log(game.score);
+		shogoLv = 0;					//称号分け用変数
+		rank.addEventListener('enterframe', function() {
+		if ((0 <= game.score ) &&  (game.score < 500)){
+			rank.text = "D";
+			shogoLv = 1;
+		}else if  ((500 <= game.score ) &&  (game.score < 1000)){
+			rank.text = "C";
+			shogoLv = 2;
+		}else if  ((1000 <= game.score ) &&  (game.score < 5000)){
+			rank.text = "B";
+			shogoLv = 3;
+		}else if  ((5000 <= game.score ) &&  (game.score < 10000)){
+			rank.text = "A";
+			shogoLv = 4;
+		}else if  ((10000 <= game.score ) &&  (game.score <= 100000)){
+			rank.text = "S";
+			shogoLv = 5;
+		}else if (game. score > 100000){
+			rank.text = "SSS";
+			shogoLv = 6;
+		};
+		});
 		scoreScene.addChild(rank);
+		
+		//称号表示
+		var shogo = new Label(" ");
+		var gohobi = new Sprite(395,600);
+		gohobi.x = 430;
+		gohobi.y = 60;
+		gohobi._element.style.zIndex = LAYER_CHARA;
+		gohobi.image = game.assets['img/ratica.png'];
+		gohobi.frame = 6;
+		shogo.font = "20px 'Arial Black'";
+		shogo._element.style.textAlign = "left";
+		shogo.x = 230;
+		shogo.y = 291;
+		shogo._element.style.zIndex = LAYER_MSG;
+		shogo.addEventListener('enterframe', function() {
+		if (shogoLv === 1){
+			shogo.text = "へたれ見習いサンタ";
+			gohobi.x = 430;
+			gohobi.frame = 1;
+		}else if (shogoLv === 2){
+			shogo.text = "お手伝いさん";
+			gohobi.x = 430;
+			gohobi.frame = 4;
+		}else if  (shogoLv === 3){
+			shogo.text = "期待の新人";
+			gohobi.x = 400;
+			gohobi.frame = 3;
+		}else if  (shogoLv === 4){
+			shogo.text = "サンタ試験 1級（ジェドよりすごい）";
+			gohobi.x = 400;
+			gohobi.frame = 0;
+		}else if  (shogoLv === 5){
+			shogo.text = "レジェンド・オブ・サンタ";
+			gohobi.x = 400;
+			gohobi.frame = 5;
+		}else if (shogoLv === 6){
+			shogo.text = "全てを超えし者（神）";
+			gohobi.x = 400;
+			gohobi.frame = 5;
+		};
+		});
+		scoreScene.addChild(gohobi);
+		scoreScene.addChild(shogo);
+
 		
 	/*	//クリアーCG
 		var cCg = new Sprite(320, 600);
