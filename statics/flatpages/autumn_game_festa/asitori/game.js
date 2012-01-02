@@ -1,12 +1,12 @@
 enchant();
 
 window.onload = function() {
-  var game = new Game(400, 320);//‰æ–Ê‚ÌƒTƒCƒYİ’è
-  game.fps =30;//‰æ–Ê‚Ì‚P•bŠÔ‚ÌƒRƒ}”
-  game.preload('kawaz.gif','itemA.png','itemB.png','back.png','gigi1.gif','gigi2.png');//‰æ‘œ‚Ì“Ç‚İ‚İ
+  var game = new Game(400, 320);//ç”»é¢ã®ã‚µã‚¤ã‚ºè¨­å®š
+  game.fps =30;//ç”»é¢ã®ï¼‘ç§’é–“ã®ã‚³ãƒæ•°
+  game.preload('kawaz.gif','itemA.png','itemB.png','back.png','gigi1.gif','gigi2.png');//ç”»åƒã®èª­ã¿è¾¼ã¿
   game.keybind(90, 'a'); //z
   game.score = 0;
-  var timer = new Timer(30); //1•b30ƒtƒŒ[ƒ€
+  var timer = new Timer(30); //1ç§’ï¼30ãƒ•ãƒ¬ãƒ¼ãƒ 
   timer.play();
 
   game.addEventListener('enterframe', function(){
@@ -18,7 +18,7 @@ window.onload = function() {
 
   game.onload = function() {
 
-    var back = new Sprite(400,320);     //”wŒi‚Íugame.rootScene.backgroundColor = 'rgb(›, ›, ›)';v‚Å‚à‰Â
+    var back = new Sprite(400,320);     //èƒŒæ™¯ã¯ã€Œgame.rootScene.backgroundColor = 'rgb(â—‹, â—‹, â—‹)';ã€ã§ã‚‚å¯
     back.image = game.assets['back.png'];
     back.x = 0;
     back.y = 0;
@@ -26,33 +26,33 @@ window.onload = function() {
     game.rootScene.addChild(back);
 
 
-    //‚¯[‚«E‚Ö‚Ñ«
+    //ã‘ãƒ¼ããƒ»ã¸ã³â†“
 
-    var itemA = new Sprite(30, 30);//‰æ‘œ‚ÌƒTƒCƒY
-    itemA.image = game.assets['itemA.png'];//‰æ‘œ‚Ì–¼‘O
+    var itemA = new Sprite(30, 30);//ç”»åƒã®ã‚µã‚¤ã‚º
+    itemA.image = game.assets['itemA.png'];//ç”»åƒã®åå‰
     itemA.x = 0;
-    itemA.y = 110;//‰æ‘œ‚ÌˆÊ’u
-    itemA.pose = 0;//pose‚ğ‚¯[‚«‚É’è‹`
+    itemA.y = 110;//ç”»åƒã®ä½ç½®
+    itemA.pose = 0;//poseã‚’ã‘ãƒ¼ãã«å®šç¾©
 
     itemA.addEventListener('enterframe',function(){
       this.speed = 0;
 
-      if (game.input.up) {//ª‚ğ‰Ÿ‚µ‚½‚Æ‚«
+      if (game.input.up) {//â†‘ã‚’æŠ¼ã—ãŸã¨ã
         this.speed = -5;
-      } else if (game.input.down) {//«‚ğ‰Ÿ‚µ‚½‚Æ‚«
+      } else if (game.input.down) {//â†“ã‚’æŠ¼ã—ãŸã¨ã
         this.speed = 5;
       }
 
-      if(game.input.left) {//©‚ğ‰Ÿ‚µ‚½‚Æ‚«
+      if(game.input.left) {//â†ã‚’æŠ¼ã—ãŸã¨ã
         this.x = 0;
         this.scaleX = 1;
-      } else if (game.input.right){//¨‚ğ‰Ÿ‚µ‚½‚Æ‚«
+      } else if (game.input.right){//â†’ã‚’æŠ¼ã—ãŸã¨ã
         this.x = 370;
         this.scaleX = -1;
       }
       this.y += this.speed;
 
-      if(game.input.a) { // ‚š‚ğ‰Ÿ‚µ‚½‚Æ‚«
+      if(game.input.a) { // ï½šã‚’æŠ¼ã—ãŸã¨ã
         this.frame = 1;
       } else {
         this.frame = 0;
@@ -76,74 +76,74 @@ window.onload = function() {
 
     game.rootScene.addChild(itemA);
 
-    //‚¯[‚«E‚Ö‚Ñ@‚±‚±‚Ü‚Åª
+    //ã‘ãƒ¼ããƒ»ã¸ã³ã€€ã“ã“ã¾ã§â†‘
 
-    //‚©‚í‚¸‚½‚ñ«
+    //ã‹ã‚ãšãŸã‚“â†“
 
     var kawaz = new Sprite(45, 65);
     kawaz.image = game.assets['kawaz.gif'];
     kawaz.x = 138;
     kawaz.y = 110;
     kawaz.pose = 0;
-    var isFull = false; // –• ƒtƒ‰ƒO@‚Í@—§‚Á‚Ä‚È‚¢
-    var eatTime = 0; // H‚×‚Í‚¶‚ß‚½ŠÔ
+    var isFull = false; // æº€è…¹ãƒ•ãƒ©ã‚°ã€€ã¯ã€€ç«‹ã£ã¦ãªã„
+    var eatTime = 0; // é£Ÿã¹ã¯ã˜ã‚ãŸæ™‚é–“
 
     kawaz.addEventListener('enterframe', function(){
 
       if(!isFull){
-        // H‚×‚Ä‚È‚¢‚Æ‚«
-        if(!game.input.a) {                //‚¯[‚«‚ª
-          if(this.x > itemA.x) {         //¶‚É‚ ‚é‚Æ‚«
+        // é£Ÿã¹ã¦ãªã„ã¨ã
+        if(!game.input.a) {                //ã‘ãƒ¼ããŒ
+          if(this.x > itemA.x) {         //å·¦ã«ã‚ã‚‹ã¨ã
             this.scaleX = 1;
             this.speed = -2;
-          } else if(this.x < itemA.x) {  //‰E‚É‚ ‚é‚Æ‚«
+          } else if(this.x < itemA.x) {  //å³ã«ã‚ã‚‹ã¨ã
             this.scaleX = -1;
             this.speed = 2;
           }
           this.x += this.speed;
 
-          if(this.y+32 > itemA.y+30) {         //ã‚É‚ ‚é‚Æ‚«
+          if(this.y+32 > itemA.y+30) {         //ä¸Šã«ã‚ã‚‹ã¨ã
             this.speed = -2;
-          } else if(this.y+32 < itemA.y) {  //‰º‚É‚ ‚é‚Æ‚«
+          } else if(this.y+32 < itemA.y) {  //ä¸‹ã«ã‚ã‚‹ã¨ã
             this.speed = 2;
-          } else if(itemA.y < this.y+32 < itemA.y+30) { //‰¡‚É‚ ‚é‚Æ‚«
+          } else if(itemA.y < this.y+32 < itemA.y+30) { //æ¨ªã«ã‚ã‚‹ã¨ã
             this.speed = 0;
           }
           this.y += this.speed;
-        } else if(game.input.a) {          //‚Ö‚Ñ‚ª
+        } else if(game.input.a) {          //ã¸ã³ãŒ
 
-          if(this.x > itemA.x) {         //¶‚É‚ ‚é‚Æ‚«
+          if(this.x > itemA.x) {         //å·¦ã«ã‚ã‚‹ã¨ã
             this.scaleX = -1;
             this.speed = 5;
-          } else if(this.x < itemA.x) {  //‰E‚É‚ ‚é‚Æ‚«
+          } else if(this.x < itemA.x) {  //å³ã«ã‚ã‚‹ã¨ã
             this.scaleX = 1;
             this.speed = -5;
           }
           this.x += this.speed;
 
-          if(this.y+32 > itemA.y+30) {         //ã‚É‚ ‚é‚Æ‚«
+          if(this.y+32 > itemA.y+30) {         //ä¸Šã«ã‚ã‚‹ã¨ã
             this.speed = 5;
-          } else if(this.y+32 < itemA.y){   //‰º‚É‚ ‚é‚Æ‚«
+          } else if(this.y+32 < itemA.y){   //ä¸‹ã«ã‚ã‚‹ã¨ã
             this.speed = -5;
-          } else if(itemA.y < this.y+32 < itemA.y+30){  //‰¡‚É‚ ‚é‚Æ‚«
+          } else if(itemA.y < this.y+32 < itemA.y+30){  //æ¨ªã«ã‚ã‚‹ã¨ã
             this.speed = 0;
           }
           this.y += this.speed;
         }
-        if(this.intersect(itemA)) { //‚¯[‚«‚Æ‚Ô‚Â‚©‚Á‚½‚Æ‚«
-          this.speed = 0;         //~‚Ü‚é
-          isFull = true;          //–• ƒtƒ‰ƒO‚ª—§‚Â
-          eatTime = game.frame;   //H‚×n‚ß‚½ŠÔ‚ª‚¢‚Â‚È‚Ì‚©‹L˜^ieatTime‚ÉŒ»İ‚Ìgame.frame‚ğ‘ã“üj
+        if(this.intersect(itemA)) { //ã‘ãƒ¼ãã¨ã¶ã¤ã‹ã£ãŸã¨ã
+          this.speed = 0;         //æ­¢ã¾ã‚‹
+          isFull = true;          //æº€è…¹ãƒ•ãƒ©ã‚°ãŒç«‹ã¤
+          eatTime = game.frame;   //é£Ÿã¹å§‹ã‚ãŸæ™‚é–“ãŒã„ã¤ãªã®ã‹è¨˜éŒ²ï¼ˆeatTimeã«ç¾åœ¨ã®game.frameã‚’ä»£å…¥ï¼‰
         }
       } else {
-        //@H‚×‚Ä‚é‚Æ‚«
-        if(game.frame > eatTime + 90){ //‘S‘Ì‚ÌŠÔ‚ªAH‚×n‚ß‚½ŠÔ+90ƒtƒŒ[ƒ€i3•bj‚É‚È‚Á‚½‚Æ‚«
-          isFull = false;            //–• ƒtƒ‰ƒO‚ª‚È‚­‚È‚é
+        //ã€€é£Ÿã¹ã¦ã‚‹ã¨ã
+        if(game.frame > eatTime + 90){ //å…¨ä½“ã®æ™‚é–“ãŒã€é£Ÿã¹å§‹ã‚ãŸæ™‚é–“+90ãƒ•ãƒ¬ãƒ¼ãƒ ï¼ˆ3ç§’ï¼‰ã«ãªã£ãŸã¨ã
+          isFull = false;            //æº€è…¹ãƒ•ãƒ©ã‚°ãŒãªããªã‚‹
         }
       }
 
 
-      //‰æ–Ê‚©‚ç‚Í‚İo‚È‚¢‚æ‚¤‚É«
+      //ç”»é¢ã‹ã‚‰ã¯ã¿å‡ºãªã„ã‚ˆã†ã«â†“
       if(this.x <= 0 ) {
         this.x = 0;
       }
@@ -156,10 +156,10 @@ window.onload = function() {
       if(this.y + this.height > game.height) {
         this.y = game.height - this.height;
       }
-      //‚Í‚İ‚¾‚µ‚±‚±‚Ü‚Åª
+      //ã¯ã¿ã ã—ã“ã“ã¾ã§â†‘
 
 
-      //ƒAƒjƒ[ƒVƒ‡ƒ“«
+      //ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³â†“
 
       if (!isFull && game.frame % 4 == 0) {
         this.pose++;
@@ -169,30 +169,30 @@ window.onload = function() {
         this.frame = 0;
       }
 
-      //ƒAƒjƒ‚±‚±‚Ü‚Åª
+      //ã‚¢ãƒ‹ãƒ¡ã“ã“ã¾ã§â†‘
 
 
     });
 
     game.rootScene.addChild(kawaz);
 
-    //‚©‚í‚¸‚½‚ñ@‚±‚±‚Ü‚Åª
+    //ã‹ã‚ãšãŸã‚“ã€€ã“ã“ã¾ã§â†‘
 
-    //‚¬‚¬‚Ë‚±«
+    //ããã­ã“â†“
 
     var gigi = new Sprite(50, 50);
     gigi.image = game.assets['gigi1.gif'];
-    initialX = [-50, 450][Math.floor(Math.random() * 2)]; // -50‚©450‚ğƒ‰ƒ“ƒ_ƒ€‚Å•Ô‚·
+    initialX = [-50, 450][Math.floor(Math.random() * 2)]; // -50ã‹450ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã§è¿”ã™
     gigi.x = initialX;
     gigi.y = Math.floor(Math.random() * game.height-50);
     gigi.speed = 0;
     gigi.pose = 0;
-    var moe = false; // –G‚¦ƒtƒ‰ƒO‚Í—§‚Á‚Ä‚È‚¢
+    var moe = false; // èŒãˆãƒ•ãƒ©ã‚°ã¯ç«‹ã£ã¦ãªã„
     var moeTime = 0;
-    var appearTime = Math.floor(Math.random() * 120); // oŒ»ŠÔ‚ğ‰Šú‰»‚·‚é
+    var appearTime = Math.floor(Math.random() * 120); // å‡ºç¾æ™‚é–“ã‚’åˆæœŸåŒ–ã™ã‚‹
 
     gigi.addEventListener('enterframe', function(){
-      if(game.frame >= appearTime) {  // game.frame‚ªoŒ»ŠÔˆÈã‚É‚È‚Á‚½‚ç
+      if(game.frame >= appearTime) {  // game.frameãŒå‡ºç¾æ™‚é–“ä»¥ä¸Šã«ãªã£ãŸã‚‰
         if(!moe){
           if(this.x == -50) {
             this.scaleX = -1;
@@ -203,48 +203,48 @@ window.onload = function() {
           }
 
           this.x += this.speed;
-          if (game.frame % 3 == 0) {     //‚ ‚É‚ß[‚µ‚å‚ñ
+          if (game.frame % 3 == 0) {     //ã‚ã«ã‚ãƒ¼ã—ã‚‡ã‚“
             this.pose++;
             this.pose %= 2;
             this.frame = this.pose + 1;
           }
           if(this.x < -50 || this.x > 450) {
-            appearTime = game.frame + Math.floor(Math.random() * 120); // oŒ»ŠÔ‚ğ•Ï‚¦‚éB¡‚ÌŠÔ‚©‚ç1•ªˆÈ“à‚Ì‚Ç‚±‚©‚É‚·‚éB
+            appearTime = game.frame + Math.floor(Math.random() * 120); // å‡ºç¾æ™‚é–“ã‚’å¤‰ãˆã‚‹ã€‚ä»Šã®æ™‚é–“ã‹ã‚‰1åˆ†ä»¥å†…ã®ã©ã“ã‹ã«ã™ã‚‹ã€‚
             this.x = initialX;
           }
 
-          if(this.intersect(kawaz)) { //‚©‚í‚¸‚½‚ñ‚Æ‚Ô‚Â‚©‚Á‚½‚Æ‚«
-            this.speed = 0;         //~‚Ü‚é
-            moe = true;          //–G‚¦ƒtƒ‰ƒO‚ª—§‚Â
-            moeTime = game.frame;   //‚Ô‚Â‚©‚Á‚½ŠÔ‚ª‚¢‚Â‚È‚Ì‚©‹L˜^imoeTime‚ÉŒ»İ‚Ìgame.frame‚ğ‘ã“üj
+          if(this.intersect(kawaz)) { //ã‹ã‚ãšãŸã‚“ã¨ã¶ã¤ã‹ã£ãŸã¨ã
+            this.speed = 0;         //æ­¢ã¾ã‚‹
+            moe = true;          //èŒãˆãƒ•ãƒ©ã‚°ãŒç«‹ã¤
+            moeTime = game.frame;   //ã¶ã¤ã‹ã£ãŸæ™‚é–“ãŒã„ã¤ãªã®ã‹è¨˜éŒ²ï¼ˆmoeTimeã«ç¾åœ¨ã®game.frameã‚’ä»£å…¥ï¼‰
 
-            var neko = new Sprite(210, 280);       //‚¬‚¬‚Ë‚±‘å•\¦
+            var neko = new Sprite(210, 280);       //ããã­ã“å¤§è¡¨ç¤º
             neko.image = game.assets['gigi2.png'];
             neko.x = 100;
             neko.y = 10;
-            neko.opacity = 1;     //“§–¾“x100“
+            neko.opacity = 1;     //é€æ˜åº¦100ï¼…
             game.rootScene.addChild(neko);
 
             neko.addEventListener('enterframe', function(){
               if(game.frame<moeTime + 40) {
-                this.opacity = 1 - (game.frame - moeTime) * 0.025;  //“§–¾“x‚ğ•Ï‚¦‚Ä3•bŠÔ‚ÅƒtƒF[ƒhƒCƒ“AƒtƒF[ƒhƒAƒEƒg
+                this.opacity = 1 - (game.frame - moeTime) * 0.025;  //é€æ˜åº¦ã‚’å¤‰ãˆã¦3ç§’é–“ã§ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³ã€ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆ
               } else if(moeTime + 40 < game.frame < moeTime + 50) {
                 this.opacity = 0;
               } else if(moeTime + 50 < game.frame){
                 this.opacity = 0 + (game.frame - moeTime + 50) * 0.025;
               }
-              //ƒ^ƒCƒ}[~‚ß‚é
+              //ã‚¿ã‚¤ãƒãƒ¼æ­¢ã‚ã‚‹
             });
           }
         } else {
-          //  –G‚¦‚Ä‚é‚Æ‚«
-          if(game.frame > moeTime + 90){         //‘S‘Ì‚ÌŠÔ‚ªA–G‚¦n‚ß‚½ŠÔ+90ƒtƒŒ[ƒ€i3•bj‚É‚È‚Á‚½‚Æ‚«
-            game.rootScene.removeChild(neko);  //‚¬‚¬‚Ë‚±”ñ•\¦iƒtƒF[ƒhƒAƒEƒg‚³‚¹‚½‚¢j
-            moe = false;                       //–G‚¦ƒtƒ‰ƒO‚ª‚È‚­‚È‚é
-            appearTime = game.frame + Math.floor(Math.random() * 120); // oŒ»ŠÔ‚ğ•Ï‚¦‚éB¡‚ÌŠÔ‚©‚ç1•ªˆÈ“à‚Ì‚Ç‚±‚©‚É‚·‚éB
+          //  èŒãˆã¦ã‚‹ã¨ã
+          if(game.frame > moeTime + 90){         //å…¨ä½“ã®æ™‚é–“ãŒã€èŒãˆå§‹ã‚ãŸæ™‚é–“+90ãƒ•ãƒ¬ãƒ¼ãƒ ï¼ˆ3ç§’ï¼‰ã«ãªã£ãŸã¨ã
+            game.rootScene.removeChild(neko);  //ããã­ã“éè¡¨ç¤ºï¼ˆãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆã•ã›ãŸã„ï¼‰
+            moe = false;                       //èŒãˆãƒ•ãƒ©ã‚°ãŒãªããªã‚‹
+            appearTime = game.frame + Math.floor(Math.random() * 120); // å‡ºç¾æ™‚é–“ã‚’å¤‰ãˆã‚‹ã€‚ä»Šã®æ™‚é–“ã‹ã‚‰1åˆ†ä»¥å†…ã®ã©ã“ã‹ã«ã™ã‚‹ã€‚
             gigi.x = initialX;
 
-            var itemBNum =10;                  //V‚½‚Éƒn[ƒg‚ğ‚½‚­‚³‚ño‚·
+            var itemBNum =10;                  //æ–°ãŸã«ãƒãƒ¼ãƒˆã‚’ãŸãã•ã‚“å‡ºã™
             for (i = 0; i < itemBNum; i++) {
               var itemB = new Sprite(30, 30);
               itemB.x = Math.random() * 370;
@@ -254,7 +254,7 @@ window.onload = function() {
 
               itemB.addEventListener('enterframe', function(){
 
-                if (game.frame % 15 == 0) {     //‚ ‚É‚ß[‚µ‚å‚ñ
+                if (game.frame % 15 == 0) {     //ã‚ã«ã‚ãƒ¼ã—ã‚‡ã‚“
                   this.pose++;
                   this.pose %= 2;
                   this.frame = this.pose + 1;
@@ -262,7 +262,7 @@ window.onload = function() {
               })
             }
 
-            //ƒ^ƒCƒ}[ÄŠJ
+            //ã‚¿ã‚¤ãƒãƒ¼å†é–‹
           }
         }
 
@@ -270,9 +270,9 @@ window.onload = function() {
     });
     game.rootScene.addChild(gigi);
 
-    //‚¬‚¬‚Ë‚±‚±‚±‚Ü‚Åª
+    //ããã­ã“ã“ã“ã¾ã§â†‘
 
-    //‚Í[‚Æ«
+    //ã¯ãƒ¼ã¨â†“
 
     var itemBNum = 6;
     for (i = 0; i < itemBNum; i++) {
@@ -284,22 +284,22 @@ window.onload = function() {
 
       itemB.addEventListener('enterframe', function(){
 
-    /*@ª
+    /*ã€€â†‘
 
-    Math.floor ¨ ¬”“_ˆÈ‰ºØ‚èÌ‚Ä
-    Math.random() ¨ ‚OˆÈã‚P–¢–‚Ì”‚ğƒ‰ƒ“ƒ_ƒ€‚Åo‚·
-    * game.width ¨ ƒQ[ƒ€‰æ–Ê‚Ì•‚ğ‚©‚¯‚é
+    Math.floor â†’ å°æ•°ç‚¹ä»¥ä¸‹åˆ‡ã‚Šæ¨ã¦
+    Math.random() â†’ ï¼ä»¥ä¸Šï¼‘æœªæº€ã®æ•°ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã§å‡ºã™
+    * game.width â†’ ã‚²ãƒ¼ãƒ ç”»é¢ã®å¹…ã‚’ã‹ã‘ã‚‹
 
 */
 
-        if(this.intersect(kawaz)){       //ƒXƒRƒA
+        if(this.intersect(kawaz)){       //ã‚¹ã‚³ã‚¢
           game.score += 10;
           this.x = Math.random() * 370;
           this.y = Math.random() * 290;
           console.log(game.score);
         }
 
-        if (game.frame % 15 == 0) {     //‚ ‚É‚ß[‚µ‚å‚ñ
+        if (game.frame % 15 == 0) {     //ã‚ã«ã‚ãƒ¼ã—ã‚‡ã‚“
           this.pose++;
           this.pose %= 2;
           this.frame = this.pose + 1;
@@ -311,8 +311,8 @@ window.onload = function() {
 
 
     }
-    //‚Í[‚Æ@‚±‚±‚Ü‚Åª
-    //ƒXƒRƒA«
+    //ã¯ãƒ¼ã¨ã€€ã“ã“ã¾ã§â†‘
+    //ã‚¹ã‚³ã‚¢â†“
 
     var score = new Label();
     score.font = "12px 'Arial Black'";                      
@@ -322,24 +322,24 @@ window.onload = function() {
 
     game.rootScene.addChild(score);
 
-    //ƒXƒRƒA‚±‚±‚Ü‚Åª
+    //ã‚¹ã‚³ã‚¢ã“ã“ã¾ã§â†‘
 	
-    /*ƒ^ƒCƒ}[«
+    /*ã‚¿ã‚¤ãƒãƒ¼â†“
 	
 	var time_label = new Label();
         time_label.x = time_label.y = 15;
         time_label._element.style.zIndex = 128;
 		
         time_label.addEventListener(enchant.Event.ENTER_FRAME, function(){
-            var progress = parseInt(game.frame/game.fps);          //Œo‰ßŠÔ‚Ìæ“¾
+            var progress = parseInt(game.frame/game.fps);          //çµŒéæ™‚é–“ã®å–å¾—
             time = LIMIT_TIME - parseInt(game.frame/game.fps)+"";
-            this.text = "ƒŠƒ~ƒbƒg : " + time;
-            // ƒ^ƒCƒ€‚ª0ˆÈ‰º‚É‚È‚Á‚½‚çƒQ[ƒ€ƒI[ƒo[ƒV[ƒ“‚ÉˆÚs‚·‚é
+            this.text = "ãƒªãƒŸãƒƒãƒˆ : " + time;
+            // ã‚¿ã‚¤ãƒ ãŒ0ä»¥ä¸‹ã«ãªã£ãŸã‚‰ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ã‚·ãƒ¼ãƒ³ã«ç§»è¡Œã™ã‚‹
             //if (time <= 0) { changeToGameOverScene(); }
         });
         game.rootScene.addChild(time_label);
 
-    ƒ^ƒCƒ}[‚±‚±‚Ü‚Åª*/
+    ã‚¿ã‚¤ãƒãƒ¼ã“ã“ã¾ã§â†‘*/
 
 	
 
