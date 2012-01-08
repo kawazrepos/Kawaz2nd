@@ -299,7 +299,7 @@ GCAL_CALENDAR_ID = "kawaz.org_u41faouova38rcoh8eaimbg42c@group.calendar.google.c
 #--------------------------------------------------------------------------------
 CONSUMER_KEY            = ""
 CONSUMER_SECRET         = ""
-TWITTER_HASHTAGS        = (u"#Kawaz", u"#kawaz", )
+TWITTER_HASHTAGS        = (u"#Kawaz", u"#kawaz", u'#ggjsap', u'ggj')
 TWITTER_SOURCE          = u'Kawaz'
 BOT_CONSUMER_KEY        = ''
 BOT_CONSUMER_SECRET     = ''
