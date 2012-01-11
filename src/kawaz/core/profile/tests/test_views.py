@@ -29,7 +29,7 @@ from django.contrib.auth.models import User
 
 class BaseTestCase(TestCase):
     """Base TestCase of profile views"""
-    urls = 'kawaz.app.profile.tests.urls'
+    urls = 'kawaz.core.profile.tests.urls'
     fixtures = ['test.yaml']
 
     def setUp(self):
@@ -39,10 +39,6 @@ class BaseTestCase(TestCase):
         profile = User.objects.get(pk=1).get_profile()
         profile.nickname = 'admin'
         profile.save()
-
-    def tearDown(self):
-        from observer import unwatch_all
-        unwatch_all()
 
 class TestProfileFilterView(BaseTestCase):
     """Test collection for ProfileFilterView"""

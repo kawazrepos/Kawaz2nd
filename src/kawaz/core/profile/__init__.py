@@ -1,13 +1,12 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
-Test collection of profile application models
+Kawaz Profile Application
 
+This is Kawaz specified Profile application.
+You must include 'kawaz.app.profile' in your ``INSTALLED_APPS`` and
+must set ``AUTH_PROFILE_MODULE`` to 'profile.Profile' for using this app.
 
-.. Note::
-    Adding 'django.contrib.comments' to ``INSTALLED_APPS`` is required to
-    execute this test collection. I don't know why but removing user may fail
-    without the application.
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
@@ -31,8 +30,14 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.conf import settings
 
-# check required application is in INSTALLED_APPS
-if 'django.contrib.comments' not in settings.INSTALLED_APPS:
-    raise Exception(
-            """'django.contrib.comments' is required in INSTALLED_APPS to """
-            """execute this test collection.""")
+# Check configuration
+if not hasattr(settings, 'AUTH_PROFILE_MODULE'):
+    raise Exception("""You must set 'AUTH_PROFILE_MODULE' in `settings.py`""")
+elif settings.AUTH_PROFILE_MODULE != 'profile.Profile':
+    raise Exception("""You must set 'AUTH_PROFILE_MODULE' to """
+                    """'profile.Profile' to use Kawaz profile""")
+
+# Add 'profile' property to django.contrib.auth.models.User
+from django.contrib.auth.models import User
+if not hasattr(User, 'profile'):
+    User.profile = property(User.get_profile)

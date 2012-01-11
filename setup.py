@@ -44,7 +44,7 @@ setup(
         'django-piston',
         'django-qwert',
         'django-observer',
-        'django-object-permission>0.2rc2',
+        'django-object-permission>=0.3rc1',
         'django-universaltag',
         'django-googlemap-widget',
     ],

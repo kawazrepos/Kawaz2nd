@@ -3,10 +3,7 @@
 Kawaz Profile Object Permission Handler
 
 CLASS:
-    Skill - A skill
-    ProfileManager - A profile manager
-    Profile - A profile
-    Service - A service
+    ProfileObjectPermHandler - Object Permission Handler class of Profile
 
 
 AUTHOR:
@@ -30,31 +27,33 @@ License:
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 __VERSION__ = "0.1.0"
-from observer import watch
 from object_permission import site
-from object_permission.handlers import ObjectPermHandlerBase
+from object_permission.handlers import ObjectPermHandler
 
 from models import Profile
 
-class ProfileObjectPermHandler(ObjectPermHandlerBase):
-    def created(self):
-        # Watch pub_state
-        self._pub_state_watcher = \
-                watch(self.obj, 'pub_state', self._pub_state_updated)
-        self.updated()
-    def updated(self):
-        # Profile owner has manager permission
-        self.mediator.manager(self.obj.user)
-        # Authenticated user can view
-        self.mediator.viewer(None)
-        # Anonymous user is depend on pub_state
-        if self.obj.pub_state == 'public':
-            self.mediator.viewer('anonymous')
-        else:
-            self.mediator.reject('anonymous')
-    def deleted(self):
-        self._pub_state_watcher.unwatch()
+class ProfileObjectPermHandler(ObjectPermHandler):
+    """Object permission handler of Kawaz Profile"""
 
-    def _pub_state_updated(self, sender, obj, attr):
-        self.updated()
+    def get_user(self):
+        """get user of profile instance"""
+        return getattr(self.instance, 'user')
+    def get_pub_state(self):
+        """get pub_state of profile instance"""
+        return getattr(self.instance, 'pub_state')
+
+    def setup(self):
+        """setup function"""
+        self.watch('pub_state')
+
+    def updated(self, attr):
+        # Profile owner has manager permission
+        self.manager(self.get_user())
+        # Authenticated user can view
+        self.viewer(None)
+        # Anonymous user is depend on pub_state
+        if self.get_pub_state() == 'public':
+            self.viewer('anonymous')
+        else:
+            self.reject('anonymous')
 site.register(Profile, ProfileObjectPermHandler)

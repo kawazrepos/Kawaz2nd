@@ -34,10 +34,6 @@ from ..models import Profile
 foo = None
 profile = None
 
-def teardown():
-    from observer import unwatch_all
-    unwatch_all()
-
 def _create_user(username='foo'):
     """create user and return user and automatically generated profile"""
     # create test user
