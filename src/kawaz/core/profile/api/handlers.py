@@ -25,9 +25,7 @@ License:
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django import forms
-from django.core.exceptions import ValidationError
 from piston.handler import BaseHandler
-from piston.utils import rc
 from piston.utils import throttle
 from piston.utils import validate
 
@@ -47,7 +45,7 @@ class ProfileMoodHandler(BaseHandler):
     @validate(ProfileMoodValidationForm)
     @throttle(5, 100) # allow 5 times in 100 sec
     def update(self, request):
-        profile = request.user.get_profile()
+        profile = request.user.profile
 
         profile.mood = request.PUT.get('mood', profile.mood)
         profile.save()

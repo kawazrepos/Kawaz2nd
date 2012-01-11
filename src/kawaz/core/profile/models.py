@@ -202,7 +202,7 @@ class Profile(models.Model):
                                     related_name='users', null=True, blank=True)
 
     user = models.ForeignKey(User, verbose_name=_('account'),
-                             related_name='profile', unique=True,
+                             unique=True,
                              primary_key=True, editable=False)
     twitter_token = models.CharField(_('twitter oauth access token'),
                                      max_length=1023, editable=False,
@@ -274,6 +274,11 @@ class Profile(models.Model):
         return bool(self.twitter_token)
     is_authenticated_twitter.short_description = _('Connected with Twitter')
     is_authenticated_twitter.boolean = True
+
+# Add 'profile' property to django.contrib.auth.models.User
+from django.contrib.auth.models import User
+if not hasattr(User, 'profile'):
+    User.profile = property(User.get_profile)
 
             
 class Service(models.Model):

@@ -57,7 +57,8 @@ class TestForceRedirectToProfileUpdatePageMiddleware(TestCase):
         response = self.client.get('/detail/admin/')
         self.assertEqual(response.status_code, 302)
         # set user.profile.nickname
-        profile = self.user.get_profile()
+        #profile = self.user.get_profile()
+        profile = self.user.profile
         profile.nickname = 'hogehogefoofoo'
         profile.save()
         # nomore redirection

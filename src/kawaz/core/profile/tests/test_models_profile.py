@@ -49,7 +49,7 @@ def _create_user(username='foo'):
         raise Exception(
                 """Profile should be automatically created but none """
                 """related profile is found.""")
-    profile = user.get_profile()
+    profile = user.profile
     # set nickname because nickname is required but not be created
     # automatically
     profile.nickname = username
@@ -60,7 +60,7 @@ def _create_user(username='foo'):
 
 def _delete_user(user):
     """delete user then related profile automatically removed"""
-    _profile = user.get_profile()
+    _profile = user.profile
     # remove test user
     user.delete()
     # profile related should be removed automatically
@@ -76,6 +76,12 @@ def test_creation():
     global foo, profile
     foo, profile = _create_user()
 
+def test_shortcut_property():
+    """profile.Profile: User instance has shortcut property"""
+    assert hasattr(User, 'profile'), 'User should have "profile" proeprty'
+    global foo, profile
+    foo, profile = _create_user()
+    assert getattr(foo, 'profile') == profile, '"profile" property return wrong value'
 
 def test_modification():
     """profile.Profile: modification works correctly"""

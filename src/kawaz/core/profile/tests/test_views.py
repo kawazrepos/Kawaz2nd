@@ -36,7 +36,7 @@ class BaseTestCase(TestCase):
         # Activate admin
         # Note: Without activating admin, accessing admin profile page may
         #       Fail
-        profile = User.objects.get(pk=1).get_profile()
+        profile = User.objects.get(pk=1).profile
         profile.nickname = 'admin'
         profile.save()
 
@@ -105,7 +105,7 @@ class TestProfileMoodAPIView(BaseTestCase):
         self.assertEqual(response.status_code, 200)
 
         user = User.objects.get(username='foobar')
-        profile = user.get_profile()
+        profile = user.profile
         self.assertEqual(profile.mood, 'barbar')
 
         # Invalid mood message (mood at most 127 characters)
