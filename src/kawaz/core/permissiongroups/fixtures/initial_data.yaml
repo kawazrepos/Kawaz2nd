@@ -1,0 +1,94 @@
+- model: auth.group
+  pk: 20
+  fields:
+    name: general
+    permissions:
+      - [add_entry, blogs, entry]
+      - [add_category, blogs, category]
+      - [add_component, bugwaz, component]
+      - [add_version, bugwaz, version]
+      - [add_material, commons, material]
+      - [add_event, events, event]
+      - [add_markitupcomment, mcomments, markitupcomment]
+      - [add_message, messages, message]
+      - [view_message, messages, message]
+      - [add_project, projects, project]
+      - [add_task, tasks, task]
+      - [view_task, tasks, task]
+      - [add_thread, threads, thread]
+      - [add_tweet, tweets, tweet]
+      - [add_entry, wikis, entry]
+- model: auth.group
+  pk: 21
+  fields:
+    name: nerv
+    permissions:
+      - [add_announcement, announcements, announcement]
+      - [change_announcement, announcements, announcement]
+      - [delete_announcement, announcements, announcement]
+      - [add_skill, profiles, skill]
+      - [change_skill, profiles, skill]
+      - [delete_skill, profiles, skill]
+      - [add_category, projects, category]
+      - [change_category, projects, category]
+      - [delete_category, projects, category]
+      - [email_message, messages, message]
+      - [view_registrationprofile, threestep_registration, registrationprofile]
+      - [approve_registrationprofile, threestep_registration, registrationprofile]
+      - [reject_registrationprofile, threestep_registration, registrationprofile]
+      - [view_flatpage, flatpages, flatpage]
+      - [add_flatpage, flatpages, flatpage]
+      - [change_flatpage, flatpages, flatpage]
+      - [delete_flatpage, flatpages, flatpage]
+- model: auth.group
+  pk: 22
+  fields:
+    name: seele
+    permissions:
+      - [change_user, auth, user]
+      - [change_group, auth, group]
+      - [view_permissiongroup, permissiongroups, permissiongroup]
+      - [add_permissiongroup, permissiongroups, permissiongroup]
+      - [change_permissiongroup, permissiongroups, permissiongroup]
+      - [delete_permissiongroup, permissiongroups, permissiongroup]
+      - [view-ip_material, commons, material]
+- model: permissiongroups.permissiongroup
+  pk: 1
+  fields:
+    codename: general
+    name: 一般ユーザー権限グループ
+    description: |
+      Kawaz登録時に自動的に所属する一般ユーザー向けパーミッショングループです。
+      新規オブジェクトの作成権限やメッセージの表示権限を与えます。
+    group: 20
+    is_staff: false
+    is_promotable: false
+    is_default: true
+- model: permissiongroups.permissiongroup
+  pk: 2
+  fields:
+    codename: nerv
+    name: ネルフ社員権限グループ
+    description: |
+      Kawazスタッフ用の権限です。
+      フラットページの作成・編集権限や外部ユーザーのコメント削除機能など
+      一般ユーザーよりも上位の権限を与えてください。
+    group: 21
+    is_staff: true
+    is_promotable: false
+    is_default: false
+- model: permissiongroups.permissiongroup
+  pk: 3
+  fields:
+    codename: seele
+    name: ゼーレ委員会権限グループ
+    description: |
+      Kawaz開発者グループ用の権限です。
+      パーミッションの編集権限などクリティカルな権限を所持させてください。
+      <em>またこのグループに属するユーザーは神に昇格が可能となるため神権限を与えられている
+      のと同様の権限を持ちます。</em>
+      したがってこの グループにユーザーを追加する場合は最新の注意を払ってください。
+    group: 22
+    is_staff: true
+    is_promotable: true
+    is_default: false

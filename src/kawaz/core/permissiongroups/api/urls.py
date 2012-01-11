@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
-short module explanation
+API urls 
 
 
 AUTHOR:
@@ -24,19 +24,20 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from django.conf.urls.defaults import patterns, url, include
+from django.conf.urls.defaults import patterns, url
+from piston.resource import Resource
+from kawaz.extensions.piston.authentication import DjangoAuthentication
 
-from views import ProfileFilterView
-from views import ProfileDetailView
-from views import ProfileUpdateView
+from handlers import PromoteHandler
+from handlers import DemoteHandler
 
-import api.urls
+auth = DjangoAuthentication()
+ad = {'authentication': auth}
+
+promote_resource = Resource(handler=PromoteHandler, **ad)
+demote_resource = Resource(handler=DemoteHandler, **ad)
 
 urlpatterns = patterns('',
-    url(r'^$', ProfileFilterView.as_view(), name='profiles-profile-list'),
-    url(r'^update/$', ProfileUpdateView.as_view(),
-        name='profiles-profile-update'),
-    url(r'^(?P<slug>[^/]+)/$', ProfileDetailView.as_view(),
-        name='profiles-profile-detail'),
-    url(r'^', include(api.urls)),
+    url(r'^promote/$', promote_resource, name='permissiongroups-permissiongroup-api-promote'),
+    url(r'^demote/$', demote_resource, name='permissiongroups-permissiongroup-api-demote'),
 )

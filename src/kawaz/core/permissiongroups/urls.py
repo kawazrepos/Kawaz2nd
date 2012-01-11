@@ -26,17 +26,19 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.conf.urls.defaults import patterns, url, include
 
-from views import ProfileFilterView
-from views import ProfileDetailView
-from views import ProfileUpdateView
+from views import PermissionGroupListView
+from views import PermissionGroupDetailView
+from views import PermissionGroupCreateView
+from views import PermissionGroupUpdateView
+from views import PermissionGroupDeleteView
 
 import api.urls
 
 urlpatterns = patterns('',
-    url(r'^$', ProfileFilterView.as_view(), name='profiles-profile-list'),
-    url(r'^update/$', ProfileUpdateView.as_view(),
-        name='profiles-profile-update'),
-    url(r'^(?P<slug>[^/]+)/$', ProfileDetailView.as_view(),
-        name='profiles-profile-detail'),
+    url(r'^$', PermissionGroupListView.as_view(), name='permissiongroups-permissiongroup-list'),
+    url(r'^(?P<pk>\d+)/$', PermissionGroupDetailView.as_view(), name='permissiongroups-permissiongroup-detail'),
+    url(r'^create/$', PermissionGroupCreateView.as_view(), name='permissiongroups-permissiongroup-create'),
+    url(r'^(?P<pk>\d+)/update/$', PermissionGroupUpdateView.as_view(), name='permissiongroups-permissiongroup-update'),
+    url(r'^(?P<pk>\d+)/delete/$', PermissionGroupDeleteView.as_view(), name='permissiongroups-permissiongroup-delete'),
     url(r'^', include(api.urls)),
 )
