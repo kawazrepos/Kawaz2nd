@@ -49,7 +49,8 @@ def _create_user(username='foo'):
         raise Exception(
                 """Profile should be automatically created but none """
                 """related profile is found.""")
-    profile = user.get_profile()
+    #profile = user.get_profile()
+    profile = user.profile
     # set nickname because nickname is required but not be created
     # automatically
     profile.nickname = username
@@ -60,7 +61,8 @@ def _create_user(username='foo'):
 
 def _delete_user(user):
     """delete user then related profile automatically removed"""
-    _profile = user.get_profile()
+    #_profile = user.get_profile()
+    _profile = user.profile
     # remove test user
     user.delete()
     # profile related should be removed automatically
