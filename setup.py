@@ -40,7 +40,7 @@ setup(
         'PIL',
         'django>=1.3',
         'django-nose',
-        'django-filter',
+        'django-filter>=0.5.3dev',
         'django-piston',
         'django-qwert',
         'django-observer',
@@ -49,6 +49,6 @@ setup(
         'django-googlemap-widget',
     ],
     dependency_links = [
-        'https://github.com/lambdalisue/django-filter/zipball/master#egg=django-filter',
+        'https://github.com/lambdalisue/django-filter/zipball/master#egg=django-filter-0.5.3dev',
     ],
 )

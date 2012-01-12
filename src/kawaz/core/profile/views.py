@@ -29,7 +29,7 @@ from django.views.generic import DetailView
 
 from qwert.http import Http403
 from object_permission.decorators import permission_required
-from django_filters.generic.classbase import FilterView
+from django_filters.views import FilterView
 
 from models import Profile
 from filtersets import ProfileFilterSet
