@@ -1,13 +1,8 @@
 #!/usr/bin/env python
 # vim: set fileencoding=utf8:
 """
-Test collection of profile application models
+Unittest module of profile views
 
-
-.. Note::
-    Adding 'django.contrib.comments' to ``INSTALLED_APPS`` is required to
-    execute this test collection. I don't know why but removing user may fail
-    without the application.
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
@@ -29,11 +24,5 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from django.conf import settings
-
-# check required application is in INSTALLED_APPS
-if 'django.contrib.comments' not in settings.INSTALLED_APPS:
-    raise Exception(
-            """'django.contrib.comments' is required in INSTALLED_APPS to """
-            """execute this test collection.""")
+from django.test import TestCase
 

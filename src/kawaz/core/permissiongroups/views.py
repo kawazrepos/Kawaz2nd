@@ -81,22 +81,3 @@ class PermissionGroupDeleteView(DeleteView, PermissionGroupFormMixin):
     @permission_required('permissiongroups.delete_permissiongroup')
     def dispatch(self, *args, **kwargs):
         return super(PermissionGroupDeleteView, self).dispatch(*args, **kwargs)
-
-#
-# API
-#-------------------------------------------------------------------
-def promote(request):
-    if not request.user.is_promotable:
-        raise Http403
-    next = request.GET.get('next', '/')
-    request.user.is_superuser = True
-    request.user.save()
-    return redirect(next)
-
-def demote(request):
-    if not request.user.is_promotable:
-        raise Http403
-    next = request.GET.get('next', '/')
-    request.user.is_superuser = False
-    request.user.save()
-    return redirect(next)

@@ -45,6 +45,8 @@ from thumbnailfield.models import ThumbnailField
 
 from kawaz.utils.default.image import get_default_profile_icon
 
+import logging
+logger = logging.getLogger(__name__)
 
 class Skill(models.Model):
     """Skill of each profile
@@ -381,7 +383,8 @@ class Service(models.Model):
 from django.db.models.signals import post_save
 def create_profile(sender, instance, created, **kwargs):
     """automatically create profile when user instance created"""
-    if not created: return
-    new = Profile(user=instance)
-    new.save()
+    if created:
+        new = Profile(user=instance)
+        new.save()
+        logger.debug('New profile "%s" is created by "%s" user' % (new, instance))
 post_save.connect(create_profile, sender=User)

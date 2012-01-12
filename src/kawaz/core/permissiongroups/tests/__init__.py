@@ -37,3 +37,6 @@ if 'django.contrib.comments' not in settings.INSTALLED_APPS:
             """'django.contrib.comments' is required in INSTALLED_APPS to """
             """execute this test collection.""")
 
+# check User.profile is available
+from django.contrib.auth.models import User
+assert hasattr(User, 'profile'), 'User should have "profile" property'
