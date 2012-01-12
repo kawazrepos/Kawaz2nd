@@ -200,6 +200,7 @@ def test_modification():
 
 
 def test_invalid_values():
+    """permissiongroups.PermissionGroup: validation works correctly"""
     normal_pgroup.codename = None
     assert_raises(ValidationError, normal_pgroup.full_clean)
 
@@ -209,6 +210,7 @@ def test_invalid_values():
 
 # This function should be appear at last of this module
 def test_deletion():
+    """permissiongroups.PermissionGroup: deletion works correctly"""
     assert foo.has_perm('auth.add_user')
 
     default_pgroup.delete()
