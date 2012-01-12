@@ -24,7 +24,6 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from django.shortcuts import redirect
 from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.views.generic import CreateView
@@ -33,8 +32,6 @@ from django.views.generic import DeleteView
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import permission_required as _permission_required
-
-from qwert.http import Http403
 
 from models import PermissionGroup
 from forms import PermissionGroupForm
@@ -45,6 +42,7 @@ permission_required = lambda perm: method_decorator(_permission_required(perm))
 
 class PermissionGroupMixin(object):
     queryset = PermissionGroup.objects.all()
+
 class PermissionGroupFormMixin(object):
     form_class = PermissionGroupForm
 

@@ -11,6 +11,7 @@ except ImportError:
 ROOT = os.path.join(os.path.dirname(__file__), '../../')
 #--- Add PYTHON_PATH ---------------------------------
 PYTHON_PATHS = (
+    os.path.join(ROOT, 'src/libs/django-filter'),
     os.path.join(ROOT, 'src/libs/django-thumbnailfield'),
 )
 for path in PYTHON_PATHS:
@@ -171,7 +172,7 @@ AUTH_PROFILE_MODULE = 'profile.Profile'
 #   See https://github.com/jbalogh/django-nose/issues/34 and
 #   https://github.com/jbalogh/django-nose/issues/8 for more detail
 #
-NOSE_ARGS = ['--with-doctest', '--verbose']
+NOSE_ARGS = ['--with-doctest']
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 # django-markitup-field

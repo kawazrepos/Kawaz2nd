@@ -25,7 +25,7 @@ setup(
     author_email = "lambdalisue@hashnote.net",
     url=r"https://github.com/kawazrepos/Kawaz.git",
     download_url = r"https://github.com/kawazrepos/Kawaz/tarball/master",
-    packages = find_packages(exclude=['ez_setup']),
+    packages = find_packages(),
     include_package_data = True,
     zip_safe = False,
     test_suite='nose.collector',
@@ -40,7 +40,7 @@ setup(
         'PIL',
         'django>=1.3',
         'django-nose',
-        'django-filter>=0.5.3dev',
+#        'django-filter>=0.5.3dev',
         'django-piston',
         'django-qwert',
         'django-observer',
@@ -49,6 +49,6 @@ setup(
         'django-googlemap-widget',
     ],
     dependency_links = [
-        'https://github.com/lambdalisue/django-filter/zipball/master#egg=django-filter-0.5.3dev',
+#        'https://github.com/lambdalisue/django-filter/zipball/master#egg=django-filter-0.5.3dev',
     ],
 )

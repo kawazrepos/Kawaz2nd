@@ -50,6 +50,13 @@ def _create_user(username='foo'):
                 password=username)
     return user
 
+def _clear_permission_cache(user):
+    """clear cahced permissions in user"""
+    if hasattr(user, '_perm_cache'):
+        del user._perm_cache
+    if hasattr(user, '_group_perm_cache'):
+        del user._group_perm_cache
+
 def setup():
     global foo, bar, hoge
     foo = _create_user(username='foo')
@@ -89,6 +96,9 @@ def test_creation():
                 'auth.change_user',
                 'auth.delete_user',
             ])
+
+def test_adding_user():
+    """permissiongroups.PermissionGroup: adding users works correctly"""
     normal_pgroup.add_users(foo)
     staff_pgroup.add_users(bar)
     promotable_pgroup.add_users(hoge)
@@ -104,10 +114,21 @@ def test_creation():
     assert foo.has_perm('permissiongroups.add_permissiongroup')
     assert foo.has_perm('permissiongroups.change_permissiongroup')
     assert foo.has_perm('permissiongroups.delete_permissiongroup')
+
     # staff_group user should be is_staff=True
     assert bar.is_staff == True
+
     # promotable_group user should be is_promotable=True
     assert hoge.is_promotable == True
+
+    # promote/demote can be executed only by promotable user
+    assert_raises(AttributeError, foo.promote)
+    assert_raises(AttributeError, foo.demote)
+    assert_raises(AttributeError, bar.promote)
+    assert_raises(AttributeError, bar.demote)
+    hoge.promote()
+    hoge.demote()
+
     # All user should have permissions
     assert foo.has_perm('auth.add_user')
     assert foo.has_perm('auth.change_user')
@@ -156,16 +177,12 @@ def test_modification():
     # Adding permissions
     assert not foo.has_perm('auth.add_group')
     normal_pgroup.add_permissions('auth.add_group')
-    # django.contrib.auth.backend.ModelBackend use cache so clear it.
-    del foo._perm_cache
-    del foo._group_perm_cache
+    _clear_permission_cache(foo)
     assert foo.has_perm('auth.add_group')
 
     # Removing permissions
     normal_pgroup.remove_permissions('auth.add_group')
-    # django.contrib.auth.backend.ModelBackend use cache so clear it.
-    del foo._perm_cache
-    del foo._group_perm_cache
+    _clear_permission_cache(foo)
     assert not foo.has_perm('auth.add_group')
 
     # is_default
@@ -201,6 +218,5 @@ def test_deletion():
     assert not default_pgroup.is_belong(hoge)
     
     # django.contrib.auth.backend.ModelBackend use cache so clear it.
-    del foo._perm_cache
-    del foo._group_perm_cache
+    _clear_permission_cache(foo)
     assert not foo.has_perm('auth.add_user')

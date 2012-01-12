@@ -43,6 +43,7 @@ class TestForceRedirectToProfileUpdatePageMiddleware(TestCase):
             username='hogehogefoofoo',
             email='hogehogefoofoo@test.com',
             password='password')
+
     def tearDown(self):
         self.user.delete()
 
