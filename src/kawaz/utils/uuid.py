@@ -13,16 +13,19 @@ Typical usage:
     >>> import uuid
 
     # make a UUID based on the host ID and current time
-    >>> uuid.uuid1()
-    UUID('a8098c1a-f86e-11da-bd1a-00112444be1e')
+    #>>> uuid.uuid1()
+    #UUID('a8098c1a-f86e-11da-bd1a-00112444be1e')
+    # Note: the code above depends on the environment
 
     # make a UUID using an MD5 hash of a namespace UUID and a name
     >>> uuid.uuid3(uuid.NAMESPACE_DNS, 'python.org')
     UUID('6fa459ea-ee8a-3ca4-894e-db77e160355e')
 
     # make a random UUID
-    >>> uuid.uuid4()
-    UUID('16fd2706-8baf-433b-82eb-8c7fada847da')
+    #>>> uuid.uuid4()
+    #UUID('16fd2706-8baf-433b-82eb-8c7fada847da')
+    # Note: the code above depends on the environment
+
 
     # make a UUID using a SHA-1 hash of a namespace UUID and a name
     >>> uuid.uuid5(uuid.NAMESPACE_DNS, 'python.org')

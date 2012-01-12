@@ -24,18 +24,15 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-import datetime
 from nose.tools import *
 from django.contrib.auth.models import User
-from django.contrib.auth.models import Group
-from django.contrib.auth.models import Permission
 from django.core.exceptions import ValidationError
 
 from ..models import PermissionGroup
 
 foo = None
 bar = None
-hogehoge = None
+hoge = None
 normal_pgroup = None
 staff_pgroup = None
 promotable_pgroup = None
@@ -54,10 +51,10 @@ def _create_user(username='foo'):
     return user
 
 def setup():
-    global foo, bar, hogehoge
+    global foo, bar, hoge
     foo = _create_user(username='foo')
     bar = _create_user(username='bar')
-    hogehoge = _create_user(username='hogehoge')
+    hoge = _create_user(username='hoge')
 
 # this function should be appear at first of this module
 def test_creation():
@@ -94,15 +91,15 @@ def test_creation():
             ])
     normal_pgroup.add_users(foo)
     staff_pgroup.add_users(bar)
-    promotable_pgroup.add_users(hogehoge)
+    promotable_pgroup.add_users(hoge)
 
     assert normal_pgroup.is_belong(foo)
     assert staff_pgroup.is_belong(bar)
-    assert promotable_pgroup.is_belong(hogehoge)
+    assert promotable_pgroup.is_belong(hoge)
     # User should belong to is_default=True permission groups
     assert default_pgroup.is_belong(foo)
     assert default_pgroup.is_belong(bar)
-    assert default_pgroup.is_belong(hogehoge)
+    assert default_pgroup.is_belong(hoge)
     # normal_group user should have permissions
     assert foo.has_perm('permissiongroups.add_permissiongroup')
     assert foo.has_perm('permissiongroups.change_permissiongroup')
@@ -110,7 +107,7 @@ def test_creation():
     # staff_group user should be is_staff=True
     assert bar.is_staff == True
     # promotable_group user should be is_promotable=True
-    assert hogehoge.is_promotable == True
+    assert hoge.is_promotable == True
     # All user should have permissions
     assert foo.has_perm('auth.add_user')
     assert foo.has_perm('auth.change_user')
@@ -118,9 +115,9 @@ def test_creation():
     assert bar.has_perm('auth.add_user')
     assert bar.has_perm('auth.change_user')
     assert bar.has_perm('auth.delete_user')
-    assert hogehoge.has_perm('auth.add_user')
-    assert hogehoge.has_perm('auth.change_user')
-    assert hogehoge.has_perm('auth.delete_user')
+    assert hoge.has_perm('auth.add_user')
+    assert hoge.has_perm('auth.change_user')
+    assert hoge.has_perm('auth.delete_user')
 
 def test_shortcut_properties_and_functions():
     """permissiongroups.PermissionGroup: User instance has shortcut properties and functions"""
@@ -173,16 +170,16 @@ def test_modification():
 
     # is_default
     assert not normal_pgroup.is_belong(bar)
-    assert not normal_pgroup.is_belong(hogehoge)
+    assert not normal_pgroup.is_belong(hoge)
     normal_pgroup.is_default=True
     normal_pgroup.save()
     assert normal_pgroup.is_belong(bar)
-    assert normal_pgroup.is_belong(hogehoge)
+    assert normal_pgroup.is_belong(hoge)
     normal_pgroup.is_default=False
     normal_pgroup.save()
-    normal_pgroup.remove_users([bar, hogehoge])
+    normal_pgroup.remove_users([bar, hoge])
     assert not normal_pgroup.is_belong(bar)
-    assert not normal_pgroup.is_belong(hogehoge)
+    assert not normal_pgroup.is_belong(hoge)
 
 
 def test_invalid_values():
@@ -201,7 +198,7 @@ def test_deletion():
 
     assert not default_pgroup.is_belong(foo)
     assert not default_pgroup.is_belong(bar)
-    assert not default_pgroup.is_belong(hogehoge)
+    assert not default_pgroup.is_belong(hoge)
     
     # django.contrib.auth.backend.ModelBackend use cache so clear it.
     del foo._perm_cache

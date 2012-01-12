@@ -152,14 +152,14 @@ INSTALLED_APPS = (
     'googlemap',
     'universaltag',
     'thumbnailfield',
-    #'object_permission',
+    'object_permission',
     'kawaz.core.profile',
     'kawaz.core.permissiongroups',
 )
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    #'object_permission.backends.ObjectPermBackend',
+    'object_permission.backends.ObjectPermBackend',
 )
 AUTH_PROFILE_MODULE = 'profile.Profile'
 
