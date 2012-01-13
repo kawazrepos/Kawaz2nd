@@ -42,6 +42,7 @@ setup(
         'django-nose',
 #        'django-filter>=0.5.3dev',
         'django-piston',
+        'httplib2',
         'django-qwert',
         'django-observer',
         'django-object-permission>=0.3rc1',

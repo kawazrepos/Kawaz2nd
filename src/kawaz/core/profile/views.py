@@ -48,14 +48,11 @@ class ProfileListView(ListView):
     def get_queryset(self):
         return Profile.objects.published(self.request)
 
+@permission_required('profile.view_profile')
 class ProfileDetailView(DetailView):
     model = Profile
     slug_field = 'user__username'
     
-    @permission_required('profile.view_profile')
-    def dispatch(self, *args, **kwargs):
-        return super(ProfileDetailView, self).dispatch(*args, **kwargs)
-
 from django.views.generic.edit import ProcessFormView
 from django.views.generic.edit import ModelFormMixin
 from django.views.generic.detail import SingleObjectTemplateResponseMixin
@@ -89,7 +86,6 @@ class ProfileUpdateView(
         return self.render_to_response(context)
 
     def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         formset_class = self.get_formset_class()
@@ -99,7 +95,6 @@ class ProfileUpdateView(
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         formset_class = self.get_formset_class()

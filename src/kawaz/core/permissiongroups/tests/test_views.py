@@ -25,4 +25,66 @@ License:
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.test import TestCase
+from django.contrib.auth.models import User
 
+from ..models import PermissionGroup
+
+class BaseTestCase(TestCase):
+    """Base TestCase of permissiongroups views"""
+    urls = 'kawaz.core.permissiongroups.tests.urls'
+    fixtures = ['test.yaml']
+
+    def setUp(self):
+        # Activate admin
+        # Note: Without activating admin, accessing admin profile page may
+        #       Fail
+        foo = User.objects.get(username='foo')
+        bar = User.objects.get(username='bar')
+        hoge = User.objects.get(username='hoge')
+
+        normal_pgroup = PermissionGroup.objects.get(pk=1)
+        staff_pgroup = PermissionGroup.objects.get(pk=2)
+        promotable_pgroup = PermissionGroup.objects.get(pk=3)
+
+        # Join
+        normal_pgroup.add_users(foo)
+        staff_pgroup.add_users(bar)
+        promotable_pgroup.add_users(hoge)
+
+        # Store
+        self.foo = foo
+        self.bar = bar
+        self.hoge = hoge
+
+    def login(self, user):
+        self.logout()
+        assert self.client.login(
+                username=user.username, 
+                password='password'
+            ), 'Login as "%s" failed' % user.username
+
+    def logout(self):
+        self.client.logout()
+
+class TestPermissionGroupListView(BaseTestCase):
+
+    def testAccessWithAnonymous(self):
+        """permissiongroups.PermissionGroupListView: anonymous user rejection works correctly"""
+        self.logout()
+        response = self.client.get('/list/')
+        self.assertEqual(response.status_code, 302)
+
+    def testAccessWithNormalUser(self):
+        self.login(self.foo)
+        response = self.client.get('/list/')
+        self.assertEqual(response.status_code, 403)
+
+    def testAccessWithStaffUser(self):
+        self.login(self.bar)
+        response = self.client.get('/list/')
+        self.assertEqual(response.status_code, 403)
+
+    def testAccessWithPromotableUser(self):
+        self.login(self.hoge)
+        response = self.client.get('/list/')
+        self.assertEqual(response.status_code, 200)

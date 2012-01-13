@@ -37,7 +37,7 @@ class BaseTestCase(TestCase):
         # Note: Without activating admin, accessing admin profile page may
         #       Fail
         profile = User.objects.get(pk=1).profile
-        profile.nickname = 'admin'
+        profile.nickname = 'foo'
         profile.save()
 
 class TestProfileFilterView(BaseTestCase):
@@ -61,13 +61,13 @@ class TestProfileDetailView(BaseTestCase):
 
     def testAccess(self):
         """profile.ProfileDetailView: access works correctly"""
-        response = self.client.get('/detail/admin/')
+        response = self.client.get('/detail/foo/')
         self.assertEqual(response.status_code, 200)
 
     def testAccessProtected(self):
         """profile.ProfileDetailView: protected access works correctly"""
         # Anonymous user cannot access (redirect to login page)
-        response = self.client.get('/detail/hogehoge/')
+        response = self.client.get('/detail/hoge/')
         self.assertEqual(response.status_code, 302)
         # Authenticated user can access
         self.client.login(username='foobar', password='password')
@@ -93,7 +93,7 @@ class TestProfileMoodAPIView(BaseTestCase):
     def testAccessWithAuthenticated(self):
         """profile.API: updating mood api works correctly"""
         # Login
-        self.client.login(username='foobar', password='password')
+        assert self.client.login(username='foo', password='password')
         response = self.client.get('/api/mood/')
         self.assertEqual(response.status_code, 405)
         response = self.client.post('/api/mood/')
@@ -104,7 +104,7 @@ class TestProfileMoodAPIView(BaseTestCase):
         response = self.client.put('/api/mood/', {'mood': 'barbar'})
         self.assertEqual(response.status_code, 200)
 
-        user = User.objects.get(username='foobar')
+        user = User.objects.get(username='foo')
         profile = user.profile
         self.assertEqual(profile.mood, 'barbar')
 
