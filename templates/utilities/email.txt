@@ -8,7 +8,7 @@
 	(旧 ゲーム製作者コミュニティ in 札幌 GCCSAP）
 
 メール送信者:	{{ sender.get_profile.nickname }}
-ホームページ:	http://www.kawaz.tk/
+ホームページ:	http://www.kawaz.org/
 責任者:			geekdrums
 連絡先:			{% settings 'DEFAULT_EMAIL' %}
 -------------------------------------------------------

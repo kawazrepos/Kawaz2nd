@@ -18,4 +18,4 @@ class FlatPageForm(forms.ModelForm):
         self.fields['content'].help_text = u"書きやすいようにTanixエディタを使っていますが、フラットページをMarkdownで記述することはできません"
         self.fields['content'].widget = MarkItUpTextarea()
         self.fields['sites'].initial = [1, 2]
-        self.fields['sites'].help_text = u"公開するサイトを指定します。通常は'www.kawaz.tk'が選択されていれば問題ありません"
+        self.fields['sites'].help_text = u"公開するサイトを指定します。通常は'www.kawaz.org'が選択されていれば問題ありません"
