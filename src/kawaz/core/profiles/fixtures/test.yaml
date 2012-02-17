@@ -31,16 +31,16 @@
     is_superuser: false
     is_staff: false
 
-- model: profile.skill
+- model: profiles.skill
   pk: 1
   fields:
     label: foobar
-- model: profile.skill
+- model: profiles.skill
   pk: 2
   fields:
     label: hogehoge
 
-- model: profile.profile
+- model: profiles.profile
   pk: 1
   fields:
     pub_state: public
@@ -49,7 +49,7 @@
     sex: man
     created_at: 2000-1-1
     updated_at: 2000-1-1
-- model: profile.profile
+- model: profiles.profile
   pk: 2
   fields:
     pub_state: public
@@ -58,7 +58,7 @@
     sex: man
     created_at: 2000-1-1
     updated_at: 2000-1-1
-- model: profile.profile
+- model: profiles.profile
   pk: 3
   fields:
     pub_state: protected

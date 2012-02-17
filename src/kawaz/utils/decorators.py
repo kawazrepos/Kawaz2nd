@@ -23,6 +23,8 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
+from django.db import models
+from django.utils.text import ugettext_lazy as _
 from django.utils.decorators import method_decorator as _method_decorator
 
 
@@ -65,3 +67,17 @@ def permission_required(*args, **kwargs):
     is raised.
     """
     return view_class_decorator(_permission_required(*args, **kwargs))
+
+def with_datetime(cls):
+    """Decorator to add created_at, updated_at field to particular model"""
+    CREATED_AT = 'created_at'   # A name of the created_at field
+    UPDATED_AT = 'updated_at'   # A name of the updated_at field
+    created_at = models.DateTimeField(_('created time'), auto_now_add=True)
+    updated_at = models.DateTimeField(_('updated time'), auto_now=True)
+
+    if not hasattr(cls, CREATED_AT):
+        cls.add_to_class(CREATED_AT, created_at)
+    if not hasattr(cls, UPDATED_AT):
+        cls.add_to_class(UPDATED_AT, updated_at)
+
+    return cls

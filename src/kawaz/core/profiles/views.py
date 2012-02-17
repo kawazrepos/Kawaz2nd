@@ -48,7 +48,7 @@ class ProfileListView(ListView):
     def get_queryset(self):
         return Profile.objects.published(self.request)
 
-@permission_required('profile.view_profile')
+@permission_required('profiles.view_profile')
 class ProfileDetailView(DetailView):
     model = Profile
     slug_field = 'user__username'

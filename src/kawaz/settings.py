@@ -118,7 +118,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'kawaz.core.profile.middleware.ForceRedirectToProfileUpdatePageMiddleware',
+    'kawaz.core.profiles.middleware.ForceRedirectToProfileUpdatePageMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -154,7 +154,8 @@ INSTALLED_APPS = (
     'universaltag',
     'thumbnailfield',
     'object_permission',
-    'kawaz.core.profile',
+    'markupfield',
+    'kawaz.core.profiles',
     'kawaz.core.permissiongroups',
 )
 
@@ -162,7 +163,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'object_permission.backends.ObjectPermBackend',
 )
-AUTH_PROFILE_MODULE = 'profile.Profile'
+AUTH_PROFILE_MODULE = 'profiles.Profile'
 
 
 # django-nose
@@ -174,6 +175,12 @@ AUTH_PROFILE_MODULE = 'profile.Profile'
 #
 #NOSE_ARGS = ['--with-doctest']
 #TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# django-markupfield
+import markdown
+MARKUP_FIELD_TYPES = (
+        ('markdown', markdown.markdown),
+    )
 
 # django-markitup-field
 MARKITUP_PATH = r'javascript/markitup'

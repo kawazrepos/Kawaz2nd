@@ -29,7 +29,7 @@ from django.contrib.auth.models import User
 
 class BaseTestCase(TestCase):
     """Base TestCase of profile views"""
-    urls = 'kawaz.core.profile.tests.urls'
+    urls = 'kawaz.core.profiles.tests.urls'
     fixtures = ['test.yaml']
 
     def setUp(self):

@@ -43,6 +43,7 @@ from universaltag.fields import UniversalTagField
 from googlemap.models import GoogleMapField
 from thumbnailfield.models import ThumbnailField
 
+from kawaz.utils.decorators import with_datetime
 from kawaz.utils.default.image import get_default_profile_icon
 
 import logging
@@ -97,6 +98,7 @@ class ProfileManager(models.Manager):
             return qs.filter(pub_state='public')
         
 
+@with_datetime
 class Profile(models.Model):
     """Profile of each user
     
@@ -209,8 +211,6 @@ class Profile(models.Model):
     twitter_token = models.CharField(_('twitter oauth access token'),
                                      max_length=1023, editable=False,
                                      blank=True)
-    created_at = models.DateTimeField(_('date time created'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('date time updated'), auto_now=True)
 
     tags = UniversalTagField()
 

@@ -29,7 +29,7 @@ from django.contrib.auth.models import User
 
 class TestForceRedirectToProfileUpdatePageMiddleware(TestCase):
     """Test collection for ProfileFilterView"""
-    urls = 'kawaz.core.profile.tests.urls'
+    urls = 'kawaz.core.profiles.tests.urls'
 
     def setUp(self):
         # Activate admin
