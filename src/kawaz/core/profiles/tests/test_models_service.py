@@ -24,103 +24,95 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from nose.tools import *
 from django.core.exceptions import ValidationError
 
-from test_models_profile import _create_user
-from test_models_profile import _delete_user
+from test_models_profile import BaseTestCase
 from ..models import Service
 
-foo = None
-profile = None
-service = None
+class ProfilesServiceModelTestCase(BaseTestCase):
+    """Test collection for profiles.Service"""
 
-def setup():
-    """setup function"""
-    global foo, profile
-    # create user, profile
-    foo, profile = _create_user()
+    def setUp(self):
+        self.foo = self._create_user('foo')
+        self.profile = self.foo.profile
 
+    def test_creation(self):
+        """profile.Service: creation works correctly"""
+        global service
+        service = Service(
+                profile=self.profile,
+                pub_state='public',
+                service='skype',
+                account='foobar')
+        service.full_clean()
+        service.save()
 
-def teardown():
-    """teardown function"""
-    # delete user, profile
-    _delete_user(foo)
-
-
-def test_creation():
-    """profile.Service: creation works correctly"""
-    global service
-    service = Service(
-            profile=profile,
-            pub_state='public',
-            service='skype',
-            account='foobar')
-    service.full_clean()
-    service.save()
+        return service
 
 
-def test_modification():
-    """profile.Service: modification works correctly"""
-    kwargs = {
-            'pub_state': 'protected',
-            'service': 'twitter',
-            'account': 'hogehoge',
-        }
-    for key, value in kwargs.iteritems():
-        setattr(service, key, value)
-    # call validation
-    service.full_clean()
+    def test_modification(self):
+        """profile.Service: modification works correctly"""
+        service = self.test_creation()
 
-    # check
-    for key, value in kwargs.iteritems():
-        eq_(getattr(service, key), value)
+        kwargs = {
+                'pub_state': 'protected',
+                'service': 'twitter',
+                'account': 'hogehoge',
+            }
+        for key, value in kwargs.iteritems():
+            setattr(service, key, value)
+        # call validation
+        service.full_clean()
 
-    service.save()
+        # check
+        for key, value in kwargs.iteritems():
+            self.assertEqual(getattr(service, key), value)
 
-    found = Service.objects.get(pk=service.pk)
-    # check
-    for key, value in kwargs.iteritems():
-        eq_(getattr(found, key), value)
+        service.save()
+
+        found = Service.objects.get(pk=service.pk)
+        # check
+        for key, value in kwargs.iteritems():
+            self.assertEqual(getattr(found, key), value)
 
 
-def test_invalid_values():
-    """profile.Service: validation works correctly"""
+    def test_invalid_values(self):
+        """profile.Service: validation works correctly"""
+        service = self.test_creation()
 
-    # pub_state should be in ['public', 'protected']
-    service.pub_state = 'foo'
-    assert_raises(ValidationError, service.full_clean)
-    service.pub_state = 'public'
-    service.full_clean()
+        # pub_state should be in ['public', 'protected']
+        service.pub_state = 'foo'
+        self.assertRaises(ValidationError, service.full_clean)
+        service.pub_state = 'public'
+        service.full_clean()
 
-    # service should be in one of Service.SERVICES
-    service.service = 'foo'
-    assert_raises(ValidationError, service.full_clean)
-    service.service = 'skype'
-    service.full_clean()
+        # service should be in one of Service.SERVICES
+        service.service = 'foo'
+        self.assertRaises(ValidationError, service.full_clean)
+        service.service = 'skype'
+        service.full_clean()
 
-    # account should at most 127 characters
-    service.account = '*' * 128
-    assert_raises(ValidationError, service.full_clean)
-    service.account = 'foo'
-    service.full_clean()
+        # account should at most 127 characters
+        service.account = '*' * 128
+        self.assertRaises(ValidationError, service.full_clean)
+        service.account = 'foo'
+        service.full_clean()
 
-    # TODO: validate `unique_together`
+        # TODO: validate `unique_together`
 
-def test_deletion():
-    """profile.Service: deletion works correctly"""
-    service.delete()
+    def test_deletion(self):
+        """profile.Service: deletion works correctly"""
+        # create new user, profile, service
+        new_user = self._create_user('bar')
+        new_profile = new_user.profile
+        new_service = Service.objects.create(
+                profile=new_profile,
+                service='skype',
+                account='bar')
 
-    # create new user, profile, service
-    new_user, new_profile = _create_user('bar')
-    new_service = Service.objects.create(
-            profile=new_profile,
-            service='skype',
-            account='bar')
-
-    # delete user will delete service as well
-    new_user.delete()
-    if Service.objects.filter(pk=new_service.pk).exists():
-        raise Exception(
-                """Service should be automatically deleted but related """
-                """service is found.""")
+        # delete user will delete service as well
+        new_user.delete()
+        if Service.objects.filter(pk=new_service.pk).exists():
+            raise Exception(
+                    """Service should be automatically deleted but related """
+                    """service is found.""")

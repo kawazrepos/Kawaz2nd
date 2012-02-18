@@ -77,11 +77,13 @@ class TestPermissionGroupListView(BaseTestCase):
     def testAccessWithNormalUser(self):
         self.login(self.foo)
         response = self.client.get('/list/')
+        #self.assertEqual(response.status_code, 302) # with Django's permission_required
         self.assertEqual(response.status_code, 403)
 
     def testAccessWithStaffUser(self):
         self.login(self.bar)
         response = self.client.get('/list/')
+        #self.assertEqual(response.status_code, 302) # with Django's permission_required
         self.assertEqual(response.status_code, 403)
 
     def testAccessWithPromotableUser(self):

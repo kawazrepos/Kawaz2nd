@@ -25,6 +25,7 @@ License:
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.conf.urls.defaults import patterns, url, include
+from django.contrib.auth import urls as auth_urls
 
 from ..views import PermissionGroupListView
 from ..views import PermissionGroupDetailView
@@ -32,7 +33,8 @@ from ..views import PermissionGroupCreateView
 from ..views import PermissionGroupUpdateView
 from ..views import PermissionGroupDeleteView
 
-from ..api import urls
+from ..api import urls as api_urls
+
 
 urlpatterns = patterns('',
     url(r'^list/$', PermissionGroupListView.as_view(), name='permissiongroups-permissiongroup-list'),
@@ -40,5 +42,7 @@ urlpatterns = patterns('',
     url(r'^create/$', PermissionGroupCreateView.as_view(), name='permissiongroups-permissiongroup-create'),
     url(r'^(?P<pk>\d+)/update/$', PermissionGroupUpdateView.as_view(), name='permissiongroups-permissiongroup-update'),
     url(r'^(?P<pk>\d+)/delete/$', PermissionGroupDeleteView.as_view(), name='permissiongroups-permissiongroup-delete'),
-    url(r'^', include(urls)),
+    url(r'^', include(api_urls)),
+    url(r'^accounts', include(auth_urls)),
 )
+

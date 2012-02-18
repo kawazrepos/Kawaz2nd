@@ -27,13 +27,11 @@ __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.conf.urls.defaults import patterns, url, include
 
 from ..api import urls
-from ..views import ProfileFilterView
 from ..views import ProfileListView
 from ..views import ProfileDetailView
 from ..views import ProfileUpdateView
 
 urlpatterns = patterns('',
-    url(r'^filter/$', ProfileFilterView.as_view()),
     url(r'^list/$', ProfileListView.as_view()),
     url(r'^detail/(?P<slug>[^/]+)/$', ProfileDetailView.as_view()),
     url(r'^update/$', ProfileUpdateView.as_view(),

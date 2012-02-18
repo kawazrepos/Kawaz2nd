@@ -29,19 +29,11 @@ from django.views.generic import DetailView
 
 from qwert.http import Http403
 from object_permission.decorators import permission_required
-from django_filters.views import FilterView
 
 from models import Profile
-from filtersets import ProfileFilterSet
 from forms import ProfileForm
 from forms import ServiceFormSet
 
-class ProfileFilterView(FilterView):
-    """Profile filter view"""
-    filter_class = ProfileFilterSet
-
-    def get_queryset(self):
-        return Profile.objects.published(self.request)
 
 class ProfileListView(ListView):
     """Profile list view"""

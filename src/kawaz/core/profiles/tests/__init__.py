@@ -37,3 +37,8 @@ if 'django.contrib.comments' not in settings.INSTALLED_APPS:
             """'django.contrib.comments' is required in INSTALLED_APPS to """
             """execute this test collection.""")
 
+from test_middleware import *
+from test_models_profile import *
+from test_models_service import *
+from test_models_skill import *
+from test_views import *

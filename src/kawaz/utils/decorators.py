@@ -23,18 +23,7 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from django.db import models
-from django.utils.text import ugettext_lazy as _
-from django.utils.decorators import method_decorator as _method_decorator
-
-
-def method_decorator(decorator):
-    """Converts a function decorator into a method decorator"""
-    if decorator.__name__.startswith('method_decorator'):
-        # do nothing
-        return decorator
-    return _method_decorator(decorator)
-    
+from django.utils.decorators import method_decorator
 
 def view_class_decorator(decorator):
     """Converts a function decorator into a Generic View Class decorator"""
@@ -48,8 +37,6 @@ def view_class_decorator(decorator):
 
 
 from django.contrib.auth.decorators import login_required as _login_required
-from django.contrib.auth.decorators import permission_required as _permission_required
-
 
 def login_required(*args, **kwargs):
     """
@@ -59,25 +46,7 @@ def login_required(*args, **kwargs):
     return view_class_decorator(_login_required(*args, **kwargs))
 
 
-def permission_required(*args, **kwargs):
-    """
-    Decorator for classbased views that checks whether a user has a particular permission
-    enabled, redirecting to the log-in page if neccesary.
-    If the raise_exception parameter is given the PermissionDenied exception
-    is raised.
-    """
-    return view_class_decorator(_permission_required(*args, **kwargs))
-
-def with_datetime(cls):
-    """Decorator to add created_at, updated_at field to particular model"""
-    CREATED_AT = 'created_at'   # A name of the created_at field
-    UPDATED_AT = 'updated_at'   # A name of the updated_at field
-    created_at = models.DateTimeField(_('created time'), auto_now_add=True)
-    updated_at = models.DateTimeField(_('updated time'), auto_now=True)
-
-    if not hasattr(cls, CREATED_AT):
-        cls.add_to_class(CREATED_AT, created_at)
-    if not hasattr(cls, UPDATED_AT):
-        cls.add_to_class(UPDATED_AT, updated_at)
-
-    return cls
+# I don't like Django default 'permission_required' because it return Redirect even
+# the user is authenticated. I want Forbidden insted. Thus I use django-object-permission
+# 'permission_required' insted
+from object_permission.decorators import permission_required

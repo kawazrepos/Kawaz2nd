@@ -51,8 +51,6 @@ class TestForceRedirectToProfileUpdatePageMiddleware(TestCase):
         """profile.ForceRedirectToProfileUpdatePageMiddleware: redirection works correctly"""
         # redirection works while user.profile.nickname is None
         self.client.login(username='hogehogefoofoo', password='password')
-        response = self.client.get('/filter/')
-        self.assertEqual(response.status_code, 302)
         response = self.client.get('/list/')
         self.assertEqual(response.status_code, 302)
         response = self.client.get('/detail/admin/')
@@ -63,8 +61,6 @@ class TestForceRedirectToProfileUpdatePageMiddleware(TestCase):
         profile.nickname = 'hogehogefoofoo'
         profile.save()
         # nomore redirection
-        response = self.client.get('/filter/')
-        self.assertEqual(response.status_code, 200)
         response = self.client.get('/list/')
         self.assertEqual(response.status_code, 200)
         response = self.client.get('/detail/admin/')

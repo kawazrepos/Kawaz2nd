@@ -40,14 +40,6 @@ class BaseTestCase(TestCase):
         profile.nickname = 'foo'
         profile.save()
 
-class TestProfileFilterView(BaseTestCase):
-    """Test collection for ProfileFilterView"""
-
-    def testAccess(self):
-        """profile.ProfileFilterView: access works correctly"""
-        response = self.client.get('/filter/')
-        self.assertEqual(response.status_code, 200)
-
 class TestProfileListView(BaseTestCase):
     """Test collection for ProfileListView"""
 
@@ -70,9 +62,10 @@ class TestProfileDetailView(BaseTestCase):
         response = self.client.get('/detail/hoge/')
         self.assertEqual(response.status_code, 302)
         # Authenticated user can access
-        self.client.login(username='foobar', password='password')
-        response = self.client.get('/detail/hogehoge/')
+        assert self.client.login(username='foo', password='password')
+        response = self.client.get('/detail/hoge/')
         self.assertEqual(response.status_code, 200)
+
 
 
 class TestProfileMoodAPIView(BaseTestCase):

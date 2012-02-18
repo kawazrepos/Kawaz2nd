@@ -24,65 +24,63 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from nose.tools import *
 from django.core.exceptions import ValidationError
 
-from test_models_profile import _create_user
-from test_models_profile import _delete_user
+from test_models_profile import BaseTestCase
 from ..models import Skill
 
-foo = None
-profile = None
-skill = None
+class ProfilesSkillModelTestCase(BaseTestCase):
+    """Test collection for profiles.Skill"""
+    def setUp(self):
+        self.foo = self._create_user('foo')
+        self.profile = self.foo.profile
 
-def setup():
-    """setup function"""
-    global foo, profile
-    # create user, profile
-    foo, profile = _create_user()
+    def test_creation(self):
+        """profile.Skill: creation works correctly"""
+        skill = Skill(label='foo')
+        skill.full_clean()
+        skill.save()
 
+        return skill
 
-def teardown():
-    """teardown function"""
-    # delete user, profile
-    _delete_user(foo)
+    def test_modification(self):
+        """profile.Skill: modification works correctly"""
+        skill = self.test_creation()
 
-def test_creation():
-    """profile.Skill: creation works correctly"""
-    global skill
-    skill = Skill(label='foo')
-    skill.full_clean()
-    skill.save()
+        skill.label = 'bar'
+        skill.full_clean()
+        skill.save()
 
-def test_modification():
-    """profile.Skill: modification works correctly"""
-    skill.label = 'bar'
-    skill.full_clean()
-    skill.save()
+    def test_adding_to_profile(self):
+        """profile.Skill: adding to profile works correctly"""
+        skill = self.test_creation()
 
-def test_adding_to_profile():
-    """profile.Skill: adding to profile works correctly"""
-    profile.skills.add(skill)
-    ok_(profile.skills.filter(pk=skill.pk).exists())
+        self.profile.skills.add(skill)
+        assert self.profile.skills.filter(pk=skill.pk).exists()
 
-def test_removing_from_profile():
-    """profile.Skill: removing from profile works correctly"""
-    profile.skills.remove(skill)
-    ok_(not profile.skills.filter(pk=skill.pk).exists())
+    def test_removing_from_profile(self):
+        """profile.Skill: removing from profile works correctly"""
+        skill = self.test_creation()
 
-def test_invalid_values():
-    """profile.Skill: validation works correctly"""
-    
-    # label should at most 32 characters
-    skill.label = '*' * 33
-    assert_raises(ValidationError, skill.full_clean)
-    skill.label = 'foo'
-    skill.full_clean()
+        self.profile.skills.remove(skill)
+        assert not self.profile.skills.filter(pk=skill.pk).exists()
 
-    # TODO: label should be unique
+    def test_invalid_values(self):
+        """profile.Skill: validation works correctly"""
+        skill = self.test_creation()
+        
+        # label should at most 32 characters
+        skill.label = '*' * 33
+        self.assertRaises(ValidationError, skill.full_clean)
+        skill.label = 'foo'
+        skill.full_clean()
+
+        # TODO: label should be unique
 
 
-def test_deletion():
-    """profile.Skill: deletion works correctly"""
-    skill.delete()
-            
+    def test_deletion(self):
+        """profile.Skill: deletion works correctly"""
+        skill = self.test_creation()
+
+        skill.delete()
+                

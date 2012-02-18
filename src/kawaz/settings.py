@@ -148,7 +148,6 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.comments',
     'django_nose',
-    'django_filters',
     'piston',
     'qwert',
     'googlemap',
@@ -176,8 +175,8 @@ AUTH_PROFILE_MODULE = 'profiles.Profile'
 #   See https://github.com/jbalogh/django-nose/issues/34 and
 #   https://github.com/jbalogh/django-nose/issues/8 for more detail
 #
-NOSE_ARGS = ['--with-doctest']
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+#NOSE_ARGS = ['--with-doctest']
+#TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 # django-markupfield
 import markdown

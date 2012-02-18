@@ -1,30 +1,30 @@
-#- model: auth.user
-#  pk: 1
-#  fields:
-#    username: foo
-#    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
-#    email: foo@test.com
-#    is_active: true
-#    is_superuser: false
-#    is_staff: false
-#- model: auth.user
-#  pk: 2
-#  fields:
-#    username: bar
-#    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
-#    email: bar@test.com
-#    is_active: true
-#    is_superuser: false
-#    is_staff: false
-#- model: auth.user
-#  pk: 3
-#  fields:
-#    username: hoge
-#    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
-#    email: hoge@test.com
-#    is_active: true
-#    is_superuser: false
-#    is_staff: false
+- model: auth.user
+  pk: 1
+  fields:
+    username: foo
+    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+    email: foo@test.com
+    is_active: true
+    is_superuser: false
+    is_staff: false
+- model: auth.user
+  pk: 2
+  fields:
+    username: bar
+    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+    email: bar@test.com
+    is_active: true
+    is_superuser: false
+    is_staff: false
+- model: auth.user
+  pk: 3
+  fields:
+    username: hoge
+    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+    email: hoge@test.com
+    is_active: true
+    is_superuser: false
+    is_staff: false
 
 - model: auth.group
   pk: 1
@@ -50,6 +50,7 @@
   fields:
     name: permissiongroup-promotable
     permissions:
+      - [view_permissiongroup, permissiongroups, permissiongroup]
       - [add_permissiongroup, permissiongroups, permissiongroup]
       - [change_permissiongroup, permissiongroups, permissiongroup]
       - [delete_permissiongroup, permissiongroups, permissiongroup]
