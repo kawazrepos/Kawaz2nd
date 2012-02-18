@@ -1,0 +1,62 @@
+- model: auth.group
+  pk: 1
+  fields:
+    name: permissiongroup-zeele
+    permissions:
+      - [add_user, auth, user]
+      - [change_user, auth, user]
+      - [delete_user, auth, user]
+      - [add_group, auth, group]
+      - [change_group, auth, group]
+      - [delete_group, auth, group]
+      - [add_permission, auth, permission]
+      - [change_permission, auth, permission]
+      - [delete_permission, auth, permission]
+      - [add_permissiongroup, permissiongroups, permissiongroup]
+      - [change_permissiongroup, permissiongroups, permissiongroup]
+      - [delete_permissiongroup, permissiongroups, permissiongroup]
+- model: auth.group
+  pk: 2
+  fields:
+    name: permissiongroup-nerv
+- model: auth.group
+  pk: 3
+  fields:
+    name: permissiongroup-children
+- model: auth.group
+  pk: 4
+  fields:
+    name: permissiongroup-visitor
+
+- model: permissiongroups.permissiongroup
+  pk: 1
+  fields:
+    codename: zeele
+    name: Zeele
+    is_staff: true
+    is_promotable: true
+    group: 1
+- model: permissiongroups.permissiongroup
+  pk: 2
+  fields:
+    codename: nerv
+    name: Nerv
+    is_staff: true
+    is_promotable: false
+    group: 2
+- model: permissiongroups.permissiongroup
+  pk: 3
+  fields:
+    codename: children
+    name: Children
+    is_staff: false
+    is_promotable: false
+    group: 3
+- model: permissiongroups.permissiongroup
+  pk: 4
+  fields:
+    codename: visitor
+    name: Visitor
+    is_staff: false
+    is_promotable: false
+    group: 4

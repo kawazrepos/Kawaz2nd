@@ -51,6 +51,7 @@ setup(
         'django-googlemap-widget',
         'django-markitup-widget',
         'django-markupfield>=1.0.2dev',
+        'django-userel',
     ],
     dependency_links = [
         'https://github.com/lambdalisue/django-filter/zipball/master#egg=django-filter-0.5.3dev',

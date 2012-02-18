@@ -33,9 +33,9 @@ from django.conf import settings
 # Check configuration
 if not hasattr(settings, 'AUTH_PROFILE_MODULE'):
     raise Exception("""You must set 'AUTH_PROFILE_MODULE' in `settings.py`""")
-elif settings.AUTH_PROFILE_MODULE != 'profile.Profile':
+elif settings.AUTH_PROFILE_MODULE != 'profiles.Profile':
     raise Exception("""You must set 'AUTH_PROFILE_MODULE' to """
-                    """'profile.Profile' to use Kawaz profile""")
+                    """'profiles.Profile' to use Kawaz profile""")
 
 # Add 'profile' property to django.contrib.auth.models.User
 from django.contrib.auth.models import User

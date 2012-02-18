@@ -1,30 +1,30 @@
-- model: auth.user
-  pk: 1
-  fields:
-    username: foo
-    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
-    email: foo@test.com
-    is_active: true
-    is_superuser: false
-    is_staff: false
-- model: auth.user
-  pk: 2
-  fields:
-    username: bar
-    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
-    email: bar@test.com
-    is_active: true
-    is_superuser: false
-    is_staff: false
-- model: auth.user
-  pk: 3
-  fields:
-    username: hoge
-    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
-    email: hoge@test.com
-    is_active: true
-    is_superuser: false
-    is_staff: false
+#- model: auth.user
+#  pk: 1
+#  fields:
+#    username: foo
+#    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+#    email: foo@test.com
+#    is_active: true
+#    is_superuser: false
+#    is_staff: false
+#- model: auth.user
+#  pk: 2
+#  fields:
+#    username: bar
+#    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+#    email: bar@test.com
+#    is_active: true
+#    is_superuser: false
+#    is_staff: false
+#- model: auth.user
+#  pk: 3
+#  fields:
+#    username: hoge
+#    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+#    email: hoge@test.com
+#    is_active: true
+#    is_superuser: false
+#    is_staff: false
 
 - model: auth.group
   pk: 1
@@ -63,7 +63,6 @@
         All authenticated user belong to this permission group
     is_staff: false
     is_promotable: false
-    is_default: true
     group: 1
 - model: permissiongroups.permissiongroup
   pk: 2
@@ -74,7 +73,6 @@
         Staff user belong to this permission group
     is_staff: true
     is_promotable: false
-    is_default: false
     group: 2
 - model: permissiongroups.permissiongroup
   pk: 3
@@ -85,5 +83,4 @@
         Promotable user belong to this permission group
     is_staff: true
     is_promotable: true
-    is_default: false
     group: 3

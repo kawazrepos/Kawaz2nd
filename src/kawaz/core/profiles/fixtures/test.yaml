@@ -3,33 +3,33 @@
 #   each password is set to 'password'
 #   pk: 1 for auth.user and profile.profile is used for admin
 #
-- model: auth.user
-  pk: 1
-  fields:
-    username: foo
-    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
-    email: foo@test.com
-    is_active: true
-    is_superuser: false
-    is_staff: false
-- model: auth.user
-  pk: 2
-  fields:
-    username: bar
-    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
-    email: bar@test.com
-    is_active: true
-    is_superuser: false
-    is_staff: false
-- model: auth.user
-  pk: 3
-  fields:
-    username: hoge
-    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
-    email: hoge@test.com
-    is_active: true
-    is_superuser: false
-    is_staff: false
+#- model: auth.user
+#  pk: 1
+#  fields:
+#    username: foo
+#    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+#    email: foo@test.com
+#    is_active: true
+#    is_superuser: false
+#    is_staff: false
+#- model: auth.user
+#  pk: 2
+#  fields:
+#    username: bar
+#    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+#    email: bar@test.com
+#    is_active: true
+#    is_superuser: false
+#    is_staff: false
+#- model: auth.user
+#  pk: 3
+#  fields:
+#    username: hoge
+#    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+#    email: hoge@test.com
+#    is_active: true
+#    is_superuser: false
+#    is_staff: false
 
 - model: profiles.skill
   pk: 1

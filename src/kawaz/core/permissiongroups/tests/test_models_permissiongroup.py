@@ -36,7 +36,6 @@ hoge = None
 normal_pgroup = None
 staff_pgroup = None
 promotable_pgroup = None
-default_pgroup = None
 
 def _create_user(username='foo'):
     """create user and return user and automatically generated profile"""
@@ -86,16 +85,6 @@ def test_creation():
             name='promotable permission group',
             description='',
             is_promotable=True)
-    default_pgroup = PermissionGroup.objects.create_pgroup(
-            codename='default_pgroup',
-            name='default permission group',
-            description='',
-            is_default=True,
-            permissions=[
-                'auth.add_user',
-                'auth.change_user',
-                'auth.delete_user',
-            ])
 
 def test_adding_user():
     """permissiongroups.PermissionGroup: adding users works correctly"""
@@ -106,10 +95,6 @@ def test_adding_user():
     assert normal_pgroup.is_belong(foo)
     assert staff_pgroup.is_belong(bar)
     assert promotable_pgroup.is_belong(hoge)
-    # User should belong to is_default=True permission groups
-    assert default_pgroup.is_belong(foo)
-    assert default_pgroup.is_belong(bar)
-    assert default_pgroup.is_belong(hoge)
     # normal_group user should have permissions
     assert foo.has_perm('permissiongroups.add_permissiongroup')
     assert foo.has_perm('permissiongroups.change_permissiongroup')
@@ -185,19 +170,6 @@ def test_modification():
     _clear_permission_cache(foo)
     assert not foo.has_perm('auth.add_group')
 
-    # is_default
-    assert not normal_pgroup.is_belong(bar)
-    assert not normal_pgroup.is_belong(hoge)
-    normal_pgroup.is_default=True
-    normal_pgroup.save()
-    assert normal_pgroup.is_belong(bar)
-    assert normal_pgroup.is_belong(hoge)
-    normal_pgroup.is_default=False
-    normal_pgroup.save()
-    normal_pgroup.remove_users([bar, hoge])
-    assert not normal_pgroup.is_belong(bar)
-    assert not normal_pgroup.is_belong(hoge)
-
 
 def test_invalid_values():
     """permissiongroups.PermissionGroup: validation works correctly"""
@@ -211,13 +183,16 @@ def test_invalid_values():
 # This function should be appear at last of this module
 def test_deletion():
     """permissiongroups.PermissionGroup: deletion works correctly"""
+    normal_pgroup.add_users(foo)
+    normal_pgroup.add_users(bar)
+    normal_pgroup.add_users(hoge)
     assert foo.has_perm('auth.add_user')
 
-    default_pgroup.delete()
+    normal_pgroup.delete()
 
-    assert not default_pgroup.is_belong(foo)
-    assert not default_pgroup.is_belong(bar)
-    assert not default_pgroup.is_belong(hoge)
+    assert not normal_pgroup.is_belong(foo)
+    assert not normal_pgroup.is_belong(bar)
+    assert not normal_pgroup.is_belong(hoge)
     
     # django.contrib.auth.backend.ModelBackend use cache so clear it.
     _clear_permission_cache(foo)

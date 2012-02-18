@@ -118,6 +118,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'userel.middlewares.UserelDefaultBackendMiddleware',
     'kawaz.core.profiles.middleware.ForceRedirectToProfileUpdatePageMiddleware',
 )
 
@@ -155,8 +156,10 @@ INSTALLED_APPS = (
     'thumbnailfield',
     'object_permission',
     'markupfield',
+    'userel',
     'kawaz.core.profiles',
     'kawaz.core.permissiongroups',
+    'kawaz.apps.events',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -173,8 +176,8 @@ AUTH_PROFILE_MODULE = 'profiles.Profile'
 #   See https://github.com/jbalogh/django-nose/issues/34 and
 #   https://github.com/jbalogh/django-nose/issues/8 for more detail
 #
-#NOSE_ARGS = ['--with-doctest']
-#TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+NOSE_ARGS = ['--with-doctest']
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 # django-markupfield
 import markdown
@@ -187,6 +190,10 @@ MARKITUP_PATH = r'javascript/markitup'
 
 # django-googlemap-field
 GOOGLEMAP_API_SENSOR = False
+
+# Google Calendar Sync
+GCAL_CALENDAR_ID = 'kawaz.org_knp8k16jovqbodorkrkt45un0o@group.calendar.google.com'
+GCAL_CALENDAR_ID_DEBUG = 'kawaz.org_u41faouova38rcoh8eaimbg42c@group.calendar.google.com'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

@@ -39,6 +39,7 @@ class ContentField(MarkupField):
             # Set markup type that the field will always use, 
             # editable=False is set on the hidden field so it is not shown in ModelForms.
             kwargs['markup_type'] = settings.CONTENTFIELD_DEFAULT_MARKUP_TYPE
+        super(ContentField, self).__init__(*args, **kwargs)
 
     def formfield(self, **kwargs):
         defaults = {

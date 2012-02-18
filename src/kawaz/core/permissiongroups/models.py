@@ -45,6 +45,7 @@ def isiteratable(obj):
     elif isinstance(obj, (list, tuple)):
         return True
     return False
+
 class PermissionGroupManager(models.Manager):
     """Manager of PermissionGroup
     
@@ -67,12 +68,11 @@ class PermissionGroupManager(models.Manager):
         return self.filter(group__in=user.groups.iterator())
 
     def create_pgroup(self, codename, name, description, group=None,
-                      is_staff=False, is_promotable=False, is_default=False,
-                      permissions=None):
+                      is_staff=False, is_promotable=False, permissions=None):
         """create permission group"""
         pgroup = self.create(
                 codename=codename, name=name, description=description, group=group,
-                is_staff=is_staff, is_promotable=is_promotable, is_default=is_default)
+                is_staff=is_staff, is_promotable=is_promotable)
         if permissions:
             pgroup.add_permissions(permissions)
         return pgroup
@@ -88,7 +88,6 @@ class PermissionGroup(models.Model):
         group - Group used for adding permissions to permission group
         is_staff - User belongs to is staff
         is_promotable - User belongs to can promote to superuser
-        is_default - Newly created user belongs to this permission group
 
         users - Users belongs to this permission group
         permissions - Permissions belongs to this permission group
@@ -109,7 +108,6 @@ class PermissionGroup(models.Model):
     >>> assert hasattr(pgroup, 'group')
     >>> assert hasattr(pgroup, 'is_staff')
     >>> assert hasattr(pgroup, 'is_promotable')
-    >>> assert hasattr(pgroup, 'is_default')
 
     # Required properties
     >>> assert hasattr(pgroup, 'users')
@@ -140,9 +138,6 @@ class PermissionGroup(models.Model):
     is_promotable = models.BooleanField(
             _('is promotable'), default=False, 
             help_text=_('User belongs to can promote to superuser'))
-    is_default = models.BooleanField(
-            _('is default'), default=False,
-            help_text=_('Newly created user belongs to this permission group'))
     
     objects = PermissionGroupManager()
     
@@ -162,9 +157,6 @@ class PermissionGroup(models.Model):
             logger.debug('"group" is not specified thus "%s" group is newly created.' % group_name)
             self.group = group
         super(PermissionGroup, self).save(*args, **kwargs)
-        if self.is_default:
-            # Join all exists users to this permission group
-            self.add_users(User.objects.iterator())
 
     def delete(self, *args, **kwargs):
         # Delete group as well
@@ -294,16 +286,3 @@ User.is_promotable = property(is_promotable)
 User.is_staff = property(is_staff, lambda self, value: None) # set dummy setter
 User.promote = promote
 User.demote = demote
-
-#
-# Belong newly created user to default permission group
-#
-from django.db.models import signals
-def post_save_callback(sender, instance, created, **kwargs):
-    if created:
-        permission_groups = PermissionGroup.objects.filter(is_default=True)
-        for permission_group in permission_groups:
-            permission_group.users.add(instance)
-        logger.debug('Newly created user belong to %d permission group(s)' % permission_groups.count())
-        instance.save()
-signals.post_save.connect(post_save_callback, sender=User)
