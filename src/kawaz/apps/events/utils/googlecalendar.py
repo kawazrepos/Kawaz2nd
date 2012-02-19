@@ -43,16 +43,17 @@ def login(email=None, password=None):
     client = gdata.calendar.service.CalendarService()
     client.email = email or settings.GCAL_LOGIN_EMAIL
     client.password = password or settings.GCAL_LOGIN_PASS
+    if not client.email or not client.password:
+        logger.warn('GCAL_LOGIN_EMAIL and GCAL_LOGIN_PASS is not specified thus syncing event with Google Calender is disabled')
+        return None
     try:
         client.ProgrammaticLogin()
         return client
-    except gdata.service.BadAuthentication, e:
-        if not settings.GCAL_LOGIN_EMAIL and not settings.GCAL_LOGIN_PASS:
-            # Ok, Synking with Google Calendar is not required
-            logger.warn('GCAL_LOGIN_EMAIL and GCAL_LOGIN_PASS is not specified thus syncing event with Google Calender is disabled')
-            return None
-        else:
-            raise e
+    except gdata.service.CaptchaRequired:
+        logger.warn('CaptchaRequired exception has raised. You must unlock the Captcha first.'
+                    'See "How do we handle a CAPTCHA challenge?" section of '
+                    'http://code.google.com/googleapps/faq.html')
+        return None
 
 def create_event(title, content, where, when):
     """create a google calendar event instance"""
@@ -66,7 +67,6 @@ def create_event(title, content, where, when):
         timefmt = '%Y-%m-%dT%H:%M:%S.000+09:00'
         start_time = when[0]
         start_time = start_time.strftime(timefmt)
-        print 'start_time', start_time
         end_time = when[1]
         end_time = end_time.strftime(timefmt)
         event.when.append(gdata.calendar.When(start_time=start_time, end_time=end_time))

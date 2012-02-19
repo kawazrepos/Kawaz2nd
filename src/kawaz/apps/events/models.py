@@ -252,6 +252,8 @@ def update_gcal_event_reciver(sender, instance, **kwargs):
         elif settings.GCAL_CALENDAR_ID:
             # Insert the event
             gevent = googlecalendar.insert_event(gevent)
+            if gevent is None:
+                return
             instance.gcal_edit_link = gevent.GetEditLink().href
             instance.save()
     elif instance.gcal_edit_link:

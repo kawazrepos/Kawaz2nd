@@ -26,71 +26,89 @@ License:
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 import datetime
 
-from nose.tools import *
+from django.test import TestCase
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
 from ..models import Event
 
-foo = None
-bar = None
-hoge = None
-GCAL_CALENDAR_ID_BACKUP = None
+class EventModelTestCase(TestCase):
+    """Test collection of event model"""
 
-def setup():
-    global GCAL_CALENDAR_ID_BACKUP
-    GCAL_CALENDAR_ID_BACKUP = settings.GCAL_CALENDAR_ID
-    settings.GCAL_CALENDAR_ID = 'kawaz.org_u41faouova38rcoh8eaimbg42c@group.calendar.google.com'
+    def setUp(self):
+        self.gcal_calendar_id_original = settings.GCAL_CALENDAR_ID
+        settings.GCAL_CALENDAR_ID = settings.GCAL_CALENDAR_ID_DEBUG
 
-def test_creation():
-    admin = User.objects.get(pk=1)
-    global foo, bar, hoge
-    foo = Event.objects.create(
-            title='foo',
-            body='foo',
-            place='foo',
-            period_start=datetime.datetime.now(),
-            period_end=datetime.datetime.now()+datetime.timedelta(hours=1),
-            author=admin,
-            updated_by=admin,
-        )
-    bar = Event.objects.create(
-            title='bar',
-            body='bar',
-            place='bar',
-            period_start=datetime.datetime.now()+datetime.timedelta(days=1),
-            period_end=datetime.datetime.now()+datetime.timedelta(days=2),
-            author=admin,
-            updated_by=admin,
-        )
-    hoge = Event.objects.create(
-            title='hoge',
-            body='hoge',
-            place='hoge',
-            period_start=datetime.datetime.now()+datetime.timedelta(days=3),
-            period_end=datetime.datetime.now()+datetime.timedelta(hours=2, days=3),
-            author=admin,
-            updated_by=admin,
-        )
+        self.events = []
 
-    # Google Calendar successfully created
-    assert foo.gcal_edit_link != None
-    assert bar.gcal_edit_link != None
-    assert hoge.gcal_edit_link != None
+    def tearDown(self):
+        settings.GCAL_CALENDAR_ID = self.gcal_calendar_id_original
 
-def test_modification():
-    assert foo.title == 'foo'
-    foo.title = 'foofoo'
-    foo.save()
-    assert foo.title == 'foofoo'
+        for event in self.events:
+            if event.gcal_edit_link:
+                event.delete()
 
-def test_deletion():
-    foo.delete()
-    bar.delete()
-    hoge.delete()
+    def test_creation(self):
+        """events.Event: creation works correctly""" 
+        admin = User.objects.get(pk=1)
+        foo = Event.objects.create(
+                title='foo',
+                body='foo',
+                place='foo',
+                period_start=datetime.datetime.now(),
+                period_end=datetime.datetime.now()+datetime.timedelta(hours=1),
+                author=admin,
+                updated_by=admin,
+            )
+        bar = Event.objects.create(
+                title='bar',
+                body='bar',
+                place='bar',
+                period_start=datetime.datetime.now()+datetime.timedelta(days=1),
+                period_end=datetime.datetime.now()+datetime.timedelta(days=2),
+                author=admin,
+                updated_by=admin,
+            )
+        hoge = Event.objects.create(
+                title='hoge',
+                body='hoge',
+                place='hoge',
+                period_start=datetime.datetime.now()+datetime.timedelta(days=3),
+                period_end=datetime.datetime.now()+datetime.timedelta(hours=2, days=3),
+                author=admin,
+                updated_by=admin,
+            )
 
-    # Google Calendar successfully removed
-    assert foo.gcal_edit_link == None
-    assert bar.gcal_edit_link == None
-    assert hoge.gcal_edit_link == None
+        # Google Calendar successfully created
+        assert foo.gcal_edit_link != None
+        assert bar.gcal_edit_link != None
+        assert hoge.gcal_edit_link != None
+
+        self.events.append(foo)
+        self.events.append(bar)
+        self.events.append(hoge)
+
+        return foo, bar, hoge
+
+    def test_modification(self):
+        """events.Event: modification works correctly"""
+        foo, bar, hoge = self.test_creation()
+
+        assert foo.title == 'foo'
+        foo.title = 'foofoo'
+        foo.save()
+        assert foo.title == 'foofoo'
+
+    def test_deletion(self):
+        """events.Event: deletion works correctly"""
+        foo, bar, hoge = self.test_creation()
+
+        foo.delete()
+        bar.delete()
+        hoge.delete()
+
+        # Google Calendar successfully removed
+        assert foo.gcal_edit_link == None
+        assert bar.gcal_edit_link == None
+        assert hoge.gcal_edit_link == None
