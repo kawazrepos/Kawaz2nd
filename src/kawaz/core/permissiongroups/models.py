@@ -24,6 +24,7 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
@@ -250,6 +251,8 @@ class PermissionGroup(models.Model):
 # Warning:
 #   Default 'is_staff' is overwrited by 'is_staff' property
 #
+logger.debug('Be sure that User.is_staff is overwritten by permissiongroups app.')
+
 def is_promotable(self):
     """return whether the user can promote to superuser"""
     if self.pk is None:
@@ -259,15 +262,20 @@ def is_promotable(self):
         if pgroup.is_promotable:
             return True
     return False
+
 def is_staff(self):
     """return whether the user is staff"""
-    if self.pk is None:
+    if self.is_superuser:
+        # superuser should be staff
+        return True
+    elif self.pk is None:
         return False
     qs = PermissionGroup.objects.get_by_user(self)
     for pgroup in qs:
         if pgroup.is_staff:
             return True
     return False
+
 def promote(self):
     """promote user to superuser"""
     if self.is_promotable:
@@ -275,6 +283,7 @@ def promote(self):
         self.save()
     else:
         raise AttributeError('"is_promotable" must be True for promoting')
+
 def demote(self):
     """demote user from superuser"""
     if self.is_promotable:

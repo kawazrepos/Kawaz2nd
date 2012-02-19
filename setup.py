@@ -41,7 +41,6 @@ setup(
         'PIL',
         'django>=1.3',
         'django-nose',
-        'django-filter>=0.5.3dev',
         'django-piston',
         'httplib2',
         'django-qwert',
@@ -54,7 +53,6 @@ setup(
         'django-userel',
     ],
     dependency_links = [
-        'https://github.com/lambdalisue/django-filter/zipball/master#egg=django-filter-0.5.3dev',
         'https://github.com/lambdalisue/django-markupfield/zipball/master#egg=django-markupfield-1.0.2dev',
     ],
 )
