@@ -31,19 +31,21 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from kawaz.core import get_children_pgroup
+
 from ..models import Event
 
 class EventModelTestCase(TestCase):
     """Test collection of event model"""
 
     def setUp(self):
-        self.gcal_calendar_id_original = settings.GCAL_CALENDAR_ID
-        settings.GCAL_CALENDAR_ID = settings.GCAL_CALENDAR_ID_DEBUG
+        self.gcal_calendar_id_original = settings.EVENTS_GCAL_CALENDAR_ID
+        settings.EVENTS_GCAL_CALENDAR_ID = settings.EVENTS_GCAL_CALENDAR_ID_DEBUG
 
         self.events = []
 
     def tearDown(self):
-        settings.GCAL_CALENDAR_ID = self.gcal_calendar_id_original
+        settings.EVENTS_GCAL_CALENDAR_ID = self.gcal_calendar_id_original
 
         for event in self.events:
             if event.gcal_edit_link:
@@ -81,9 +83,10 @@ class EventModelTestCase(TestCase):
             )
 
         # Google Calendar successfully created
-        assert foo.gcal_edit_link != None
-        assert bar.gcal_edit_link != None
-        assert hoge.gcal_edit_link != None
+        if settings.EVENTS_GCAL_SYNC:
+            assert foo.gcal_edit_link != None
+            assert bar.gcal_edit_link != None
+            assert hoge.gcal_edit_link != None
 
         self.events.append(foo)
         self.events.append(bar)
@@ -109,6 +112,47 @@ class EventModelTestCase(TestCase):
         hoge.delete()
 
         # Google Calendar successfully removed
-        assert foo.gcal_edit_link == None
-        assert bar.gcal_edit_link == None
-        assert hoge.gcal_edit_link == None
+        if settings.EVENTS_GCAL_SYNC:
+            assert foo.gcal_edit_link == None
+            assert bar.gcal_edit_link == None
+            assert hoge.gcal_edit_link == None
+
+    def test_manager_published(self):
+        """events.Event: manager active works correctly"""
+        foo, bar, hoge = self.test_creation()
+
+        foo.pub_state = 'public'
+        bar.pub_state = 'protected'
+        hoge.pub_state = 'draft'
+        foo.save()
+        bar.save()
+        hoge.save()
+    
+        admin = User.objects.get(pk=1)
+        admin.is_superuser = False
+        admin.is_staff = False
+        admin.save()
+
+        mock_request = lambda x: None
+        mock_request.user = admin
+
+        qs = Event.objects.published(mock_request)
+        self.assertEqual(qs.count(), 1)
+
+        children = get_children_pgroup()
+        children.add_users(admin)
+
+        qs = Event.objects.published(mock_request)
+        self.assertEqual(qs.count(), 2)
+
+        children.remove_users(admin)
+        admin.is_superuser = True
+        admin.save()
+        
+        qs = Event.objects.published(mock_request)
+        self.assertEqual(qs.count(), 2)
+
+
+
+        
+

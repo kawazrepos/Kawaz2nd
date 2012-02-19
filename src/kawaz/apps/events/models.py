@@ -65,7 +65,7 @@ class EventManager(models.Manager):
         """return published events"""
         children = get_children_pgroup()
         q = Q(pub_state='public')
-        if children.is_belong(request.user):
+        if children.is_belong(request.user) or request.user.is_superuser:
             q |= Q(pub_state='protected')
         return self.filter(q).distinct()
 
@@ -246,27 +246,41 @@ def update_gcal_event_reciver(sender, instance, **kwargs):
     if instance.pub_state != 'draft' and instance.period_start and instance.period_end:
         if instance.gcal_edit_link:
             # Update the event
-            gevent = googlecalendar.update_event(instance.gcal_edit_link, gevent)
+            gevent = googlecalendar.update_event(
+                    settings.EVENTS_GCAL_LOGIN_NAME,
+                    settings.EVENTS_GCAL_LOGIN_PASS,
+                    instance.gcal_edit_link, gevent)
             if instance.gcal_edit_link != gevent.GetEditLink().href:
                 instance.gcal_edit_link = gevent.GetEditLink().href
                 instance.save()
-        elif settings.GCAL_CALENDAR_ID:
+        elif settings.EVENTS_GCAL_CALENDAR_ID:
             # Insert the event
-            gevent = googlecalendar.insert_event(gevent)
+            gevent = googlecalendar.insert_event(
+                    settings.EVENTS_GCAL_LOGIN_NAME,
+                    settings.EVENTS_GCAL_LOGIN_PASS,
+                    settings.EVENTS_GCAL_CALENDAR_ID,
+                    gevent)
             if gevent is None:
                 return
             instance.gcal_edit_link = gevent.GetEditLink().href
             instance.save()
     elif instance.gcal_edit_link:
         # Remove the event
-        googlecalendar.delete_event(instance.gcal_edit_link)
+        googlecalendar.delete_event(
+                settings.EVENTS_GCAL_LOGIN_NAME,
+                settings.EVENTS_GCAL_LOGIN_PASS,
+                instance.gcal_edit_link)
         instance.gcal_edit_link = None
         instance.save()
 
 def delete_gcal_event_reciver(sender, instance, **kwargs):
     if instance.gcal_edit_link:
-        googlecalendar.delete_event(instance.gcal_edit_link)
+        googlecalendar.delete_event(
+                settings.EVENTS_GCAL_LOGIN_NAME,
+                settings.EVENTS_GCAL_LOGIN_PASS,
+                instance.gcal_edit_link)
         instance.gcal_edit_link = None
     
-post_save.connect(update_gcal_event_reciver, sender=Event)
-post_delete.connect(delete_gcal_event_reciver, sender=Event)
+if settings.EVENTS_GCAL_SYNC:
+    post_save.connect(update_gcal_event_reciver, sender=Event)
+    post_delete.connect(delete_gcal_event_reciver, sender=Event)

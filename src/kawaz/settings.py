@@ -191,9 +191,10 @@ MARKITUP_PATH = r'javascript/markitup'
 # django-googlemap-field
 GOOGLEMAP_API_SENSOR = False
 
-# Google Calendar Sync
-GCAL_CALENDAR_ID = 'kawaz.org_knp8k16jovqbodorkrkt45un0o@group.calendar.google.com'
-GCAL_CALENDAR_ID_DEBUG = 'kawaz.org_u41faouova38rcoh8eaimbg42c@group.calendar.google.com'
+# Events
+EVENTS_GCAL_SYNC = False
+EVENTS_GCAL_CALENDAR_ID = 'kawaz.org_knp8k16jovqbodorkrkt45un0o@group.calendar.google.com'
+EVENTS_GCAL_CALENDAR_ID_DEBUG = 'kawaz.org_u41faouova38rcoh8eaimbg42c@group.calendar.google.com'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

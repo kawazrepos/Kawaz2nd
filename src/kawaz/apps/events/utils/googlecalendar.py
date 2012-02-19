@@ -28,24 +28,16 @@ import atom
 import gdata.service
 import gdata.calendar.service
 
-from django.conf import settings
 from django.utils.html import strip_tags
 
 import logging
 logger = logging.getLogger(__name__)
 
-settings.GCAL_CALENDAR_ID = getattr(settings, 'GCAL_CALENDAR_ID', None)
-settings.GCAL_LOGIN_EMAIL = getattr(settings, 'GCAL_LOGIN_EMAIL', None)
-settings.GCAL_LOGIN_PASS = getattr(settings, 'GCAL_LOGIN_PASS', None)
-
-def login(email=None, password=None):
+def login(email, password):
     """login to Google Calendar"""
     client = gdata.calendar.service.CalendarService()
-    client.email = email or settings.GCAL_LOGIN_EMAIL
-    client.password = password or settings.GCAL_LOGIN_PASS
-    if not client.email or not client.password:
-        logger.warn('GCAL_LOGIN_EMAIL and GCAL_LOGIN_PASS is not specified thus syncing event with Google Calender is disabled')
-        return None
+    client.email = email
+    client.password = password
     try:
         client.ProgrammaticLogin()
         return client
@@ -72,26 +64,25 @@ def create_event(title, content, where, when):
         event.when.append(gdata.calendar.When(start_time=start_time, end_time=end_time))
     return event
 
-def insert_event(event, calendar_id=None):
+def insert_event(email, password, calendar_id, event):
     """insert google calendar event into calendar"""
-    calendar_id = calendar_id or settings.GCAL_CALENDAR_ID
     calendar_url = "/calendar/feeds/%s/private/full" % calendar_id
-    client = login()
+    client = login(email, password)
     if client:
         event = client.InsertEvent(event, calendar_url)
         return event
     return None
 
-def update_event(edit_link, event):
+def update_event(email, password, edit_link, event):
     """update google calendar event"""
-    client = login()
+    client = login(email, password)
     if client:
         event = client.UpdateEvent(edit_link, event)
         return event
     return None
 
-def delete_event(edit_link):
+def delete_event(email, password, edit_link):
     """delete google calendar event"""
-    client = login()
+    client = login(email, password)
     if client:
         client.DeleteEvent(edit_link)
