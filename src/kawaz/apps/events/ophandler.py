@@ -38,10 +38,10 @@ class EventObjectPermHandler(ObjectPermHandler):
     """Object permission handler of Kawaz Event"""
 
     def get_author(self):
-        """get author of profile instance"""
+        """get author of instance"""
         return getattr(self.instance, 'author')
     def get_pub_state(self):
-        """get pub_state of profile instance"""
+        """get pub_state of instance"""
         return getattr(self.instance, 'pub_state')
 
     def setup(self):

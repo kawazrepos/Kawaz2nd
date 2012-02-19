@@ -29,7 +29,7 @@ import datetime
 from django.test import TestCase
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
+from django.contrib.auth.models import AnonymousUser
 
 from kawaz.core import get_children_pgroup
 
@@ -151,8 +151,147 @@ class EventModelTestCase(TestCase):
         
         qs = Event.objects.published(mock_request)
         self.assertEqual(qs.count(), 2)
+    
+    def test_manager_draft(self):
+        """events.Event: manager draft works correctly"""
+        children = get_children_pgroup()
 
+        foo = User.objects.create_user(username='foo', email='foo@test.com', password='password')
+        bar = User.objects.create_user(username='bar', email='bar@test.com', password='password')
+        children.add_users((foo, bar))
 
+        foofoo = Event.objects.create(
+                title='foo',
+                body='foo',
+                place='foo',
+                period_start=datetime.datetime.now(),
+                period_end=datetime.datetime.now()+datetime.timedelta(hours=1),
+                author=foo,
+                updated_by=foo,
+                pub_state='public'
+            )
+        foobar = Event.objects.create(
+                title='bar',
+                body='bar',
+                place='bar',
+                period_start=datetime.datetime.now()+datetime.timedelta(days=1),
+                period_end=datetime.datetime.now()+datetime.timedelta(days=2),
+                author=foo,
+                updated_by=foo,
+                pub_state='draft'
+            )
+        barfoo = Event.objects.create(
+                title='foo',
+                body='foo',
+                place='foo',
+                period_start=datetime.datetime.now(),
+                period_end=datetime.datetime.now()+datetime.timedelta(hours=1),
+                author=bar,
+                updated_by=bar,
+                pub_state='draft'
+            )
+        barbar = Event.objects.create(
+                title='foo',
+                body='foo',
+                place='foo',
+                period_start=datetime.datetime.now(),
+                period_end=datetime.datetime.now()+datetime.timedelta(hours=1),
+                author=bar,
+                updated_by=bar,
+                pub_state='draft'
+            )
 
+        mock_request = lambda x: None
+        mock_request.user = foo
+
+        qs = Event.objects.draft(mock_request)
+        self.assertEqual(qs.count(), 1)
+
+        mock_request.user = bar
+        qs = Event.objects.draft(mock_request)
+        self.assertEqual(qs.count(), 2)
+
+        mock_request.user = AnonymousUser
+        qs = Event.objects.draft(mock_request)
+        self.assertEqual(qs.count(), 0)
         
+        children.remove_users((foo, bar))
+        
+        mock_request.user = foo
+        qs = Event.objects.draft(mock_request)
+        self.assertEqual(qs.count(), 0)
 
+        mock_request.user = bar
+        qs = Event.objects.draft(mock_request)
+        self.assertEqual(qs.count(), 0)
+
+        foo.is_superuser = True
+        foo.save()
+        mock_request.user = foo
+        qs = Event.objects.draft(mock_request)
+        self.assertEqual(qs.count(), 3)
+
+        self.events.append(foofoo)
+        self.events.append(foobar)
+        self.events.append(barfoo)
+        self.events.append(barbar)
+
+    def test_manager_active(self):
+        """events.Event: manager active works correctly"""
+        foo, bar, hoge = self.test_creation()
+
+        admin = User.objects.get(pk=1)
+        admin.is_superuser = False
+        admin.is_staff = False
+        admin.save()
+
+        mock_request = lambda x: None
+        mock_request.user = admin
+
+        qs = Event.objects.active(mock_request)
+        self.assertEqual(qs.count(), 3)
+
+        foo.period_start = datetime.datetime.now() - datetime.timedelta(days=2)
+        foo.period_end = datetime.datetime.now() - datetime.timedelta(days=1)
+        foo.save()
+
+        qs = Event.objects.active(mock_request)
+        self.assertEqual(qs.count(), 2)
+
+        bar.period_start = None
+        bar.period_end = None
+        bar.save()
+
+        qs = Event.objects.active(mock_request)
+        self.assertEqual(qs.count(), 2)
+
+    def test_attend(self):
+        """events.Event: attend works correctly"""
+        ufoo = User.objects.create_user(username='foo', email='foo@test.com', password='password')
+        ubar = User.objects.create_user(username='bar', email='bar@test.com', password='password')
+
+        foo, bar, hoge = self.test_creation()
+        # Note: Author automatically attend the event
+        self.assertEqual(foo.attendees.count(), 1)
+
+        foo.attend(ufoo)
+        self.assertEqual(foo.attendees.count(), 2)
+
+        foo.attend(ubar)
+        self.assertEqual(foo.attendees.count(), 3)
+        
+        return foo, bar, hoge, ufoo, ubar
+
+    def test_leave(self):
+        """events.Event: leave works correctly"""
+        foo, bar, hoge, ufoo, ubar = self.test_attend()
+
+        foo.leave(ufoo)
+        self.assertEqual(foo.attendees.count(), 2)
+
+        foo.leave(ubar)
+        self.assertEqual(foo.attendees.count(), 1)
+
+        # Author cannot leave the event
+        admin = User.objects.get(pk=1)
+        self.assertRaises(AttributeError, foo.leave, admin)
