@@ -1,3 +1,0 @@
-[submodule "src/libs/django-filter"]
-	path = src/libs/django-filter
-	url = https://github.com/lambdalisue/django-filter

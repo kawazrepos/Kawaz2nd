@@ -161,7 +161,6 @@ class Event(models.Model):
         permissions = (
                 ('kick_event', 'Can kick a particular attendee'),
                 ('attend_event', 'Can attend a particular event'),
-                ('view_protected_event', 'Can view a protected event'),
             )
 
     def __unicode__(self):
@@ -212,11 +211,11 @@ class Event(models.Model):
         return ('events-event-detail', (), {'pk': self.pk})
 
     def is_active(self):
-        """is this event end or not"""
+        """is this event over or not"""
         if not self.period_start:
             return True
         return self.period_end >= datetime.datetime.now()
-    is_active.short_description = _('is this event end or not')
+    is_active.short_description = _('is this event over or not')
     is_active.boolean = True
 
     def to_gcal_event(self):
