@@ -38,127 +38,132 @@ from ..models import Event
 class EventModelTestCase(TestCase):
     """Test collection of event model"""
 
+    def _create_user(self, username):
+        kwargs = {
+                'username': username,
+                'email': '%s@test.com' % username,
+                'password': 'password',
+            }
+        return User.objects.create_user(**kwargs)
+
+    def _create_event(self, title, time, user):
+        kwargs = {
+                'title': title,
+                'body': title.capitalize(),
+                'place': title,
+                'period_start': time,
+                'period_end': time + datetime.timedelta(hours=1),
+                'author': user,
+                'updated_by': user,
+            }
+        return Event.objects.create(**kwargs)
+
     def setUp(self):
-        self.gcal_calendar_id_original = settings.EVENTS_GCAL_CALENDAR_ID
-        settings.EVENTS_GCAL_CALENDAR_ID = settings.EVENTS_GCAL_CALENDAR_ID_DEBUG
+        self.foo = self._create_user('foo')
+        self.bar = self._create_user('bar')
+        self.hoge = self._create_user('hoge')
+
+        if settings.EVENTS_GCAL_SYNC:
+            # store original google calender id
+            self.gcal_calendar_id_original = settings.EVENTS_GCAL_CALENDAR_ID
+            settings.EVENTS_GCAL_CALENDAR_ID = settings.EVENTS_GCAL_CALENDAR_ID_DEBUG
 
         self.events = []
 
     def tearDown(self):
-        settings.EVENTS_GCAL_CALENDAR_ID = self.gcal_calendar_id_original
-
         for event in self.events:
             if event.gcal_edit_link:
                 event.delete()
+        # restore original google calender id
+        if settings.EVENTS_GCAL_SYNC:
+            settings.EVENTS_GCAL_CALENDAR_ID = self.gcal_calendar_id_original
 
     def test_creation(self):
         """events.Event: creation works correctly""" 
-        admin = User.objects.get(pk=1)
-        foo = Event.objects.create(
-                title='foo',
-                body='foo',
-                place='foo',
-                period_start=datetime.datetime.now(),
-                period_end=datetime.datetime.now()+datetime.timedelta(hours=1),
-                author=admin,
-                updated_by=admin,
-            )
-        bar = Event.objects.create(
-                title='bar',
-                body='bar',
-                place='bar',
-                period_start=datetime.datetime.now()+datetime.timedelta(days=1),
-                period_end=datetime.datetime.now()+datetime.timedelta(days=2),
-                author=admin,
-                updated_by=admin,
-            )
-        hoge = Event.objects.create(
-                title='hoge',
-                body='hoge',
-                place='hoge',
-                period_start=datetime.datetime.now()+datetime.timedelta(days=3),
-                period_end=datetime.datetime.now()+datetime.timedelta(hours=2, days=3),
-                author=admin,
-                updated_by=admin,
-            )
+        now = datetime.datetime.now()
+        event1 = self._create_event('event1', now, self.foo)
+        event2 = self._create_event('event2', now+datetime.timedelta(days=1), self.foo)
+        event3 = self._create_event('event3', now+datetime.timedelta(days=2), self.foo)
+
+        self.assertEquals(event1.title, 'event1')
+        self.assertEquals(event1.body.raw, 'Event1')
+        self.assertEquals(event1.place, 'event1')
+        self.assertEquals(event1.period_start, now)
+        self.assertEquals(event1.period_end, now+datetime.timedelta(hours=1))
+        self.assertEquals(event1.author, self.foo)
+        self.assertEquals(event1.updated_by, self.foo)
+        self.assertEquals(event1.attendees.count(), 1)
 
         # Google Calendar successfully created
         if settings.EVENTS_GCAL_SYNC:
-            assert foo.gcal_edit_link != None
-            assert bar.gcal_edit_link != None
-            assert hoge.gcal_edit_link != None
+            self.assertNotEquals(event1.gcal_edit_link, None)
+            self.assertNotEquals(event2.gcal_edit_link, None)
+            self.assertNotEquals(event3.gcal_edit_link, None)
 
-        self.events.append(foo)
-        self.events.append(bar)
-        self.events.append(hoge)
+        self.events.append(event1)
+        self.events.append(event2)
+        self.events.append(event3)
 
-        return foo, bar, hoge
+        return event1, event2, event3
 
     def test_modification(self):
         """events.Event: modification works correctly"""
-        foo, bar, hoge = self.test_creation()
+        event1, event2, event3 = self.test_creation()
 
-        assert foo.title == 'foo'
-        foo.title = 'foofoo'
-        foo.save()
-        assert foo.title == 'foofoo'
+        self.assertEquals(event1.title, 'event1')
+        event1.title = 'event1mod'
+        event1.save()
+        self.assertEquals(event1.title, 'event1mod')
 
     def test_deletion(self):
         """events.Event: deletion works correctly"""
-        foo, bar, hoge = self.test_creation()
+        event1, event2, event3 = self.test_creation()
 
-        foo.delete()
-        bar.delete()
-        hoge.delete()
+        event1.delete()
+        event2.delete()
+        event3.delete()
 
         # Google Calendar successfully removed
         if settings.EVENTS_GCAL_SYNC:
-            assert foo.gcal_edit_link == None
-            assert bar.gcal_edit_link == None
-            assert hoge.gcal_edit_link == None
+            self.assertEquals(event1.gcal_edit_link, None)
+            self.assertEquals(event2.gcal_edit_link, None)
+            self.assertEquals(event3.gcal_edit_link, None)
 
     def test_manager_published(self):
         """events.Event: manager active works correctly"""
-        foo, bar, hoge = self.test_creation()
+        event1, event2, event3 = self.test_creation()
 
-        foo.pub_state = 'public'
-        bar.pub_state = 'protected'
-        hoge.pub_state = 'draft'
-        foo.save()
-        bar.save()
-        hoge.save()
+        event1.pub_state = 'public'
+        event1.save()
+        event2.pub_state = 'protected'
+        event2.save()
+        event3.pub_state = 'draft'
+        event3.save()
     
-        admin = User.objects.get(pk=1)
-        admin.is_superuser = False
-        admin.is_staff = False
-        admin.save()
-
         mock_request = lambda x: None
-        mock_request.user = admin
+        mock_request.user = self.foo
 
         qs = Event.objects.published(mock_request)
-        self.assertEqual(qs.count(), 1)
+        self.assertEquals(qs.count(), 1)
 
         children = get_children_pgroup()
-        children.add_users(admin)
+        children.add_users(self.foo)
 
         qs = Event.objects.published(mock_request)
-        self.assertEqual(qs.count(), 2)
+        self.assertEquals(qs.count(), 2)
 
-        children.remove_users(admin)
-        admin.is_superuser = True
-        admin.save()
+        children.remove_users(self.foo)
+        self.foo.is_superuser = True
+        self.foo.save()
         
         qs = Event.objects.published(mock_request)
-        self.assertEqual(qs.count(), 2)
+        self.assertEquals(qs.count(), 2)
     
     def test_manager_draft(self):
         """events.Event: manager draft works correctly"""
         children = get_children_pgroup()
 
-        foo = User.objects.create_user(username='foo', email='foo@test.com', password='password')
-        bar = User.objects.create_user(username='bar', email='bar@test.com', password='password')
-        children.add_users((foo, bar))
+        children.add_users((self.foo, self.bar))
 
         foofoo = Event.objects.create(
                 title='foo',
@@ -166,8 +171,8 @@ class EventModelTestCase(TestCase):
                 place='foo',
                 period_start=datetime.datetime.now(),
                 period_end=datetime.datetime.now()+datetime.timedelta(hours=1),
-                author=foo,
-                updated_by=foo,
+                author=self.foo,
+                updated_by=self.foo,
                 pub_state='public'
             )
         foobar = Event.objects.create(
@@ -176,8 +181,8 @@ class EventModelTestCase(TestCase):
                 place='bar',
                 period_start=datetime.datetime.now()+datetime.timedelta(days=1),
                 period_end=datetime.datetime.now()+datetime.timedelta(days=2),
-                author=foo,
-                updated_by=foo,
+                author=self.foo,
+                updated_by=self.foo,
                 pub_state='draft'
             )
         barfoo = Event.objects.create(
@@ -186,8 +191,8 @@ class EventModelTestCase(TestCase):
                 place='foo',
                 period_start=datetime.datetime.now(),
                 period_end=datetime.datetime.now()+datetime.timedelta(hours=1),
-                author=bar,
-                updated_by=bar,
+                author=self.bar,
+                updated_by=self.bar,
                 pub_state='draft'
             )
         barbar = Event.objects.create(
@@ -196,40 +201,40 @@ class EventModelTestCase(TestCase):
                 place='foo',
                 period_start=datetime.datetime.now(),
                 period_end=datetime.datetime.now()+datetime.timedelta(hours=1),
-                author=bar,
-                updated_by=bar,
+                author=self.bar,
+                updated_by=self.bar,
                 pub_state='draft'
             )
 
         mock_request = lambda x: None
-        mock_request.user = foo
+        mock_request.user = self.foo
 
         qs = Event.objects.draft(mock_request)
-        self.assertEqual(qs.count(), 1)
+        self.assertEquals(qs.count(), 1)
 
-        mock_request.user = bar
+        mock_request.user = self.bar
         qs = Event.objects.draft(mock_request)
-        self.assertEqual(qs.count(), 2)
+        self.assertEquals(qs.count(), 2)
 
         mock_request.user = AnonymousUser
         qs = Event.objects.draft(mock_request)
-        self.assertEqual(qs.count(), 0)
+        self.assertEquals(qs.count(), 0)
         
-        children.remove_users((foo, bar))
+        children.remove_users((self.foo, self.bar))
         
-        mock_request.user = foo
+        mock_request.user = self.foo
         qs = Event.objects.draft(mock_request)
-        self.assertEqual(qs.count(), 0)
+        self.assertEquals(qs.count(), 0)
 
-        mock_request.user = bar
+        mock_request.user = self.bar
         qs = Event.objects.draft(mock_request)
-        self.assertEqual(qs.count(), 0)
+        self.assertEquals(qs.count(), 0)
 
-        foo.is_superuser = True
-        foo.save()
-        mock_request.user = foo
+        self.foo.is_superuser = True
+        self.foo.save()
+        mock_request.user = self.foo
         qs = Event.objects.draft(mock_request)
-        self.assertEqual(qs.count(), 3)
+        self.assertEquals(qs.count(), 3)
 
         self.events.append(foofoo)
         self.events.append(foobar)
@@ -238,60 +243,52 @@ class EventModelTestCase(TestCase):
 
     def test_manager_active(self):
         """events.Event: manager active works correctly"""
-        foo, bar, hoge = self.test_creation()
-
-        admin = User.objects.get(pk=1)
-        admin.is_superuser = False
-        admin.is_staff = False
-        admin.save()
+        event1, event2, event3 = self.test_creation()
 
         mock_request = lambda x: None
-        mock_request.user = admin
+        mock_request.user = self.foo
 
         qs = Event.objects.active(mock_request)
-        self.assertEqual(qs.count(), 3)
+        self.assertEquals(qs.count(), 3)
 
-        foo.period_start = datetime.datetime.now() - datetime.timedelta(days=2)
-        foo.period_end = datetime.datetime.now() - datetime.timedelta(days=1)
-        foo.save()
-
-        qs = Event.objects.active(mock_request)
-        self.assertEqual(qs.count(), 2)
-
-        bar.period_start = None
-        bar.period_end = None
-        bar.save()
+        event1.period_start = datetime.datetime.now() - datetime.timedelta(days=2)
+        event1.period_end = datetime.datetime.now() - datetime.timedelta(days=1)
+        event1.save()
 
         qs = Event.objects.active(mock_request)
-        self.assertEqual(qs.count(), 2)
+        self.assertEquals(qs.count(), 2)
+
+        event2.period_start = None
+        event2.period_end = None
+        event2.save()
+
+        qs = Event.objects.active(mock_request)
+        self.assertEquals(qs.count(), 2)
 
     def test_attend(self):
         """events.Event: attend works correctly"""
-        ufoo = User.objects.create_user(username='foo', email='foo@test.com', password='password')
-        ubar = User.objects.create_user(username='bar', email='bar@test.com', password='password')
+        event1, event2, event3 = self.test_creation()
 
-        foo, bar, hoge = self.test_creation()
         # Note: Author automatically attend the event
-        self.assertEqual(foo.attendees.count(), 1)
+        self.assertEquals(event1.attendees.count(), 1)
 
-        foo.attend(ufoo)
-        self.assertEqual(foo.attendees.count(), 2)
+        event1.attend(self.bar)
+        self.assertEquals(event1.attendees.count(), 2)
 
-        foo.attend(ubar)
-        self.assertEqual(foo.attendees.count(), 3)
+        event1.attend(self.hoge)
+        self.assertEquals(event1.attendees.count(), 3)
         
-        return foo, bar, hoge, ufoo, ubar
+        return event1, event2, event3
 
     def test_leave(self):
         """events.Event: leave works correctly"""
-        foo, bar, hoge, ufoo, ubar = self.test_attend()
+        event1, event2, event3 = self.test_attend()
 
-        foo.leave(ufoo)
-        self.assertEqual(foo.attendees.count(), 2)
+        event1.leave(self.bar)
+        self.assertEquals(event1.attendees.count(), 2)
 
-        foo.leave(ubar)
-        self.assertEqual(foo.attendees.count(), 1)
+        event1.leave(self.hoge)
+        self.assertEquals(event1.attendees.count(), 1)
 
         # Author cannot leave the event
-        admin = User.objects.get(pk=1)
-        self.assertRaises(AttributeError, foo.leave, admin)
+        self.assertRaises(AttributeError, event1.leave, self.foo)
