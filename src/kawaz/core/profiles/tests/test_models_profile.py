@@ -30,6 +30,8 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
+from kawaz.core import get_children_pgroup
+
 from ..models import Profile
 
 class BaseTestCase(TestCase):
@@ -160,3 +162,45 @@ class ProfilesProfileModelTestCase(TestCase):
             raise Exception(
                     """Profile should be automatically deleted but """
                     """related profile is found.""")
+
+    def test_manager(self):
+        """profile.Profile: manager works correctly"""
+        foo, profile = self.test_creation()
+        mock_request = lambda x: None
+        mock_request.user = foo
+
+        # nickname = None
+        profile.nickname = None
+        profile.save()
+        qs = Profile.objects.published(mock_request)
+        self.assertEqual(qs.count(), 0)
+        profile.nickname = foo.username
+        profile.save()
+
+        # is_active = False
+        foo.is_active = False
+        foo.save()
+        qs = Profile.objects.published(mock_request)
+        self.assertEqual(qs.count(), 0)
+        foo.is_active = True
+        foo.save()
+
+        # pub_state
+        children = get_children_pgroup()
+        profile.pub_state = 'public'
+        profile.save()
+        qs = Profile.objects.published(mock_request)
+        self.assertEqual(qs.count(), 1)
+
+        profile.pub_state = 'protected'
+        profile.save()
+        qs = Profile.objects.published(mock_request)
+        self.assertEqual(qs.count(), 0)
+
+        children.add_users(foo)
+        qs = Profile.objects.published(mock_request)
+        self.assertEqual(qs.count(), 1)
+
+
+
+

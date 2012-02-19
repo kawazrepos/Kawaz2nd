@@ -43,6 +43,7 @@ from universaltag.fields import UniversalTagField
 from googlemap.models import GoogleMapField
 from thumbnailfield.models import ThumbnailField
 
+from kawaz.core import get_children_pgroup
 from kawaz.utils.default.image import get_default_profile_icon
 
 import logging
@@ -88,10 +89,11 @@ class ProfileManager(models.Manager):
         which user is inactive.
 
         return queryset of ``pub_state='public'`` profile only for anonymous
-        user.
+        user (include visitor)
         """
+        children = get_children_pgroup()
         qs = self.exclude(nickname=None).exclude(user__is_active=False)
-        if request and request.user.is_authenticated():
+        if children.is_belong(request.user):
             return qs
         else:
             return qs.filter(pub_state='public')
