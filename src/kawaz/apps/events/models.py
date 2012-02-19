@@ -37,6 +37,7 @@ from userel.fields import UserelField
 from googlemap.models import GoogleMapField
 from universaltag.fields import UniversalTagField
 
+from kawaz.core import get_children_pgroup
 from kawaz.fields.contentfield.fields import ContentField
 
 from utils import googlecalendar
@@ -62,8 +63,9 @@ class EventManager(models.Manager):
     
     def published(self, request):
         """return published events"""
+        children = get_children_pgroup()
         q = Q(pub_state='public')
-        if request.user.has_perm('events.view_protected_event'):
+        if children.is_belong(request.user):
             q |= Q(pub_state='protected')
         return self.filter(q).distinct()
 
@@ -161,7 +163,6 @@ class Event(models.Model):
         permissions = (
                 ('kick_event', 'Can kick a particular attendee'),
                 ('attend_event', 'Can attend a particular event'),
-                ('view_protected_event', 'Can view a protected event'),
             )
 
     def __unicode__(self):
@@ -212,11 +213,11 @@ class Event(models.Model):
         return ('events-event-detail', (), {'pk': self.pk})
 
     def is_active(self):
-        """is this event end or not"""
+        """is this event over or not"""
         if not self.period_start:
             return True
         return self.period_end >= datetime.datetime.now()
-    is_active.short_description = _('is this event end or not')
+    is_active.short_description = _('is this event over or not')
     is_active.boolean = True
 
     def to_gcal_event(self):
