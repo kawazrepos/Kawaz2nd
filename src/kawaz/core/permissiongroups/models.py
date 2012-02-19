@@ -24,11 +24,11 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 from django.contrib.auth.models import Permission
+from django.core.exceptions import ObjectDoesNotExist
 from django.utils.text import ugettext_lazy as _
 
 
@@ -52,20 +52,20 @@ class PermissionGroupManager(models.Manager):
     
     Attribute:
         get_by_natural_key - get permission group by natural key
-        get_by_user - get permissino groups by user
+        filter_by_user - get permissino groups by user
         create_pgroup - create permission group
     
     >>> manager = PermissionGroupManager()
     >>> assert hasattr(manager, 'get_by_natural_key')
-    >>> assert hasattr(manager, 'get_by_user')
+    >>> assert hasattr(manager, 'filter_by_user')
     >>> assert hasattr(manager, 'create_pgroup')
     """
     def get_by_natural_key(self, codename):
         """return permissiongroup by natural key"""
         return self.get(codename=codename)
 
-    def get_by_user(self, user):
-        """return permission groups by user"""
+    def filter_by_user(self, user):
+        """filter permission groups by user"""
         return self.filter(group__in=user.groups.iterator())
 
     def create_pgroup(self, codename, name, description, group=None,
@@ -202,13 +202,14 @@ class PermissionGroup(models.Model):
         for user in users:
             self.users.remove(user)
 
-    def _get_permission_instance(self, permission):
+    @classmethod
+    def _get_permission_instance(cls, permission):
         """get permission instance from an instance or natural_key"""
         if isinstance(permission, basestring):
             # get permission by natural key
             try:
                 app_label, codename = permission.split('.', 1)
-            except IndexError:
+            except (IndexError, ValueError):
                 raise AttributeError('"permission" must be "app_label.codename_model". given "%s"' % permission)
             try:
                 model = codename.rsplit('_', 1)[1]
@@ -216,8 +217,8 @@ class PermissionGroup(models.Model):
                 raise AttributeError('"permission" must be "app_label.codename_model". given "%s"' % permission)
             try:
                 perm = Permission.objects.get_by_natural_key(codename, app_label, model)
-            except Permission.DoesNotExist:
-                raise AttributeError('permission "%s" does not exist' % permission)
+            except ObjectDoesNotExist:
+                raise Permission.DoesNotExist('permission "%s" does not exist' % permission)
         elif isinstance(permission, Permission):
             # permission is already an instance of Permissions
             perm = permission
@@ -232,7 +233,7 @@ class PermissionGroup(models.Model):
         elif not isiteratable(permissions):
             raise AttributeError('"permissions" must be iteratable')
         for permission in permissions:
-            perm = self._get_permission_instance(permission)
+            perm = PermissionGroup._get_permission_instance(permission)
             self.permissions.add(perm)
 
     def remove_permissions(self, permissions):
@@ -242,7 +243,7 @@ class PermissionGroup(models.Model):
         elif not isiteratable(permissions):
             raise AttributeError('"permissions" must be iteratable')
         for permission in permissions:
-            perm = self._get_permission_instance(permission)
+            perm = PermissionGroup._get_permission_instance(permission)
             self.permissions.remove(perm)
 
 #
@@ -257,7 +258,7 @@ def is_promotable(self):
     """return whether the user can promote to superuser"""
     if self.pk is None:
         return False
-    qs = PermissionGroup.objects.get_by_user(self)
+    qs = PermissionGroup.objects.filter_by_user(self)
     for pgroup in qs:
         if pgroup.is_promotable:
             return True
@@ -270,7 +271,7 @@ def is_staff(self):
         return True
     elif self.pk is None:
         return False
-    qs = PermissionGroup.objects.get_by_user(self)
+    qs = PermissionGroup.objects.filter_by_user(self)
     for pgroup in qs:
         if pgroup.is_staff:
             return True
