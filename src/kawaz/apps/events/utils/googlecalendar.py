@@ -31,6 +31,9 @@ import gdata.calendar.service
 from django.conf import settings
 from django.utils.html import strip_tags
 
+import logging
+logger = logging.getLogger(__name__)
+
 settings.GCAL_CALENDAR_ID = getattr(settings, 'GCAL_CALENDAR_ID', None)
 settings.GCAL_LOGIN_EMAIL = getattr(settings, 'GCAL_LOGIN_EMAIL', None)
 settings.GCAL_LOGIN_PASS = getattr(settings, 'GCAL_LOGIN_PASS', None)
@@ -46,6 +49,7 @@ def login(email=None, password=None):
     except gdata.service.BadAuthentication, e:
         if not settings.GCAL_LOGIN_EMAIL and not settings.GCAL_LOGIN_PASS:
             # Ok, Synking with Google Calendar is not required
+            logger.warn('GCAL_LOGIN_EMAIL and GCAL_LOGIN_PASS is not specified thus syncing event with Google Calender is disabled')
             return None
         else:
             raise e

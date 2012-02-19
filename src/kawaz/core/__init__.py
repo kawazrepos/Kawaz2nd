@@ -31,6 +31,7 @@ def get_or_create_permissiongroup(codename):
     """get or create permissiongroup"""
     try:
         pgroup = PermissionGroup.objects.get(codename=codename)
+        return pgroup
     except PermissionGroup.DoesNotExist:
         kwargs = {
                 'codename': codename,
@@ -81,26 +82,42 @@ def get_or_create_permissiongroup(codename):
         pgroup.add_permissions(permissions)
         return pgroup
 
+def get_zeele_pgroup():
+    """get zeele permissiongroup"""
+    return get_or_create_permissiongroup(codename='zeele')
+
+def get_nerv_pgroup():
+    """get nerv permissiongroup"""
+    return get_or_create_permissiongroup(codename='nerv')
+
+def get_children_pgroup():
+    """get children permissiongroup"""
+    return get_or_create_permissiongroup(codename='children')
+
+def get_visitor_pgroup():
+    """get visitor permissiongroup"""
+    return get_or_create_permissiongroup(codename='visitor')
+
 def get_permissiongroup_group(pgroup):
     """get group of permissiongroup"""
     return pgroup.group
 
 def get_zeele_group():
     """get zeele permissiongroup group"""
-    pgroup = get_or_create_permissiongroup(codename='zeele')
+    pgroup = get_zeele_pgroup()
     return get_permissiongroup_group(pgroup)
 
 def get_nerv_group():
     """get nerv permissiongroup group"""
-    pgroup = get_or_create_permissiongroup(codename='nerv')
+    pgroup = get_nerv_pgroup()
     return get_permissiongroup_group(pgroup)
 
 def get_children_group():
     """get children permissiongroup group"""
-    pgroup = get_or_create_permissiongroup(codename='children')
+    pgroup = get_children_pgroup()
     return get_permissiongroup_group(pgroup)
 
 def get_visitor_group():
     """get visitor permissiongroup group"""
-    pgroup = get_or_create_permissiongroup(codename='visitor')
+    pgroup = get_visitor_pgroup()
     return get_permissiongroup_group(pgroup)

@@ -27,6 +27,8 @@ __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.test import TestCase
 from django.contrib.auth.models import User
 
+from kawaz.core import get_children_pgroup
+
 class BaseTestCase(TestCase):
     """Base TestCase of profile views"""
     urls = 'kawaz.core.profiles.tests.urls'
@@ -36,9 +38,20 @@ class BaseTestCase(TestCase):
         # Activate admin
         # Note: Without activating admin, accessing admin profile page may
         #       Fail
-        profile = User.objects.get(pk=1).profile
-        profile.nickname = 'foo'
-        profile.save()
+        self.foo = User.objects.get(username='foo')
+        self.profile = self.foo.profile
+        self.profile.nickname = 'foo'
+        self.profile.save()
+
+    def login(self, user):
+        self.logout()
+        assert self.client.login(
+                username=user.username,
+                password='password')
+
+    def logout(self):
+        self.client.logout()
+
 
 class TestProfileListView(BaseTestCase):
     """Test collection for ProfileListView"""
@@ -61,8 +74,14 @@ class TestProfileDetailView(BaseTestCase):
         # Anonymous user cannot access (redirect to login page)
         response = self.client.get('/detail/hoge/')
         self.assertEqual(response.status_code, 302)
-        # Authenticated user can access
-        assert self.client.login(username='foo', password='password')
+        # Authenticated user cannot access either
+        self.login(self.foo)
+        response = self.client.get('/detail/hoge/')
+        self.assertEqual(response.status_code, 403)
+        # Children can access thus invite foo to children
+        children = get_children_pgroup()
+        children.add_users(self.foo)
+        #self.login(self.foo)
         response = self.client.get('/detail/hoge/')
         self.assertEqual(response.status_code, 200)
 
