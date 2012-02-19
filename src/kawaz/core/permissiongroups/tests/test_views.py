@@ -32,7 +32,7 @@ from ..models import PermissionGroup
 class BaseTestCase(TestCase):
     """Base TestCase of permissiongroups views"""
     urls = 'kawaz.core.permissiongroups.tests.urls'
-    fixtures = ['test.yaml']
+    fixtures = ['permissiongroups_test.yaml']
 
     def setUp(self):
         # Activate admin

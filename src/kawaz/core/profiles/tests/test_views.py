@@ -30,7 +30,7 @@ from django.contrib.auth.models import User
 class BaseTestCase(TestCase):
     """Base TestCase of profile views"""
     urls = 'kawaz.core.profiles.tests.urls'
-    fixtures = ['test.yaml']
+    fixtures = ['profiles_test.yaml']
 
     def setUp(self):
         # Activate admin

@@ -30,6 +30,8 @@ __VERSION__ = "0.1.0"
 from object_permission import site
 from object_permission.handlers import ObjectPermHandler
 
+from kawaz.core import get_children_group
+
 from models import Profile
 
 class ProfileObjectPermHandler(ObjectPermHandler):
@@ -49,11 +51,13 @@ class ProfileObjectPermHandler(ObjectPermHandler):
     def updated(self, attr):
         # Profile owner has manager permission
         self.manager(self.get_user())
-        # Authenticated user can view
-        self.viewer(None)
-        # Anonymous user is depend on pub_state
+        # children can view
+        self.viewer(get_children_group())
+        # Anonymous user (include visitor) is depend on pub_state
         if self.get_pub_state() == 'public':
             self.viewer('anonymous')
+            self.viewer(None)
         else:
             self.reject('anonymous')
+            self.reject(None)
 site.register(Profile, ProfileObjectPermHandler)

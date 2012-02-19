@@ -30,6 +30,8 @@ __VERSION__ = "0.1.0"
 from object_permission import site
 from object_permission.handlers import ObjectPermHandler
 
+from kawaz.core import get_children_group
+
 from models import Event
 
 class EventObjectPermHandler(ObjectPermHandler):
@@ -48,14 +50,23 @@ class EventObjectPermHandler(ObjectPermHandler):
         self.watch('pub_state')
 
     def updated(self, attr):
+        children = get_children_group()
         # Profile owner has manager permission
         self.manager(self.get_author())
         # Depend on pub_state
         if self.get_pub_state() == 'public':
+            # Everyone can view
+            self.viewer(children)
             self.viewer(None)
             self.viewer('anonymous')
         elif self.get_pub_state() == 'protected':
-            pass
+            # Children can view
+            self.viewer(children)
+            self.reject(None)
+            self.reject('anonymous')
         else:
+            # No one can view
+            self.reject(children)
+            self.reject(None)
             self.reject('anonymous')
 site.register(Event, EventObjectPermHandler)
