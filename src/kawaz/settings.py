@@ -118,6 +118,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'author.middlewares.AuthorDefaultBackendMiddleware',        # to fix object_permission test issue
     'userel.middlewares.UserelDefaultBackendMiddleware',
     'kawaz.core.profiles.middleware.ForceRedirectToProfileUpdatePageMiddleware',
 )
