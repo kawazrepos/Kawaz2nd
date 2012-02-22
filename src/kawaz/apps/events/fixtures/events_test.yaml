@@ -1,0 +1,54 @@
+- model: auth.user
+  pk: 1
+  fields:
+    username: foo
+    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+    email: foo@test.com
+    is_active: true
+    is_superuser: false
+    is_staff: false
+- model: auth.user
+  pk: 2
+  fields:
+    username: bar
+    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+    email: bar@test.com
+    is_active: true
+    is_superuser: false
+    is_staff: false
+- model: auth.user
+  pk: 3
+  fields:
+    username: hoge
+    password: sha1$588be$494b93325fbfd299a39691b4dddef29ac0ed3008
+    email: hoge@test.com
+    is_active: true
+    is_superuser: false
+    is_staff: false
+
+- model: events.Event
+  pk: 1
+  fields:
+    title: Event1
+    body: Event1
+    author: 1
+    updated_by: 1
+- model: events.Event
+  pk: 2
+  fields:
+    pub_state: protected
+    title: Event2
+    body: Event2
+    author: 1
+    updated_by: 1
+- model: events.Event
+  pk: 3
+  fields:
+    pub_state: draft
+    title: Event3
+    body: Event3
+    author: 1
+    updated_by: 1
+
+
+

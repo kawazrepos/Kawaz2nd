@@ -23,7 +23,6 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
-__VERSION__ = "0.1.0"
 import datetime
 
 from django.conf import settings
