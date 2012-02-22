@@ -41,7 +41,7 @@ from django.utils.text import ugettext_lazy as _
 
 from universaltag.fields import UniversalTagField
 from googlemap.models import GoogleMapField
-from thumbnailfield.models import ThumbnailField
+from thumbnailfield.fields import ThumbnailField
 
 from kawaz.core import get_children_pgroup
 from kawaz.utils.default.image import get_default_profile_icon
@@ -106,11 +106,12 @@ class Profile(models.Model):
         pub_state - publish state
         nickname - A nickname of user. User must set nickname
         mood - A mood string
-        icon - An avatar of user
+        avatar - An avatar of user
         sex - sex of user
         birthday - birthday of user
         place - place user live
-        location - Geometry data of ``place``
+        address - address user live
+        location - Geometry data of ``address``
         url - URL
         remarks - An text field
         skills - ManyToMany relation to Skill
@@ -133,10 +134,11 @@ class Profile(models.Model):
     >>> assert hasattr(profile, 'pub_state')
     >>> assert hasattr(profile, 'nickname')
     >>> assert hasattr(profile, 'mood')
-    >>> assert hasattr(profile, 'icon')
+    >>> assert hasattr(profile, 'avatar')
     >>> assert hasattr(profile, 'sex')
     >>> assert hasattr(profile, 'birthday')
     >>> assert hasattr(profile, 'place')
+    >>> assert hasattr(profile, 'address')
     >>> assert hasattr(profile, 'location')
     >>> assert hasattr(profile, 'url')
     >>> assert hasattr(profile, 'remarks')
@@ -173,10 +175,10 @@ class Profile(models.Model):
             ('woman',       _('woman')),
         )
     THUMBNAIL_SIZE_PATTERNS = {
-            'huge': (288, 288, False),
-            'large': (96, 96, False),
-            'middle': (48, 48, False),
-            'small': (24, 24, False),
+            'huge': (288, 288),
+            'large': (96, 96),
+            'middle': (48, 48),
+            'small': (24, 24),
         }
 
     pub_state = models.CharField(_('publish state'), max_length=10, 
@@ -187,18 +189,18 @@ class Profile(models.Model):
                                 blank=False, null=True)
 
     mood = models.CharField(_('mood'), max_length=127, blank=True)
-    # TODO: ``avatar`` is the better name for this field.
-    icon = ThumbnailField(_('avatar'), upload_to=_get_upload_path, blank=True,
-                          thumbnail_size_patterns=THUMBNAIL_SIZE_PATTERNS)
+    avatar = ThumbnailField(_('avatar'), upload_to=_get_upload_path, blank=True,
+                          patterns=THUMBNAIL_SIZE_PATTERNS)
     sex = models.CharField(_('sex'), max_length=10, choices=SEX_TYPES,
                            blank=True)
     birthday = models.DateField(_('birthday'), null=True, blank=True)
-    # TODO: ``address` is the better name for this field.
     place = models.CharField(
+            _('place'), max_length=255, blank=True)
+    address = models.CharField(
             _('address'), max_length=255, blank=True,
             help_text=_('the address is not shown for anonymous user'))
     location = GoogleMapField(_('location'), blank=True,
-                              query_field_id='id_place')
+                              query_field_id='id_address')
 
     url = models.URLField(_('url'), max_length=255, blank=True)
     remarks = models.TextField(_('remarks'), blank=True)
@@ -234,17 +236,8 @@ class Profile(models.Model):
         """get absolute permalink of this profile"""
         return ('profiles-profile-detail', (), {'slug': self.user.username})
 
-    # deprecated at 0.314159 ---
-    def get_icon_display(self, pattern_name):
-        warnings.warn('deprecated. use get_XXX_avatar_display insted', DeprecationWarning)
-        return self._get_avatar_display(self, pattern_name)
-    get_icon_huge_display = lambda self: self.get_icon_display('huge')
-    get_icon_large_display = lambda self: self.get_icon_display('large')
-    get_icon_middle_display = lambda self: self.get_icon_display('middle')
-    get_icon_small_display = lambda self: self.get_icon_display('small')
-    # --------------------------
     def _get_avatar_display(self, pattern_name):
-        """get ``img`` tag safe string of ``icon`` field for displaying"""
+        """get ``img`` tag safe string of ``avatar`` field for displaying"""
         kwargs = {
                 'alt': _('avatar of %s') % self.nickname,
                 'title': _('%(nickname)s [%(mood)s]') % {
@@ -252,8 +245,8 @@ class Profile(models.Model):
                     'mood': self.mood
                 },
             }
-        if self.icon:
-            kwargs['src'] = getattr(self.icon, pattern_name).url
+        if self.avatar:
+            kwargs['src'] = getattr(self.avatar, pattern_name).url
         else:
             kwargs['src'] = get_default_profile_icon(pattern_name, self.pk)
         pattern = r"""<img src='%(src)s' alt='%(alt)s' title='%(title)s' />"""

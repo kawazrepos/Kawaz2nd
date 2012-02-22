@@ -28,8 +28,6 @@ setup(
     packages = find_packages(),
     include_package_data = True,
     zip_safe = False,
-    test_suite='nose.collector',
-    tests_require=['Nose'],
     install_requires=[
         'setuptools',
         'setuptools-git',
@@ -51,6 +49,7 @@ setup(
         'django-markitup-widget',
         'django-markupfield>=1.0.2dev',
         'django-userel',
+        'django-thumbnailfield',
     ],
     dependency_links = [
         'https://github.com/lambdalisue/django-markupfield/zipball/master#egg=django-markupfield-1.0.2dev',

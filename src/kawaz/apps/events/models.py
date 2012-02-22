@@ -36,6 +36,7 @@ from django.core.exceptions import ValidationError
 from userel.fields import UserelField
 from googlemap.models import GoogleMapField
 from universaltag.fields import UniversalTagField
+from thumbnailfield.fields import ThumbnailField
 
 from kawaz.core import get_children_pgroup
 from kawaz.fields.contentfield.fields import ContentField
@@ -79,7 +80,6 @@ class EventManager(models.Manager):
         else:
             return self.none()
 
-
 class Event(models.Model):
     """A Event model class
     
@@ -105,11 +105,13 @@ class Event(models.Model):
 
     # Attributes event should have
     >>> assert hasattr(event, 'pub_state')
+    >>> assert hasattr(event, 'thumbnail')
     >>> assert hasattr(event, 'title')
     >>> assert hasattr(event, 'body')
     >>> assert hasattr(event, 'period_start')
     >>> assert hasattr(event, 'period_end')
     >>> assert hasattr(event, 'place')
+    >>> assert hasattr(event, 'address')
     >>> assert hasattr(event, 'location')
     >>> assert hasattr(event, 'created_at')
     >>> assert hasattr(event, 'updated_at')
@@ -136,12 +138,20 @@ class Event(models.Model):
 
     pub_state = models.CharField(_('publish state'), max_length=10,
                                  choices=PUB_STATES, default='public')
+    thumbnail = ThumbnailField(_('thumbnail'), upload_to='img/events/thumbnails', blank=True, patterns = {
+            None: (640, 480),
+            'large': (300, 300),
+            'middle': (200, 200),
+            'small': (100, 100),
+            'tiny': (30, 30),
+        })
     title = models.CharField(_('title'), max_length=255)
     body = ContentField(_('description'))
     period_start = models.DateTimeField(_('start time'), blank=True, null=True)
     period_end = models.DateTimeField(_('end time'), blank=True, null=True)
     place = models.CharField(_('place'), max_length=255, blank=True)
-    location = GoogleMapField(_('location'), blank=True, query_field_id='id_place')
+    address = models.CharField(_('address'), max_length=255, blank=True)
+    location = GoogleMapField(_('location'), blank=True, query_field_id='id_address')
     
     attendees = models.ManyToManyField(User, verbose_name=_('attendees'), 
                                        related_name='events_attend', null=True,
@@ -169,6 +179,7 @@ class Event(models.Model):
             )
 
     def __unicode__(self):
+        
         return self.title
 
     def clean(self):
@@ -231,7 +242,7 @@ class Event(models.Model):
                 'where': self.place,
             }
         if self.period_start and self.period_end:
-            kwargs['when']= (
+            kwargs['when'] = (
                     self.period_start, 
                     self.period_end,
                 )

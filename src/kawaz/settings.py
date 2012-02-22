@@ -16,9 +16,9 @@ PYTHON_PATHS = (
 )
 for path in PYTHON_PATHS:
     if path not in sys.path: sys.path.append(path)
-#-----------------------------------------------------
-
+#-------------------------------------------:w
     
+
 # Version
 VERSION = '0.314159'
 

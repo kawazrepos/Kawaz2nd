@@ -86,7 +86,7 @@ class ProfilesProfileModelTestCase(TestCase):
                 'pub_state': 'protected',
                 'nickname': 'foobar',
                 'mood': 'foobar',
-                'icon': '',
+                'avatar': '',
                 'sex': 'man',
                 'birthday': datetime.date(2000,1,1),
                 'place': '',
@@ -200,7 +200,4 @@ class ProfilesProfileModelTestCase(TestCase):
         children.add_users(foo)
         qs = Profile.objects.published(mock_request)
         self.assertEqual(qs.count(), 1)
-
-
-
 
