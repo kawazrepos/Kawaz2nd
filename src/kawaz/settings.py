@@ -11,11 +11,11 @@ except ImportError:
 ROOT = os.path.join(os.path.dirname(__file__), '../../')
 #--- Add PYTHON_PATH ---------------------------------
 PYTHON_PATHS = (
-    os.path.join(ROOT, 'src/libs/django-filter'),
-    os.path.join(ROOT, 'src/libs/django-thumbnailfield'),
+    os.path.join(ROOT, 'src/libs/django-registration'),
+    os.path.join(ROOT, 'src/libs/django-registration2'),
 )
 for path in PYTHON_PATHS:
-    if path not in sys.path: sys.path.append(path)
+    if path not in sys.path: sys.path.insert(0, path)
 #-------------------------------------------:w
     
 
@@ -148,7 +148,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.comments',
-    'django_nose',
+    'registration',
+    'registration2',
     'piston',
     'qwert',
     'googlemap',
@@ -157,6 +158,7 @@ INSTALLED_APPS = (
     'object_permission',
     'markupfield',
     'userel',
+    'kawaz.patches',
     'kawaz.core.profiles',
     'kawaz.core.permissiongroups',
     'kawaz.apps.events',
@@ -178,6 +180,8 @@ AUTH_PROFILE_MODULE = 'profiles.Profile'
 #
 #NOSE_ARGS = ['--with-doctest']
 #TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+ACCOUNT_ACTIVATION_DAYS = 7
 
 # django-markupfield
 import markdown
