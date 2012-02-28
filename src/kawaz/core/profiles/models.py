@@ -40,7 +40,7 @@ from django.utils.safestring import mark_safe
 from django.utils.text import ugettext_lazy as _
 
 from universaltag.fields import UniversalTagField
-from googlemap.models import GoogleMapField
+from googlemap.fields import GoogleMapField
 from thumbnailfield.fields import ThumbnailField
 
 from kawaz.core import get_children_pgroup

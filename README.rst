@@ -7,7 +7,9 @@ How to install
 How to test
 ======================
 
-Run ``python src/kawaz/manage.py test``
+Run ``python setup.py test`` for minimu test and
+
+Run ``python src/kawaz/manage.py test`` for full test
 
 How to run
 ====================

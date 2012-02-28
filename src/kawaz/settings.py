@@ -10,10 +10,7 @@ except ImportError:
     LOCAL_SITE_LOADED = False
 ROOT = os.path.join(os.path.dirname(__file__), '../../')
 #--- Add PYTHON_PATH ---------------------------------
-PYTHON_PATHS = (
-    os.path.join(ROOT, 'src/libs/django-registration'),
-    os.path.join(ROOT, 'src/libs/django-registration2'),
-)
+PYTHON_PATHS = ()
 for path in PYTHON_PATHS:
     if path not in sys.path: sys.path.insert(0, path)
 #-------------------------------------------:w
@@ -53,7 +50,8 @@ TIME_ZONE = 'Asia/Tokyo'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'ja'
+if 'test' not in sys.argv:
+    LANGUAGE_CODE = 'ja'
 
 SITE_ID = 1
 
@@ -118,13 +116,13 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'author.middlewares.AuthorDefaultBackendMiddleware',        # to fix object_permission test issue
     'userel.middlewares.UserelDefaultBackendMiddleware',
     'kawaz.core.profiles.middleware.ForceRedirectToProfileUpdatePageMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.core.context_processors.auth",
+    #"django.core.context_processors.auth",
+    "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.debug",
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
@@ -149,9 +147,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.comments',
     'registration',
-    'registration2',
     'piston',
-    'qwert',
     'googlemap',
     'universaltag',
     'thumbnailfield',
@@ -181,7 +177,9 @@ AUTH_PROFILE_MODULE = 'profiles.Profile'
 #NOSE_ARGS = ['--with-doctest']
 #TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
+# django-inspectional-registration
 ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_SUPPLEMENT_CLASS = None
 
 # django-markupfield
 import markdown
@@ -220,11 +218,11 @@ LOGGING = {
     },
     'loggers': {
         'django.request': {
-            'handlers': ['mail_admins', 'console'],
+            'handlers': ['mail_admins'],
             'level': 'ERROR',
             'propagate': True,
         },
-        '': {
+        'kawaz': {
             'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,

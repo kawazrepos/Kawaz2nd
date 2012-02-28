@@ -48,6 +48,9 @@ class ContentField(MarkupField):
         defaults.update(kwargs)
         return super(ContentField, self).formfield(**defaults)
 
+    def go_db_prep_value(self, connection, *args, **kwargs):
+        return super(ContentField, self).go_db_prep_value(*args, **kwargs)
+
 try:
     from south.modelsinspector import add_introspection_rules
     add_introspection_rules([], [r"^kawaz.core.fields.contentfield.ContentField"])
