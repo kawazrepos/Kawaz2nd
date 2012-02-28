@@ -2,7 +2,6 @@ How to install
 ============================
 
 1.  Run ``python setup.py develop`` to install Kawaz
-2.  Run ``utils/piston_issue_205.sh`` to patch piston
 
 How to test
 ======================
