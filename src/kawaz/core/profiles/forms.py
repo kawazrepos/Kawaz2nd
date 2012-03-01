@@ -72,9 +72,9 @@ class ServiceForm(forms.ModelForm):
     class Media:
         js = (
                 r"%sjavascript/plugins/jquery.formset.min.js" %
-                settings.MEDIA_ROOT,
+                settings.STATIC_ROOT,
                 r"%sjavascript/plugins/jquery.formset.init.js" %
-                settings.MEDIA_ROOT,
+                settings.STATIC_ROOT,
             )
     class Meta:
         model = models.Service

@@ -38,5 +38,4 @@ urlpatterns = patterns('',
         name='profiles-profile-update'),
     url(r'^(?P<slug>[^/]+)/$', ProfileDetailView.as_view(),
         name='profiles-profile-detail'),
-    url(r'^', include(api.urls)),
 )

@@ -25,13 +25,16 @@ License:
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
 from django.test import TestCase
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
 from kawaz.core import get_children_pgroup
 
+from ..forms import ProfileForm
+from ..forms import ServiceFormSet
+
 class BaseTestCase(TestCase):
     """Base TestCase of profile views"""
-    urls = 'kawaz.core.profiles.tests.urls'
     fixtures = ['profiles_test.yaml']
 
     def setUp(self):
@@ -56,64 +59,86 @@ class BaseTestCase(TestCase):
 class TestProfileListView(BaseTestCase):
     """Test collection for ProfileListView"""
 
-    def testAccess(self):
+    def test_access(self):
         """profile.ProfileListView: access works correctly"""
-        response = self.client.get('/list/')
+        response = self.client.get(reverse('profiles-profile-list'))
         self.assertEqual(response.status_code, 200)
 
 class TestProfileDetailView(BaseTestCase):
     """Test collection for ProfileDetailView"""
 
-    def testAccess(self):
+    def test_access(self):
         """profile.ProfileDetailView: access works correctly"""
-        response = self.client.get('/detail/foo/')
+        response = self.client.get(reverse('profiles-profile-detail', kwargs={'slug': 'foo'}))
         self.assertEqual(response.status_code, 200)
 
-    def testAccessProtected(self):
+    def test_access_protected(self):
         """profile.ProfileDetailView: protected access works correctly"""
         # Anonymous user cannot access (redirect to login page)
-        response = self.client.get('/detail/hoge/')
+        url = reverse('profiles-profile-detail', kwargs={'slug': 'hoge'})
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
         # Authenticated user cannot access either
         self.login(self.foo)
-        response = self.client.get('/detail/hoge/')
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 403)
         # Children can access thus invite foo to children
         children = get_children_pgroup()
         children.add_users(self.foo)
         #self.login(self.foo)
-        response = self.client.get('/detail/hoge/')
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
+
+class TestProfileUpdateView(BaseTestCase):
+    def test_access_get(self):
+        url = reverse('profiles-profile-update')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+        # Authenticated user cannot access either
+        self.login(self.foo)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 403)
+        # Children can access thus invite foo to children
+        children = get_children_pgroup()
+        children.add_users(self.foo)
+        #self.login(self.foo)
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'profiles/profile_form.html')
+        self.assertTrue(isinstance(response.context['form'], ProfileForm))
+        self.assertTrue(isinstance(response.context['formset'], ServiceFormSet))
 
 
 class TestProfileMoodAPIView(BaseTestCase):
     """Test collection for ProfileMoodAPI"""
     def testAccessWithAnonymous(self):
         """profile.API: anonymouse user rejection works correctly"""
+        url = reverse('profiles-api-mood')
         # Logout in case
         self.client.logout()
-        response = self.client.get('/api/mood/')
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 302)
-        response = self.client.post('/api/mood/')
+        response = self.client.post(url)
         self.assertEqual(response.status_code, 302)
-        response = self.client.delete('/api/mood/')
+        response = self.client.delete(url)
         self.assertEqual(response.status_code, 302)
-        response = self.client.put('/api/mood/')
+        response = self.client.put(url)
         self.assertEqual(response.status_code, 302)
 
     def testAccessWithAuthenticated(self):
         """profile.API: updating mood api works correctly"""
         # Login
+        url = reverse('profiles-api-mood')
         assert self.client.login(username='foo', password='password')
-        response = self.client.get('/api/mood/')
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 405)
-        response = self.client.post('/api/mood/')
+        response = self.client.post(url)
         self.assertEqual(response.status_code, 405)
-        response = self.client.delete('/api/mood/')
+        response = self.client.delete(url)
         self.assertEqual(response.status_code, 405)
 
-        response = self.client.put('/api/mood/', {'mood': 'barbar'})
+        response = self.client.put(url, {'mood': 'barbar'})
         self.assertEqual(response.status_code, 200)
 
         user = User.objects.get(username='foo')
@@ -121,6 +146,6 @@ class TestProfileMoodAPIView(BaseTestCase):
         self.assertEqual(profile.mood, 'barbar')
 
         # Invalid mood message (mood at most 127 characters)
-        response = self.client.put('/api/mood/', {'mood': '*' * 128})
+        response = self.client.put(url, {'mood': '*' * 128})
         self.assertEqual(response.status_code, 400)
         assert response.content.startswith('Bad Request')

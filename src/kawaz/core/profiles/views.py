@@ -24,11 +24,14 @@ License:
     limitations under the License.
 """
 __AUTHOR__ = "lambdalisue (lambdalisue@hashnote.net)"
+from django.shortcuts import redirect
 from django.views.generic import ListView
 from django.views.generic import DetailView
 
 from qwert.http import Http403
 from object_permission.decorators import permission_required
+
+from kawaz.core import get_children_pgroup
 
 from models import Profile
 from forms import ProfileForm
@@ -49,6 +52,7 @@ from django.views.generic.edit import ProcessFormView
 from django.views.generic.edit import ModelFormMixin
 from django.views.generic.detail import SingleObjectTemplateResponseMixin
 
+@permission_required('profiles.change_profile')
 class ProfileUpdateView(
         SingleObjectTemplateResponseMixin, ModelFormMixin, ProcessFormView):
     """Profile update view
@@ -59,10 +63,11 @@ class ProfileUpdateView(
     form_class = ProfileForm
     formset_class = ServiceFormSet
     
-    def get_object(self):
-        if not self.request.user.is_authenticated():
-            raise Http403('You are not logged in')
-        return self.request.user.get_profile()
+    def get_object(self, queryset=None):
+        children = get_children_pgroup()
+        if children.is_belong(self.request.user):
+            return self.request.user.get_profile()
+        return None
         
     def get_formset_class(self):
         return self.formset_class
@@ -78,6 +83,8 @@ class ProfileUpdateView(
         return self.render_to_response(context)
 
     def get(self, request, *args, **kwargs):
+        self.request = request
+        self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         formset_class = self.get_formset_class()
@@ -87,6 +94,8 @@ class ProfileUpdateView(
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
+        self.request = request
+        self.object = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         formset_class = self.get_formset_class()

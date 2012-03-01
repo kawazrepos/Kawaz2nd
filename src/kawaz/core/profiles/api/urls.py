@@ -36,6 +36,5 @@ ad = {'authentication': auth}
 profilemood_resource = Resource(handler=ProfileMoodHandler, **ad)
 
 urlpatterns = patterns('',
-    # TODO: name should be 'profiles-api-mood'
-    url(r'^mood/$', profilemood_resource, name='profiles-profile-update-mood'),
+    url(r'^mood/$', profilemood_resource, name='profiles-api-mood'),
 )
