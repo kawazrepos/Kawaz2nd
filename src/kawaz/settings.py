@@ -151,12 +151,12 @@ INSTALLED_APPS = (
     'googlemap',
     'universaltag',
     'thumbnailfield',
-    'object_permission',
+    'object_permission',            # deprecated
     'markupfield',
-    'userel',
+    'userel',                       # deprecated
     'kawaz.patches',
     'kawaz.core.profiles',
-    'kawaz.core.permissiongroups',
+    'kawaz.core.permissiongroups',  # deprecated
     'kawaz.apps.events',
 )
 
