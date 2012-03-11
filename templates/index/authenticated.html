@@ -19,10 +19,12 @@
 {% ifhsp 'auth.post_goforit' for user %}
 <script type="text/javascript">
   $(document).ready(function(){
+      var current = location.href;
       var $adamButton = $('button.adam-post-goforit');
       $adamButton.click(function(){
         $.post("{% reverse "adam-post-goforit" %}");
-        return false;
+          location.href = current;
+          return false;
         });
   });
 </script>
