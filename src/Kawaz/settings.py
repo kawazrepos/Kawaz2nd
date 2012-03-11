@@ -172,6 +172,7 @@ INSTALLED_APPS = (
     'Kawaz.tasks',
     'Kawaz.announcements',
     'Kawaz.utilities',
+    'Kawaz.adam',
 )
 
 FIXTURE_DIRS = (

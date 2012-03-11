@@ -16,7 +16,7 @@
 {% compressed_css "index-authenticated" %}
 {% compressed_js "index-authenticated" %}
 {% compressed_js "pagenator" %}
-{% ifhsp 'adam.post_goforit' for user %}
+{% ifhsp 'auth.post_goforit' for user %}
 <script type="text/javascript">
   $(document).ready(function(){
       var $adamButton = $('button.adam-post-goforit');
@@ -173,7 +173,7 @@
 </table>
 <p class="more"><a href="{% reverse 'history-timeline-list' %}">もっと見る</a></p>
 
-{% ifhsp 'adam.post_goforit' for user %}
+{% ifhsp 'auth.post_goforit' for user %}
 <img src="{{ MEDIA_URL }}image/dopes/adam-post-goforit.jpg" />
 <button type="button" class="adam-post-goforit">かまわん、やれ</button>
 {% endifhsp %}
