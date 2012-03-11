@@ -161,6 +161,11 @@
 </table>
 <p class="more"><a href="{% reverse 'history-timeline-list' %}">もっと見る</a></p>
 
+{% ifhsp 'adam.post_goforit' for user %}
+<img src="{{ MEDIA_URL }}image/dopes/adam-post-goforit.jpg" />
+<button type="button">かまわん、やれ</button>
+{% endifhsp %}
+
 <h2 id="tweets">かわずったー</h2>
 {% ifhsp 'tweets.add_tweet' for user %}
 <form id="tweet-form" action="{% url tweets-tweet-create %}" method="post">{% csrf_token %}
