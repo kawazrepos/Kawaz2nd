@@ -105,11 +105,10 @@ def get_user_timeline(consumer, connection, access_token):
 
 def shorten(url):
     from urllib2 import urlopen, Request, HTTPError
-    from urllib import quote
     from django.utils.simplejson import loads, dumps
     API_URL = 'https://www.googleapis.com/urlshortener/v1/url'
     try:
-        data = dumps({ 'longUrl' : quote(url) })
+        data = dumps({ 'longUrl' : url })
         req = Request(API_URL, data)
         req.add_header('Content-Type', 'application/json')
         r = urlopen(req)
