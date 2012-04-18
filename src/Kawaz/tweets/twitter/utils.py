@@ -106,12 +106,14 @@ def get_user_timeline(consumer, connection, access_token):
 def shorten(url):
     from urllib2 import urlopen, Request, HTTPError
     from urllib import quote
-    from django.utils.simplejson import loads
+    from django.utils.simplejson import loads, dumps
+    API_URL = 'https://www.googleapis.com/urlshortener/v1/url'
     try:
-        req=Request(u'http://goo.gl/api/url',
-                u'url=%s'%quote(url), {'User-Agent':'toolbar'})
-        r=urlopen(req)
-        j = loads(r.read())
-        return j['short_url']
+        data = dumps({ 'longUrl' : quote(url) })
+        req = Request(API_URL, data)
+        req.add_header('Content-Type', 'application/json')
+        r = urlopen(req)
+        return loads(r.read())['id']
     except HTTPError:
-        return None
+        return url
+
