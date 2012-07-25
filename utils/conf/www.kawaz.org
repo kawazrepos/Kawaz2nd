@@ -26,7 +26,7 @@ WSGIPythonPath "/var/www/Kawaz/env/lib/python/site-packages"
 	</Location>
 
 	# Alias
-	Alias /robot.txt		"/var/www/Kawaz/statics/robot.txt"
+	Alias /robots.txt		"/var/www/Kawaz/statics/robots.txt"
 	Alias /favicon.ico		"/var/www/Kawaz/statics/favicon.ico"
 	
 	Alias /css/				"/var/www/Kawaz/statics/css/"
