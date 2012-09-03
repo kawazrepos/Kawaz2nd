@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Unity Web Player | かわずたんと大と小の惑星</title>
+    <script type="text/javascript" src="http://webplayer.unity3d.com/download_webplayer-3.x/3.0/uo/UnityObject.js"></script>
+    <script type="text/javascript">
+      <!--
+      function GetUnity() {
+        if (typeof unityObject != "undefined") {
+          return unityObject.getObjectById("unityPlayer");
+        }
+        return null;
+      }
+if (typeof unityObject != "undefined") {
+  unityObject.embedUnity("unityPlayer", "KawazPlatform.unity3d", 960, 600);
+
+}
+-->
+</script>
+<style type="text/css">
+  <!--
+  body {
+    font-family: Helvetica, Verdana, Arial, sans-serif;
+    background-color: white;
+    color: black;
+    text-align: center;
+  }
+  a:link, a:visited {
+    color: #000;
+  }
+  a:active, a:hover {
+    color: #666;
+  }
+  p.header {
+    font-size: small;
+  }
+  p.header span {
+    font-weight: bold;
+  }
+  p.footer {
+    font-size: x-small;
+  }
+  div.content {
+    margin: auto;
+    width: 960px;
+  }
+  div.missing {
+    margin: auto;
+    position: relative;
+    top: 50%;
+    width: 193px;
+  }
+  div.missing a {
+    height: 63px;
+    position: relative;
+    top: -31px;
+  }
+  div.missing img {
+    border-width: 0px;
+  }
+  div#unityPlayer {
+    cursor: default;
+    height: 600px;
+    width: 960px;
+  }
+  -->
+</style>
+  </head>
+  <body>
+    <p class="header"><span>かわずたんと大と小の惑星</span></p>
+    <div class="content">
+      <div id="unityPlayer">
+        <div class="missing">
+          <a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
+            <img alt="Unity Web Player. Install now!" src="http://webplayer.unity3d.com/installation/getunity.png" width="193" height="63" />
+          </a>
+        </div>
+      </div>
+    </div>
+    <p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>
+    <p>前作：<a href="http://www.kawaz.org/projects/kawaz_labyrinth/" title="Kawaz - かわずたんと黒の迷宮">Kawaz - かわずたんと黒の迷宮</a></p>
+    <div class="document" id="id1" style="text-align: left;">
+      <h1 class="title">かわずたんと大と小の惑星</h1>
+      <div class="section" id="id9">
+        <h1>0. 遊ぶには</h1>
+        <p>遊ぶには<a href="http://unity3d.com/webplayer/">UnityのWebPlayer</a>が必要なのでインストールしてください。</p>
+      </div>
+      <div class="section" id="id2">
+        <h1>1. あらすじ</h1>
+        <p>私、みんなのアイドルかわずたん。ごく普通の女の子。</p>
+        <p>ある日、お散歩してたら大変！おかしな惑星に空間転移してしまったの！</p>
+        <p>かわずたん大ピンチ！</p>
+      </div>
+      <div class="section" id="id3">
+        <h1>2. ゲームのもくてき</h1>
+        <p>全10レベルからなるダンジョンを脱出せよ！</p>
+        <p>各レベルにはゲートが設置されています
+          無事に到達できればそのフロアはクリア！次のフロアに進めるよ</p>
+      </div>
+      <div class="section" id="id1">
+        <h1>3. 操作方法</h1>
+        <div class="section" id="id2">
+          <h2>移動</h2>
+          <p>カーソルキー</p>
+        </div>
+        <div class="section" id="id3">
+          <h2>扉に入る</h2>
+          <p>扉の前でカーソルキー上</p>
+        </div>
+        <div class="section" id="id4">
+          <h2>ジャンプ</h2>
+          <p>スペースキー</p>
+        </div>
+        <div class="section" id="id5">
+          <h2>ダッシュ</h2>
+          <p>右Shiftキー</p>
+        </div>
+      </div>
+      <div class="section" id="id6">
+        <h1>4. オモテとウラを縦横無尽</h1>
+        <p>このゲームには一つのレベルにオモテマップとウラマップが存在するよ。</p>
+        <p>かわずたんが扉をくぐることで、手前と奥を自由に行き来することができるんだ！</p>
+        <p>裏側のマップは雲に隠れて霞がかってみえるよ。よーく観察して間違わないように気をつけて！</p>
+      </div>
+
+      <div class="section" id="id4">
+        <h1>5. ヤラレチャッタ</h1>
+        <p>かわずたんは以下の2つの原因でやられちゃうことがあります。</p>
+        <ul class="simple">
+          <li>穴から落ちてマップ外に落ちてしまう</li>
+          <li>敵キャラに衝突する</li>
+        </ul>
+        <p>ゲームオーバーになっても大丈夫！なんやかんやの理由でそのレベルの最初から遊べるよ！</p>
+      </div>
+      <div class="section" id="id7">
+        <h1>6. 登場キャラクター</h1>
+        <div class="section" id="id8">
+          <h2>かわずたん</h2>
+          <p>みんなのアイドル！かわいい</p>
+        </div>
+        <div class="section" id="id9">
+          <h2>ぎぎねこ</h2>
+          <p>ねこです。各ステージに3体ずつ配置されています。おなかすいた。</p>
+        </div>
+        <div class="section" id="id10">
+          <h2>みどりのあいつ</h2>
+          <p>かわずたんの邪魔をします。ぶつかるとミス。踏むと爆発して倒せます</p>
+        </div>
+      </div>
+      <div class="section" id="id11">
+        <h1>7. 主なギミック一覧</h1>
+        <div class="section" id="id12">
+          <h2>ちくわ床</h2>
+          <p>定番のアレ。しばらく乗ってると落下しちゃうよ</p>
+        </div>
+        <div class="section" id="id13">
+          <h2>リフト横</h2>
+          <p>横に動くリフトです</p>
+        </div>
+        <div class="section" id="id14">
+          <h2>リフト縦</h2>
+          <p>縦に動くリフトです</p>
+        </div>
+        <div class="section" id="id15">
+          <h2>回転床</h2>
+          <p>回ります。バグりやすいのであんまり乗らない方が良いかも</p>
+        </div>
+        <div class="section" id="id16">
+          <h2>コイン</h2>
+          <p>先立つものです。主に道なりに配置されています</p>
+        </div>
+        <div class="section" id="id17">
+          <h2>扉</h2>
+          <p>くぐると同じマップの別の場所やマップの裏側に移動できます</p>
+        </div>
+        <div class="section" id="id18">
+          <h2>ゴールゲート</h2>
+          <p>近づくと次のレベルに転移します。1ステージに2つ以上存在することもあります</p>
+        </div>
+        <div class="section" id="id200">
+          <h2>孔明の罠</h2>
+          <p>うん</p>
+        </div>
+
+      </div>
+
+      <div class="section" id="id7">
+        <h1>8. 充実のぐぐぐモード</h1>
+        <p>全10レベルに物足りないあなた（約１名）へむけて、とっておきのステージが用意されています。</p>
+        <p>ぐぐぐモードを開始するには、全てのレベルでぎぎねこを3体ずつ集めてクリアしよう。前作と違って、途中で何度ミスしても大丈夫だよ。</p>
+      </div>
+      <div class="section" id="id8">
+        <h1>9. 免責事項</h1>
+        <p>このゲームは&#64;giginet がUnity合宿の一環として、約１日でお酒を飲みながら開発しようとしましたが、1日じゃ完成しなかったので+1.5日ほどかけて開発したモノです
+          バグや遊びにくいところは多々あると思いますが、β版なので見逃してください</p>
+        <p>マリモは日本国の特別天然記念物に指定されています。大切に扱いましょう。</p>
+      </div>
+      <div class="section" id="id19">
+        <h1>10. スタッフ</h1>
+        <p>主にその場にいたメンバーに手伝っていただきました。また、音声素材などは勝手に使わせていただいています。ありがとうございました！</p>
+        <p>特に、仮面ライダーフォーゼの最終回を見たい中、徹夜モデリングをしてくださった和牛先生には感謝しきれません。</p>
+        <div class="section" id="id20">
+          <h2>企画、プログラム</h2>
+          <p>ぎぎねっと</p>
+        </div>
+        <div class="section" id="id21">
+          <h2>レベルデザイン</h2>
+          <p>ぎぎねっと、飛</p>
+        </div>
+        <div class="section" id="id22">
+          <h2>声の出演</h2>
+          <p>とーこ</p>
+        </div>
+        <div class="section" id="id23">
+          <h2>サウンド</h2>
+          <p>たわし、じーく、ちゃぼ</p>
+        </div>
+        <div class="section" id="id24">
+          <h2>モデル</h2>
+          <p>らいだこ、和牛先生</p>
+        </div>
+        <div class="section" id="id25">
+          <h2>キャラクタ原案</h2>
+          <p>べる、三島、たわし</p>
+        </div>
+        <div class="section" id="id26">
+          <h2>出演</h2>
+          <p>ぐぐぐ</p>
+        </div>
+        <div class="section" id="id27">
+          <h2>テストプレイ</h2>
+          <p>夢空、べる</p>
+        </div>
+        <div class="section" id="id28">
+          <h2>スペシャルサンクス</h2>
+          <p>All Kawaz members!</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
