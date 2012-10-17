@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Unity Web Player | KawazShooting</title>
+		<script type="text/javascript" src="http://webplayer.unity3d.com/download_webplayer-3.x/3.0/uo/UnityObject.js"></script>
+		<script type="text/javascript">
+		<!--
+		function GetUnity() {
+			if (typeof unityObject != "undefined") {
+				return unityObject.getObjectById("unityPlayer");
+			}
+			return null;
+		}
+		if (typeof unityObject != "undefined") {
+			unityObject.embedUnity("unityPlayer", "KawazShooting.unity3d", 960, 600);
+			
+		}
+		-->
+		</script>
+		<style type="text/css">
+		<!--
+		body {
+			font-family: Helvetica, Verdana, Arial, sans-serif;
+			background-color: white;
+			color: black;
+			text-align: center;
+		}
+		a:link, a:visited {
+			color: #000;
+		}
+		a:active, a:hover {
+			color: #666;
+		}
+		p.header {
+			font-size: small;
+		}
+		p.header span {
+			font-weight: bold;
+		}
+		p.footer {
+			font-size: x-small;
+		}
+		div.content {
+			margin: auto;
+			width: 960px;
+		}
+		div.missing {
+			margin: auto;
+			position: relative;
+			top: 50%;
+			width: 193px;
+		}
+		div.missing a {
+			height: 63px;
+			position: relative;
+			top: -31px;
+		}
+		div.missing img {
+			border-width: 0px;
+		}
+		div#unityPlayer {
+			cursor: default;
+			height: 600px;
+			width: 960px;
+		}
+		-->
+		</style>
+	</head>
+	<body>
+		<p class="header"><span>Unity Web Player | </span>KawazShooting</p>
+		<div class="content">
+			<div id="unityPlayer">
+				<div class="missing">
+					<a href="http://unity3d.com/webplayer/" title="Unity Web Player. Install now!">
+						<img alt="Unity Web Player. Install now!" src="http://webplayer.unity3d.com/installation/getunity.png" width="193" height="63" />
+					</a>
+				</div>
+			</div>
+		</div>
+		<p class="footer">&laquo; created with <a href="http://unity3d.com/unity/" title="Go to unity3d.com">Unity</a> &raquo;</p>
+    <div style="text-align: left;">
+      <h1 id="かわずたんは呪われてしまった全方向シューティング">かわずたんは呪われてしまった！　〜全方向シューティング！〜</h1>
+      <h2 id="遊ぶには">0. 遊ぶには</h2>
+      <p>遊ぶには<a href="http://unity3d.com/webplayer/">UnityのWebPlayer</a>が必要なのでインストールしてください。</p>
+      <p>Web版でのクリアまでの正常動作を確認しておりますが、マシンによっては今作はめちゃくちゃ重くなるので、デスクトップ版も用意しました！ダウンロードしてすぐに遊べます。</p>
+      <p><a href="http://www.kawaz.org/commons/1157/">Windows版</a></p>
+      <p><a href="http://www.kawaz.org/commons/1158/">Mac版</a></p>
+      <h2 id="あらすじ">1. あらすじ</h2>
+      <p>私、みんなのアイドルかわずたん。ごく普通の女の子。</p>
+      <p>ある日、お散歩してたら大変！おかしな場所に空間転移してしまったの！</p>
+      <p>かわずたん大ピンチ！果たして安息の日々は訪れるのか！？</p>
+      <h2 id="ゲームのもくてき">2. ゲームのもくてき</h2>
+      <p>全3ステージをクリアしておかしな空間を脱出せよ！</p>
+      <p>各ステージの最後にはボスがいるよ</p>
+      <h2 id="かわずたんの動かし方">3. かわずたんの動かし方</h2>
+      <h3 id="移動">移動</h3>
+      <p><strong>カーソルキー</strong></p>
+      <h3 id="弾を撃つ">弾を撃つ</h3>
+      <p><strong>スペースキー</strong>。押し続けることで連射できるよ</p>
+      <h3 id="低速移動">低速移動</h3>
+      <p><strong>右シフトキー</strong>を押し続けている間、ゆっくりと移動することができるよ。激しい弾幕はこれで避けよう！</p>
+      <h3 id="ぎぎねこロック">ぎぎねこロック</h3>
+      <p>ぎぎねこ（後述）を手に入れたとき、<strong>Zキー</strong>を押すことで相対位置を固定できます</p>
+      <h2 id="ヤラレチャッタ">4. ヤラレチャッタ</h2>
+      <p>かわずたんは以下の3つの原因でやられちゃうことがあります。</p>
+      <ul>
+        <li>弾に当たり、画面上部のHPゲージが0になる</li>
+        <li>敵キャラに衝突する</li>
+        <li>穴から落ちてマップ外に落ちてしまう</li>
+      </ul>
+      <p>ゲームオーバーになっても大丈夫。ちょっと前の場所から復活できるよ。無限に復活することができるから、上達するまで何度も遊んでみよう！</p>
+      <p>今作から<strong>「戻り復活」</strong>が実装されたよ！ステージの始めからやりなおさなくてもいいから快適に遊べるね</p>
+      <h2 id="ねこのても借りたい">5. ねこのても借りたい</h2>
+      <p>マップ中に落ちている<strong>首輪</strong>を拾うことで、かわずたんの後ろに<strong>ぎぎねこ</strong>が付いてくるよ。</p>
+      <p><strong>ぎぎねこ</strong>はかわずたんの攻撃を手伝ってくれるよ。さらにZキーを押し続けている間、向きや位置を固定することができるんだ。</p>
+      <p>上手く使えば、逃げながら攻撃する、なんて立ち回りもできるようになるよ。</p>
+      <p><strong>ぎぎねこ</strong>はかわずたんがヤラレチャうとどこかに消えてしまうけど、首輪を取ることで何匹でも仲間にできるよ！</p>
+      <h2 id="スターを集めよう">6. スターを集めよう！</h2>
+      <p>敵キャラやギミックを壊すと、星が出現するよ。星の数によってスコアが決まるから、できるだけたくさん集めよう。</p>
+      <p>星は、かわずたんが弾を撃っている間はあちらこちらに飛んでいくけれど、弾を撃つのをやめるとかわずたんの元に集まってくるよ。</p>
+      <p>時には連射をやめて星を回収してみてもいいかも！</p>
+      <h2 id="登場キャラクター">7. 登場キャラクター</h2>
+      <h3 id="かわずたん">かわずたん</h3>
+      <p>みんなのアイドル！かわいい</p>
+      <h3 id="ぎぎねこ">ぎぎねこ</h3>
+      <p>ねこです。おなかすいた</p>
+      <h3 id="みどりのあいつ">みどりのあいつ</h3>
+      <p>かわずたんの邪魔をします。邪魔なので撃ち殺しちゃおう！</p>
+      <h3 id="みどりのうねうねしたやつ">みどりのうねうねしたやつ</h3>
+      <p>一部で大人気。<strong>みどりのあいつ</strong>より若干硬いから気をつけて</p>
+      <h2 id="主なギミック一覧">8. 主なギミック一覧</h2>
+      <h3 id="丸太">丸太</h3>
+      <p>かわずたんが近づくと高速で転がってくる丸太。当たると一発ミスだから、ぶつかる前に破壊するか避けよう</p>
+      <h3 id="柱">柱</h3>
+      <p>かわずたんの進路を妨害する木の柱。当たっても大丈夫だけど壊さないと進行できないよ。壊している間に他の敵にヤラレチャわないように要注意！</p>
+      <h3 id="バキュラ">バキュラ</h3>
+      <p>256発打つと倒せるかも！？</p>
+      <h2 id="免責事項">8. 免責事項</h2>
+      <p>このゲームは@giginet がUnity合宿の一環として、約１日でお酒を飲みながら開発しようとしましたが、1日じゃ完成しなかったので+1.5日ほどかけて開発したモノです バグや遊びにくいところは多々あると思いますが、β版なので見逃してください</p>
+      <h2 id="スタッフ">9. スタッフ</h2>
+      <p>今作のためにみどりのあいつに気持ち悪いモーションをつけてくれたり、一晩で超クォリティのモルボルを作ってくださった和牛先生、これまた一晩で四打ちトランスを仕上げてくれたshinkaさん、ありがとうございました。</p>
+      <p>その他の素材は過去作品より流用しています。</p>
+      <h3 id="謎シューティングより">謎シューティングより</h3>
+      <p>ボス選曲 tetu_fs</p>
+      <h3 id="かわずたんたたきより">かわずたんたたき！より</h3>
+      <p>かわずたん被ダメージ音 tetu_fs</p>
+      <h3 id="voxquestより">Jubiolより</h3>
+      <p>敵キャラダメージ音</p>
+      <h3 id="voxquestより">VOXQUESTより</h3>
+      <p>ゲームオーバー音 geekdrums</p>
+      <p>ボスゲージ音 ttntawasi</p>
+      <h3 id="brushrushより">BrushRushより</h3>
+      <p>ぎぎねこ取得音 nmb</p>
+      <h3 id="かわずたんと大と小の惑星より">かわずたんと大と小の惑星より</h3>
+      <p>かわずたん、もっこり始めとするモデル何個か raidako, 3dcganimation</p>
+    </div>
+	</body>
+</html>
