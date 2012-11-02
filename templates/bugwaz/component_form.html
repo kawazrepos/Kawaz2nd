@@ -33,11 +33,11 @@
 	<li>立ち絵</li>
 </ul>
 <p>これらの部品を予め定義しておくことでバグ報告者がより細かなバグレポートを作成できます</p>
-<form action="" method="post" class="uniForm">{% csrf_token %}
-	{{ form|as_uni_form }}
-	<div class="buttonHolder">
-		<button type="button" class="secondaryAction back-button">←キャンセルして戻る</button>
-		<button type="submit" class="primaryAction">{% if object %}設定を反映{% else %}保存して公開{% endif %}</button>
-	</div>
-</form>
+<!--<form action="" method="post" class="uniForm">{% csrf_token %}-->
+<!--	{{ form|as_uni_form }}-->
+<!--	<div class="buttonHolder">-->
+<!--		<button type="button" class="secondaryAction back-button">←キャンセルして戻る</button>-->
+<!--		<button type="submit" class="primaryAction">{% if object %}設定を反映{% else %}保存して公開{% endif %}</button>-->
+<!--	</div>-->
+<!--</form>-->
 {% endblock %}

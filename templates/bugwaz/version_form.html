@@ -27,11 +27,11 @@
 <h2>{{ product.label }}のバージョン新規作成</h2>
 {% endif %}
 <p>複数のバージョンを配布しているプロダクトでどのバージョンで発生しているバグかを報告してもらうために使用します</p>
-<form action="" method="post" class="uniForm">{% csrf_token %}
-	{{ form|as_uni_form }}
-	<div class="buttonHolder">
-		<button type="button" class="secondaryAction back-button">←キャンセルして戻る</button>
-		<button type="submit" class="primaryAction">{% if object %}設定を反映{% else %}保存して公開{% endif %}</button>
-	</div>
-</form>
+<!--<form action="" method="post" class="uniForm">{% csrf_token %}-->
+<!--	{{ form|as_uni_form }}-->
+<!--	<div class="buttonHolder">-->
+<!--		<button type="button" class="secondaryAction back-button">←キャンセルして戻る</button>-->
+<!--		<button type="submit" class="primaryAction">{% if object %}設定を反映{% else %}保存して公開{% endif %}</button>-->
+<!--	</div>-->
+<!--</form>-->
 {% endblock %}
