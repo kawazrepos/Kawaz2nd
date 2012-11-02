@@ -22,13 +22,13 @@ register = template.Library()
 @register.filter
 @template.defaultfilters.stringfilter
 def parse(value, full=True):
-    if full:
-        value = commons.parse_commons(value)
     # URL
     value = urlize_html.urlize_html(value)
     if full:
         # Youtube, NicoNico
         value = viewer.viewer(value)
+        # Commons
+        value = commons.parse_commons_html(value)
     # Calls
     value = calls.parse_id_calls_html(value)
     return mark_safe(value)

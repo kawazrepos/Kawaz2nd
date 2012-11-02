@@ -55,7 +55,7 @@ def parse_commons(value):
         try:
             material = Material.objects.get(pk=m.group('object_id'))
             preview_html = material.get_thumbnail_display()
-            return mark_safe(preview_html)
+            return preview_html
         except Material.DoesNotExist:
             return m.group(0)
     value = re.sub(COMMONS_PATTERN, repl, value)
