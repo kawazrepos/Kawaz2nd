@@ -32,10 +32,10 @@ class BasicHistoryBackend(BaseHistoryBackend):
         
     def setUp(self, model):
         signals.post_save.connect(self._post_save_callback, sender=model)
-        signals.pre_delete.connect(self._pre_delete_callback, sender=model)
+        # signals.pre_delete.connect(self._pre_delete_callback, sender=model)
     def tearDown(self, model):
         signals.post_save.disconnect(self._post_save_callback, sender=model)
-        signals.pre_delete.disconnect(self._pre_delete_callback, sender=model)
+        # signals.pre_delete.disconnect(self._pre_delete_callback, sender=model)
     
     
     def autodiscover(self, instance, action, url=None, label=None, user=None):
