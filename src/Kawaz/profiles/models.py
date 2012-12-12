@@ -168,7 +168,7 @@ class Service(models.Model):
             'foursquare':  u"http://foursquare.com/%s",
             "google":      u"mailto:%s@gmail.com",
             "pixiv":       u"http://www.pixiv.net/member.php?id=%s",
-            "hatena":      u"http://d.hatena.ne.jp/%s/",
+            "hatena":      u"http://www.hatena.ne.jp/%s/",
             "xbl":         u"http://live.xbox.com/ja-JP/MyXbox/Profile?gamertag=%s",
             "psn":         u"http://playstationhome.jp/community/mypage.php?OnlineID=%s",
             "dropbox":     u"mailto:%s",
