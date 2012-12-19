@@ -1,1 +1,23 @@
+{% extends 'base.html' %}
 
+{% block action %}
+{% ifhsp 'flatpages.add_flatpage','flatpages.change_flatpage','flatpages_delete_flatpage' for user %}
+<h3>操作</h3>
+<ul class="ilist">
+	{% ifhsp 'flatpages.add_flatpage' for user %}
+	<li class="flatpages-flatpage-create"><a href="{% reverse 'flatpages-flatpage-create' %}">新規作成</a></li>
+	{% endifhsp %}
+	{% ifhsp 'flatpages.change_flatpage' for user %}
+	<li class="flatpages-flatpage-update"><a href="{% reverse 'flatpages-flatpage-update' flatpage.pk %}">編集</a></li>
+	{% endifhsp %}
+	{% ifhsp 'flatpages.delete_flatpage' for user %}
+	<li class="flatpages-flatpage-delete"><a href="{% reverse 'flatpages-flatpage-delete' flatpage.pk %}">削除</a></li>
+	{% endifhsp %}
+</ul>
+{% else %}
+<h3>コンタクト</h3>
+<ul class="ilist">
+	<li class="messages-message-detail"><a href="{% reverse 'contact-email' %}">管理者とコンタクトをとる</a></li>
+</ul>
+{% endifhsp %}
+{% endblock %}
