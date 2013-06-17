@@ -121,6 +121,6 @@ class MarkItUpComment(BaseCommentAbstractModel):
         }
         return _('Posted by %(user)s at %(date)s\n\n%(comment)s\n\nhttp://%(domain)s%(url)s') % d
     
-from django.contrib.comments.signals import comment_will_be_posted
-from libwaz.utils.akismet import on_comment_will_be_posted
-comment_will_be_posted.connect(on_comment_will_be_posted)
+#from django.contrib.comments.signals import comment_will_be_posted
+#from libwaz.utils.akismet import on_comment_will_be_posted
+#comment_will_be_posted.connect(on_comment_will_be_posted)
