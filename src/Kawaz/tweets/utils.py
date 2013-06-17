@@ -12,6 +12,7 @@ from twitter.views import CONSUMER, CONNECTION
 #from twitter.utils import update_status, get_user_timeline, SERVER
 #from twitter.oauth import OAuthToken, OAuthConsumer
 
+import urlparse
 import tweepy
 import httplib
 import datetime
