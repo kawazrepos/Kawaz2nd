@@ -12,6 +12,7 @@ from twitter.views import CONSUMER, CONNECTION
 #from twitter.utils import update_status, get_user_timeline, SERVER
 #from twitter.oauth import OAuthToken, OAuthConsumer
 
+import cgi
 import urlparse
 import tweepy
 import httplib
@@ -116,7 +117,10 @@ def post_twitter_with_bot(body, max_length=140):
         return None
 
 def _parse_token(token):
-    params = urlparse.parse_qs(s, keep_blank_values=False)
+    try:
+        params = urlparse.parse_qs(token, keep_blank_values=False)
+    except:
+        params = cgi.parse_qs(token, keep_blank_values=False)
     key = params['oauth_token'][0]
     secret = params['oauth_token_secret'][0]
     return key, secret
