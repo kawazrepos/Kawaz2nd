@@ -66,7 +66,7 @@ class OAuthToken(object):
     # return a token from something like:
     # oauth_token_secret=digg&oauth_token=digg
     def from_string(s):
-        params = cgi.parse_qs(s, keep_blank_values=False)
+        params = urlparse.parse_qs(s, keep_blank_values=False)
         key = params['oauth_token'][0]
         secret = params['oauth_token_secret'][0]
         return OAuthToken(key, secret)

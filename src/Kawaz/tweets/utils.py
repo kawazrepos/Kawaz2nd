@@ -9,9 +9,10 @@ from django.utils.html import strip_tags
 from django.contrib.auth.models import User
 
 from twitter.views import CONSUMER, CONNECTION
-from twitter.utils import update_status, get_user_timeline, SERVER
-from twitter.oauth import OAuthToken, OAuthConsumer
+#from twitter.utils import update_status, get_user_timeline, SERVER
+#from twitter.oauth import OAuthToken, OAuthConsumer
 
+import tweepy
 import httplib
 import datetime
 import calendar
@@ -24,6 +25,12 @@ TWITTER_SOURCE = settings.TWITTER_SOURCE
 TWITTER_HASHTAGS = settings.TWITTER_HASHTAGS
 TWITTER_FOOTER = settings.TWITTER_HASHTAGS[0]
 TWITTER_BODY_LENGTH_LIMIT = 140 - len(TWITTER_FOOTER) - 1
+
+def _get_api(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN=None, ACCESS_TOKEN_SECRET=None):
+    auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+    if ACCESS_TOKEN and ACCESS_TOKEN_SECRET:
+        auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
+    return tweepy.API(auth)
 
 def twittertime2time(created_at):
     FORMAT = r'%a %b %d %H:%M:%S +0000 %Y'
@@ -97,20 +104,21 @@ def post_twitter_with_bot(body, max_length=140):
     ACCESS_TOKEN = settings.BOT_ACCESS_TOKEN
     ACCESS_TOKEN_SECRET = settings.BOT_ACCESS_TOKEN_SECRET
     
-    CONSUMER = OAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET)
-    CONNECTION = httplib.HTTPSConnection(SERVER)
-    
-    token = OAuthToken(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
-    
     status = u"%s %s" % (body, HASHTAG)
-    
+    api = _get_api(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
     try:
         # Post
-        return update_status(CONSUMER, CONNECTION, token, status.encode('utf-8'))
+        return api.update_status(status=status.encode('utf-8'))
     except socket.error, e:
         # TwitterはRequest Time Outになることがある
         warnings.warn(e.message)
         return None
+
+def _parse_token(token):
+    params = urlparse.parse_qs(s, keep_blank_values=False)
+    key = params['oauth_token'][0]
+    secret = params['oauth_token_secret'][0]
+    return key, secret
     
 def post_tweet_to_twitter(instance):
     u"""
@@ -125,7 +133,7 @@ def post_tweet_to_twitter(instance):
     token = instance.author.get_profile().twitter_token
     if not token: return None
     # Login
-    token = OAuthToken.from_string(token)
+    key, secret = _parse_token(token)
     body = instance.body
     if len(body) > TWITTER_BODY_LENGTH_LIMIT:
         body = body[:TWITTER_BODY_LENGTH_LIMIT] + u"…"
@@ -143,7 +151,8 @@ def post_tweet_to_twitter(instance):
         in_reply_to = instance.reply.twitter_id
     # Post
     try:
-        response = update_status(CONSUMER, CONNECTION, token, status.encode("utf-8"), in_reply_to=in_reply_to)
+        tw = _get_api(settings.CONSUMER_KEY, settings.CONSUMER_SECRET, key, secret)
+        response = tw.update_status(status=status.encode("utf-8"), in_reply_to=in_reply_to)
         response = simplejson.loads(response)
         if 'error' in response:
             warnings.warn(response['error'])
@@ -168,9 +177,10 @@ def pull_tweet_from_twitter(user):
     if not token:
         return None
     # Login
-    token = OAuthToken.from_string(token)
+    key, secret = _parse_token(token)
     # Get User Timeline
-    response = get_user_timeline(CONSUMER, CONNECTION, token)
+    tw = _get_api(settings.CONSUMER_KEY, settings.CONSUMER_SECRET, key, secret)
+    response = tw.user_timeline()
     timeline = simplejson.loads(response)
     if not timeline or isinstance(timeline, dict):
         warnings.warn("Could not pulled twitter timeline for %s: %s" % (user.username, timeline))

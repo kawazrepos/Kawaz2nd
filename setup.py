@@ -54,6 +54,7 @@ INSTALL_REQUIRES = [
     'whoosh==1.1.1',
     'south',
     'PIL',  
+    'tweepy',
     'django==1.2.3',
     'django-compress',
     'django-reversetag',
