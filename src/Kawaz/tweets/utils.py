@@ -111,7 +111,7 @@ def post_twitter_with_bot(body, max_length=140):
     try:
         # Post
         return api.update_status(status=status.encode('utf-8'))
-    except socket.error, e:
+    except Exception, e:
         # TwitterはRequest Time Outになることがある
         warnings.warn(e.message)
         return None
