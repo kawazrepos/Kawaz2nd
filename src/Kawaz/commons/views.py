@@ -175,9 +175,10 @@ def material_download(request, *args, **kwargs):
     response['Content-Type'] = mimetype
     if obj.encoding():
         response['Content-Encoding'] = obj.encoding()
-    if u'webkit' in request.META['HTTP_USER_AGENT'].lower():
+    user_agent = request.META.get('HTTP_USER_AGENT', '').lower()
+    if u'webkit' in user_agent:
         response['Content-Disposition'] = (u"attachment; filename=%s" % obj.filename()).encode('utf-8')
-    elif u'msie' in request.META['HTTP_USER_AGENT'].lower():
+    elif u'msie' in user_agent:
         filename = urllib.quote(obj.filename().encode('utf-8'))
         response['Content-Disposition'] = u"attachment; filename=%s" % filename
     else:
