@@ -23,6 +23,6 @@ http://{{ site.domain }}{% url auth_password_reset %}
 	(旧 ゲーム製作者コミュニティ in 札幌 GCCSAP）
 
 ホームページ:	http://{{ site.domain }}
-責任者:			geekdrums
+責任者:			giginet
 連絡先:			{% settings 'DEFAULT_EMAIL' %}
 -------------------------------------------------------

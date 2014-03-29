@@ -9,6 +9,6 @@
 
 メール送信者:	{{ sender.get_profile.nickname }}
 ホームページ:	http://www.kawaz.org/
-責任者:			geekdrums
+責任者:			giginet
 連絡先:			{% settings 'DEFAULT_EMAIL' %}
 -------------------------------------------------------
