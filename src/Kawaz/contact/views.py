@@ -8,6 +8,7 @@ from django.views.generic import simple
 from django.contrib import messages
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import Group
+from django.core.exceptions import ValidationError
 
 from forms import EmailForm
 
@@ -17,7 +18,8 @@ def email(request):
     admin_list = admin_group.user_set.filter(is_active=True).exclude(profile__nickname=None)
     if request.method == 'POST':
         form = EmailForm(request.POST)
-        if form.is_valid():
+        try:
+            form.is_valid()
             site = Site.objects.get_current()
             ctx_dict = {
                 'site': site,
@@ -33,6 +35,10 @@ def email(request):
                 reciver.email_user(subject, body, from_email=form.cleaned_data['sender'])
             message = u"メールを送信しました"
             messages.success(request, message, fail_silently=True)
+        except ValidationError as e:
+            message = u"日本語が含まれていない文章は送信できません"
+            messages.error(request, message)
+
     else:
         form = EmailForm()
     kwargs = {
