@@ -38,6 +38,9 @@ def email(request):
         except ValidationError as e:
             message = u"日本語が含まれていない文章は送信できません"
             messages.error(request, message)
+        except:
+            message = u"エラーが発生しました"
+            messages.error(request, message)
 
     else:
         form = EmailForm()

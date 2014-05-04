@@ -20,8 +20,10 @@ class EmailForm(forms.Form):
                                  help_text=u"メールの本文です。HTML形式ではなくMarkdown形式で送信されるのでご注意ください")
 
     def is_valid(self):
-        b = super(EmailForm, self).is_valid()
-        body = self.cleaned_data['body']
-        if not re.search(JAPANESE_PATTERN, body, re.U): # SPAM防止のため、一切日本語が含まれていない書き込みはrejectする
+        result = super(EmailForm, self).is_valid()
+        cleaned_data = getattr(self, 'cleaned_data', None)
+        if not result or not cleaned_data: return False
+        body = cleaned_data.get("body", None)
+        if body and not re.search(JAPANESE_PATTERN, body, re.U): # SPAM防止のため、一切日本語が含まれていない書き込みはrejectする
             raise ValidationError(u'日本語が含まれていないお問い合わせは送信することができません')
-        return b
+        return result
