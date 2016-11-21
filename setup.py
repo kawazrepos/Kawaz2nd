@@ -5,12 +5,12 @@ short module explanation
 
 AUTHOR:
     lambdalisue[Ali su ae] (lambdalisue@hashnote.net)
-    
+
 Copyright:
     Copyright 2011 Alisue allright reserved.
 
 License:
-    Licensed under the Apache License, Version 2.0 (the "License"); 
+    Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
@@ -52,8 +52,8 @@ INSTALL_REQUIRES = [
     'BeautifulSoup',
     'gdata',
     'whoosh==1.1.1',
-    'south',
-    'PIL',  
+    'south==0.7.4',
+    'pillow',
     'tweepy',
     'django==1.2.3',
     'django-compress',

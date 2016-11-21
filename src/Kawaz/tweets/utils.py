@@ -91,7 +91,7 @@ def _from_twitter(value):
     return value
 
 def post_twitter_with_bot(body, max_length=140):
-    
+
     #
     # Note:
     #    Botは異なるCONSUMER_KEYを持っているため以下のように
@@ -100,12 +100,12 @@ def post_twitter_with_bot(body, max_length=140):
     if not settings.TWITTER_ENABLE:
         return None
     HASHTAG = settings.TWITTER_HASHTAGS[0]
-    
+
     CONSUMER_KEY = settings.BOT_CONSUMER_KEY
     CONSUMER_SECRET = settings.BOT_CONSUMER_SECRET
     ACCESS_TOKEN = settings.BOT_ACCESS_TOKEN
     ACCESS_TOKEN_SECRET = settings.BOT_ACCESS_TOKEN_SECRET
-    
+
     status = u"%s %s" % (body, HASHTAG)
     api = _get_api(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
     try:
@@ -113,7 +113,7 @@ def post_twitter_with_bot(body, max_length=140):
         return api.update_status(status=status.encode('utf-8'))
     except Exception, e:
         # TwitterはRequest Time Outになることがある
-        warnings.warn(e.message)
+        warnings.warn(str(e.message))
         return None
 
 def _parse_token(token):
@@ -124,11 +124,11 @@ def _parse_token(token):
     key = params['oauth_token'][0]
     secret = params['oauth_token_secret'][0]
     return key, secret
-    
+
 def post_tweet_to_twitter(instance):
     u"""
     post tweets.tweet to twitter
-    
+
     WARNING:
         DO NOT CALL this method while the instance is UPDATE
     """
