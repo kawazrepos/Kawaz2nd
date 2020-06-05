@@ -55,7 +55,7 @@ INSTALL_REQUIRES = [
     'south==0.7.4',
     'pillow',
     'tweepy',
-    'django==1.2.3',
+    'django==1.11.29',
     'django-compress',
     'django-reversetag',
     'django-pagination',
